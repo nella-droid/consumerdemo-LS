@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Points Prototype — Select Learner Segment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body.starter-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      height: auto;
+      overflow: auto;
+      background: var(--cds-color-grey-25);
+      padding: 40px 24px;
+    }
+
+    .starter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: var(--cds-color-blue-50);
+      color: var(--cds-color-blue-800);
+      margin-bottom: 16px;
+    }
+
+    .starter-title {
+      text-align: center;
+      color: var(--cds-color-grey-975);
+      margin-bottom: 8px;
+    }
+
+    .starter-subtitle {
+      text-align: center;
+      color: var(--cds-color-grey-600);
+      margin-bottom: 48px;
+      max-width: 520px;
+    }
+
+    .starter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+      gap: 24px;
+      max-width: 960px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .starter-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+    }
+
+    .starter-card {
+      background: var(--cds-color-white);
+      border: 1px solid var(--cds-color-grey-100);
+      border-radius: var(--cds-border-radius-200);
+      padding: 32px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      position: relative;
+    }
+
+    .starter-card:hover {
+      border-color: var(--cds-color-blue-700);
+      box-shadow: var(--cds-elevation-level2);
+      transform: translateY(-2px);
+    }
+
+    .starter-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--cds-border-radius-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .starter-card-icon .material-symbols-rounded {
+      font-size: 24px;
+    }
+
+    .starter-card--active .starter-card-icon {
+      background: var(--cds-color-blue-50);
+      color: var(--cds-color-blue-700);
+    }
+
+    .starter-card--lapsed .starter-card-icon {
+      background: var(--cds-color-purple-50);
+      color: var(--cds-color-purple-700);
+    }
+
+    .starter-card--new .starter-card-icon {
+      background: var(--cds-color-green-50);
+      color: var(--cds-color-green-700);
+    }
+
+    .starter-card-title {
+      color: var(--cds-color-grey-975);
+      margin-bottom: 8px;
+    }
+
+    .starter-card-desc {
+      color: var(--cds-color-grey-600);
+      margin-bottom: 20px;
+    }
+
+    .starter-card-details {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px 0;
+      width: 100%;
+      min-height: 140px;
+    }
+
+    .starter-card-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .starter-card-details li {
+      color: var(--cds-color-grey-600);
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .starter-card-details li::before {
+      content: "•";
+      color: var(--cds-color-grey-400);
+      flex-shrink: 0;
+    }
+
+    .starter-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 24px;
+      border: none;
+      border-radius: var(--cds-border-radius-100);
+      background: var(--cds-color-blue-700);
+      color: var(--cds-color-white);
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .starter-card-cta:hover {
+      background: var(--cds-color-blue-800);
+    }
+
+    .starter-card-email-link {
+      display: block;
+      text-align: center;
+      color: var(--cds-color-blue-700);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      transition: color 0.15s;
+      width: 100%;
+    }
+
+    .starter-card-email-link:hover {
+      color: var(--cds-color-blue-800);
+    }
+
+    .starter-card-actions-spacer {
+      display: block;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .starter-footer {
+      margin-top: 48px;
+      text-align: center;
+      color: var(--cds-color-grey-400);
+    }
+  </style>
+</head>
+<body class="starter-body">
+  <div class="starter-badge cds-body-tertiary">
+    <span class="material-symbols-rounded" style="font-size: 16px;">science</span>
+    Prototype mode
+  </div>
+  <h1 class="starter-title cds-title-sm">Skill Points Introduction</h1>
+  <p class="starter-subtitle cds-body-primary">Select a learner segment to preview how Skill Points would be introduced to each audience.</p>
+
+  <div class="starter-grid">
+    <!-- Active Enrolled -->
+    <div class="starter-card starter-card--active" onclick="selectSegment('active')">
+      <div class="starter-card-icon">
+        <span class="material-symbols-rounded">school</span>
+      </div>
+      <h2 class="starter-card-title cds-subtitle-lg">Active Enrolled</h2>
+      <p class="starter-card-desc cds-body-secondary">Currently taking a course with existing progress.</p>
+      <ul class="starter-card-details cds-body-tertiary">
+        <li>12% through current course</li>
+        <li>Retroactive XP credit on arrival</li>
+        <li>XP revealed on first completion</li>
+        <li>No upfront modal or intro screen</li>
+      </ul>
+      <div class="starter-card-actions">
+        <button class="starter-card-cta cds-action-primary" type="button">Enter as active learner</button>
+        <a class="starter-card-email-link cds-body-tertiary" href="active-email.html" onclick="event.stopPropagation()">View announcement email</a>
+      </div>
+    </div>
+
+    <!-- Lapsed -->
+    <div class="starter-card starter-card--lapsed" onclick="selectSegment('lapsed')">
+      <div class="starter-card-icon">
+        <span class="material-symbols-rounded">schedule</span>
+      </div>
+      <h2 class="starter-card-title cds-subtitle-lg">Lapsed Learner</h2>
+      <p class="starter-card-desc cds-body-secondary">Previously enrolled but hasn't been active recently.</p>
+      <ul class="starter-card-details cds-body-tertiary">
+        <li>Welcome back experience</li>
+        <li>Skills-first re-engagement framing</li>
+        <li>Retroactive XP credit</li>
+        <li>Low-commitment re-entry CTA</li>
+      </ul>
+      <div class="starter-card-actions">
+        <button class="starter-card-cta cds-action-primary" type="button">Enter as lapsed learner</button>
+        <a class="starter-card-email-link cds-body-tertiary" href="lapsed-email.html" onclick="event.stopPropagation()">View re-engagement email</a>
+      </div>
+    </div>
+
+    <!-- New Learner -->
+    <div class="starter-card starter-card--new" onclick="selectSegment('new')">
+      <div class="starter-card-icon">
+        <span class="material-symbols-rounded">person_add</span>
+      </div>
+      <h2 class="starter-card-title cds-subtitle-lg">New Learner</h2>
+      <p class="starter-card-desc cds-body-secondary">First time on Coursera. No courses yet.</p>
+      <ul class="starter-card-details cds-body-tertiary">
+        <li>Browse-first homepage (no course)</li>
+        <li>Commitment screen on enrollment</li>
+        <li>XP discovered on first completion</li>
+        <li>No upfront XP or skills mention</li>
+        <li>Day 1 MMM + Streaks</li>
+      </ul>
+      <div class="starter-card-actions">
+        <button class="starter-card-cta cds-action-primary" type="button">Enter as new learner</button>
+        <span class="starter-card-actions-spacer" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.1 — For internal review only</p>
+
+  <script>
+    function selectSegment(segment) {
+      sessionStorage.setItem('m1-skills-segment', segment);
+      sessionStorage.removeItem('m1-skills-xp-intro-shown');
+      sessionStorage.removeItem('m1-skills-commitment-done');
+      sessionStorage.removeItem('m1-skills-weekly-streak-toast-shown');
+      try { localStorage.removeItem('m1-skills-skill-progress'); } catch(e) {}
+      window.location.href = 'homepage.html';
+    }
+  </script>
+</body>
+</html>

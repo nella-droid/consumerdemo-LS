@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coursera | Build In-Demand Skills</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <style>
+    .segment-hidden { display: none !important; }
+
+    .home-lapsed-xp-banner {
+      background: var(--cds-color-purple-25);
+      border: 1px solid var(--cds-color-purple-100);
+      border-radius: var(--cds-border-radius-100);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .home-lapsed-xp-banner .lapsed-xp-coin { width: 28px; height: 28px; flex-shrink: 0; }
+    .home-lapsed-xp-banner-text { flex: 1; color: var(--cds-color-grey-975); }
+    .home-lapsed-xp-banner-link { color: var(--cds-color-purple-700); white-space: nowrap; text-decoration: underline; text-underline-offset: 2px; }
+
+    .home-new-hero-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: var(--cds-color-blue-700); color: var(--cds-color-white);
+      border: none; border-radius: var(--cds-border-radius-100);
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .home-new-hero-cta:hover { background: var(--cds-color-blue-800); }
+
+    .home-segment-back {
+      position: fixed; bottom: 16px; left: 16px; z-index: 9999;
+      background: var(--cds-color-grey-975); color: var(--cds-color-white);
+      padding: 8px 16px; border-radius: var(--cds-border-radius-100);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      box-shadow: var(--cds-elevation-level2);
+      transition: background 0.2s;
+    }
+    .home-segment-back:hover { background: var(--cds-color-grey-800); }
+    .home-segment-back .material-symbols-rounded { font-size: 16px; }
+  </style>
+</head>
+<body class="pages-body">
+  <!-- Intro Modal - first screen on homepage (from 1.0 M1-Skills reference). Hidden by default — XP introduced contextually, not upfront -->
+  <div id="home-intro-modal" class="intro-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="intro-modal-title" aria-hidden="true">
+    <div class="intro-modal-backdrop" onclick="hideHomeIntroModal()"></div>
+    <div class="intro-modal-card">
+      <button type="button" class="dialog-close-btn" onclick="hideHomeIntroModal()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="intro-modal-hero">
+        <svg class="intro-modal-xp-logo" viewBox="0 0 210 301" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M72.9313 283.407C71.8909 282.8 71.38 280.788 70.9639 279.175C70.5099 277.391 69.9992 275.361 68.6183 273.463C67.2185 271.489 65.062 269.8 63.1704 268.32C61.6192 267.105 59.4818 265.416 59.4818 264.695C59.4818 263.955 61.5816 262.285 63.1327 261.07C65.0054 259.571 67.143 257.882 68.5428 255.908C69.8858 254.01 70.3776 251.979 70.8126 250.195C71.2099 248.582 71.7017 246.552 72.7232 245.963C73.7447 245.375 77.2063 245.071 79.987 244.844C83.0704 244.578 86.5511 244.293 89.8237 243.496C93.2097 242.68 96.1038 241.446 98.6575 240.346C100.757 239.435 103.633 238.201 104.9 238.201C106.167 238.201 109.061 239.435 111.161 240.327C113.734 241.428 116.628 242.68 120.033 243.477C123.324 244.274 126.805 244.559 129.869 244.825C132.65 245.052 136.131 245.356 137.171 245.944C138.212 246.533 138.703 248.563 139.12 250.177C139.574 251.96 140.103 253.991 141.465 255.889C142.865 257.863 145.021 259.552 146.932 261.032C148.483 262.247 150.64 263.936 150.64 264.676C150.64 265.416 148.521 267.086 146.97 268.32C145.078 269.8 142.96 271.489 141.56 273.463C140.217 275.361 139.725 277.391 139.271 279.175C138.874 280.788 138.401 282.8 137.379 283.407C136.358 284.015 132.877 284.299 130.096 284.527C127.032 284.793 123.551 285.077 120.279 285.874C116.893 286.69 113.999 287.943 111.445 289.044C109.345 289.936 106.47 291.169 105.203 291.169C103.935 291.169 101.041 289.936 98.9223 289.025C96.3497 287.924 93.4367 286.69 90.0507 285.874C86.7592 285.096 83.2784 284.793 80.1951 284.527C77.4144 284.299 73.9338 283.996 72.9123 283.407M149.089 238.998C144.076 236.095 137.531 235.544 132.272 235.089C130.078 234.918 127.789 234.709 126.465 234.406C124.97 234.045 123.135 233.248 121.168 232.413C116.95 230.61 111.691 228.352 104.862 228.352C98.0522 228.352 92.8124 230.591 88.613 232.413C86.6646 233.248 84.8297 234.045 83.3353 234.406C82.0111 234.728 79.7413 234.918 77.547 235.108C72.2882 235.544 65.7432 236.095 60.7682 238.998C55.7743 241.902 54.8473 245.698 54.1285 248.772C53.8069 250.044 53.4853 251.372 52.9368 252.15C52.3314 253.004 50.9883 254.086 49.5507 255.225C47.3942 256.933 43.9514 254.466 42.6272 256.876C42.0597 257.92 42.6272 263.499 42.6272 264.695C42.6461 268.661 46.5431 271.717 49.6453 274.165C51.1019 275.304 52.4638 276.385 53.088 277.239C53.6555 278.018 53.9961 279.327 54.3176 280.617C55.0932 283.673 56.0578 287.469 61.0707 290.391C66.0835 293.314 72.6286 293.845 77.8873 294.282C80.0816 294.472 82.3706 294.661 83.6948 294.965C85.1892 295.326 87.0239 296.123 88.9912 296.958C93.2285 298.761 98.4872 301 105.297 301C112.107 301 117.347 298.761 121.546 296.939C123.495 296.104 125.33 295.307 126.824 294.965C128.167 294.642 130.418 294.453 132.631 294.263C137.89 293.826 144.416 293.276 149.41 290.353C154.404 287.431 155.331 283.654 156.069 280.599C156.371 279.308 156.693 277.999 157.242 277.22C157.847 276.347 159.209 275.285 160.646 274.146C163.73 271.698 167.589 268.642 167.57 264.695C167.57 264.201 167.683 256.8 167.57 256.344C166.775 253.08 163.276 257.388 160.533 255.244C159.095 254.105 157.714 253.023 157.09 252.169C156.542 251.391 156.201 250.082 155.879 248.791C155.104 245.736 154.12 241.94 149.107 239.036" fill="#3587FC"/>
+          <mask id="intro-modal-xp-mask" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="42" y="228" width="126" height="73">
+            <path d="M72.9332 283.407C71.8928 282.8 71.382 280.788 70.9658 279.175C70.5118 277.391 70.0011 275.361 68.6202 273.463C67.2204 271.489 65.0639 269.8 63.1723 268.32C61.6212 267.105 59.4837 265.416 59.4837 264.695C59.4837 263.955 61.5835 262.285 63.1347 261.07C65.0074 259.571 67.1449 257.882 68.5447 255.908C69.8878 254.01 70.3795 251.979 70.8146 250.195C71.2118 248.582 71.7037 246.552 72.7252 245.963C73.7466 245.375 77.2083 245.071 79.989 244.844C83.0723 244.578 86.5531 244.293 89.8256 243.496C93.2117 242.68 96.1057 241.446 98.6594 240.346C100.759 239.435 103.635 238.201 104.902 238.201C106.169 238.201 109.063 239.435 111.163 240.327C113.736 241.428 116.63 242.68 120.035 243.477C123.326 244.274 126.807 244.559 129.871 244.825C132.652 245.052 136.133 245.356 137.173 245.944C138.213 246.533 138.705 248.563 139.122 250.177C139.576 251.96 140.105 253.991 141.467 255.889C142.867 257.863 145.023 259.552 146.934 261.032C148.485 262.247 150.642 263.936 150.642 264.676C150.642 265.416 148.523 267.086 146.972 268.32C145.08 269.8 142.962 271.489 141.562 273.463C140.219 275.361 139.727 277.391 139.273 279.175C138.876 280.788 138.403 282.8 137.381 283.407C136.36 284.015 132.879 284.299 130.098 284.527C127.034 284.793 123.553 285.077 120.281 285.874C116.895 286.69 114.001 287.943 111.447 289.044C109.347 289.936 106.472 291.169 105.205 291.169C103.937 291.169 101.043 289.936 98.9243 289.025C96.3516 287.924 93.4386 286.69 90.0526 285.874C86.7612 285.096 83.2804 284.793 80.197 284.527C77.4163 284.299 73.9358 283.996 72.9143 283.407M149.09 238.998C144.078 236.095 137.533 235.544 132.274 235.089C130.08 234.918 127.791 234.709 126.467 234.406C124.972 234.045 123.137 233.248 121.17 232.413C116.952 230.61 111.693 228.352 104.864 228.352C98.0541 228.352 92.8144 230.591 88.6149 232.413C86.6666 233.248 84.8316 234.045 83.3372 234.406C82.0131 234.728 79.7432 234.918 77.5489 235.108C72.2902 235.544 65.7451 236.095 60.7701 238.998C55.7762 241.902 54.8493 245.698 54.1305 248.772C53.8089 250.044 53.4873 251.372 52.9387 252.15C52.3334 253.004 50.9903 254.086 49.5526 255.225C47.3962 256.933 43.9533 254.466 42.6292 256.876C42.0617 257.92 42.6292 263.499 42.6292 264.695C42.6481 268.661 46.545 271.717 49.6473 274.165C51.1039 275.304 52.4657 276.385 53.09 277.239C53.6575 278.018 53.998 279.327 54.3196 280.617C55.0952 283.673 56.0598 287.469 61.0726 290.391C66.0855 293.314 72.6305 293.845 77.8893 294.282C80.0836 294.472 82.3726 294.661 83.6967 294.965C85.1911 295.326 87.0259 296.123 88.9932 296.958C93.2304 298.761 98.4892 301 105.299 301C112.109 301 117.349 298.761 121.548 296.939C123.497 296.104 125.332 295.307 126.826 294.965C128.169 294.642 130.42 294.453 132.633 294.263C137.892 293.826 144.418 293.276 149.412 290.353C154.406 287.431 155.333 283.654 156.071 280.599C156.373 279.308 156.695 277.999 157.244 277.22C157.849 276.347 159.211 275.285 160.648 274.146C163.732 271.698 167.591 268.642 167.572 264.695C167.572 264.201 167.685 256.8 167.572 256.344C166.777 253.08 163.278 257.388 160.535 255.244C159.097 254.105 157.716 253.023 157.092 252.169C156.544 251.391 156.203 250.082 155.881 248.791C155.106 245.736 154.122 241.94 149.109 239.036" fill="white"/>
+          </mask>
+          <g mask="url(#intro-modal-xp-mask)">
+            <path d="M186.733 229.625H124.574V328.065H186.733V229.625Z" fill="#003B8F"/>
+          </g>
+          <path d="M72.9291 275.056C71.8887 274.449 71.3779 272.437 70.9617 270.824C70.5077 269.04 69.997 267.009 68.6161 265.111C67.2163 263.138 65.0598 261.448 63.1682 259.968C61.6171 258.754 59.4796 257.065 59.4796 256.343C59.4796 255.603 61.5794 253.933 63.1306 252.718C65.0033 251.219 67.1408 249.53 68.5406 247.556C69.8837 245.659 70.3754 243.628 70.8105 241.844C71.2077 240.231 71.6996 238.2 72.7211 237.612C73.7425 237.024 77.2042 236.72 79.9849 236.492C83.0682 236.226 86.549 235.942 89.8215 235.145C93.2076 234.329 96.1016 233.095 98.6553 231.994C100.755 231.083 103.63 229.85 104.898 229.85C106.165 229.85 109.059 231.083 111.159 231.975C113.732 233.076 116.626 234.328 120.031 235.126C123.322 235.923 126.803 236.207 129.867 236.473C132.648 236.701 136.129 237.005 137.169 237.593C138.209 238.181 138.701 240.212 139.117 241.825C139.571 243.609 140.101 245.64 141.463 247.537C142.863 249.511 145.019 251.2 146.93 252.68C148.481 253.895 150.637 255.584 150.637 256.324C150.637 257.064 148.519 258.735 146.968 259.968C145.076 261.448 142.958 263.138 141.558 265.111C140.215 267.009 139.723 269.04 139.269 270.824C138.872 272.437 138.399 274.449 137.377 275.056C136.356 275.663 132.875 275.948 130.094 276.175C127.03 276.441 123.549 276.726 120.277 277.523C116.891 278.339 113.997 279.592 111.443 280.692C109.343 281.584 106.468 282.818 105.201 282.818C103.933 282.818 101.039 281.584 98.9202 280.673C96.3476 279.573 93.4345 278.339 90.0485 277.523C86.7571 276.745 83.2763 276.441 80.1929 276.175C77.4122 275.948 73.9317 275.644 72.9102 275.056M149.086 230.647C144.074 227.743 137.528 227.193 132.27 226.737C130.075 226.566 127.787 226.358 126.463 226.054C124.968 225.693 123.133 224.896 121.166 224.061C116.947 222.258 111.689 220 104.86 220C98.0501 220 92.8103 222.239 88.6109 224.061C86.6625 224.896 84.8275 225.693 83.3331 226.054C82.009 226.377 79.7391 226.566 77.5448 226.756C72.2861 227.193 65.741 227.743 60.766 230.647C55.7721 233.55 54.8452 237.346 54.1264 240.421C53.8048 241.692 53.4832 243.021 52.9346 243.799C52.3293 244.653 50.9862 245.734 49.5485 246.873C46.4652 249.321 42.6062 252.377 42.6251 256.324C42.644 260.291 46.5409 263.346 49.6432 265.794C51.0998 266.933 52.4616 268.015 53.0859 268.869C53.6534 269.647 53.9939 270.957 54.3155 272.247C55.0911 275.303 56.0557 279.098 61.0685 282.021C66.0814 284.925 72.6264 285.475 77.8852 285.911C80.0795 286.101 82.3685 286.291 83.6926 286.595C85.187 286.955 87.0218 287.752 88.9891 288.587C93.2264 290.39 98.4851 292.63 105.295 292.63C112.105 292.63 117.345 290.39 121.544 288.568C123.493 287.733 125.327 286.936 126.822 286.595C128.165 286.272 130.416 286.082 132.629 285.892C137.888 285.456 144.414 284.906 149.408 281.983C154.383 279.079 155.329 275.284 156.067 272.228C156.369 270.938 156.691 269.628 157.239 268.85C157.845 267.977 159.207 266.914 160.644 265.775C163.728 263.327 167.587 260.272 167.568 256.324C167.549 252.358 163.671 249.321 160.531 246.873C159.093 245.734 157.712 244.653 157.088 243.799C156.539 243.021 156.199 241.711 155.877 240.421C155.102 237.365 154.118 233.569 149.105 230.666" fill="#ADCFFF"/>
+          <path d="M139.253 236.377C138.156 235.731 134.448 235.428 131.497 235.181C128.224 234.896 124.517 234.593 121.017 233.758C117.404 232.885 114.302 231.575 111.578 230.398C109.346 229.43 106.263 228.121 104.919 228.121C103.576 228.121 100.493 229.43 98.2609 230.398C95.5369 231.556 92.4536 232.885 88.8405 233.758C85.3599 234.593 81.6523 234.896 78.3797 235.181C75.4099 235.428 71.7212 235.731 70.643 236.377C69.5648 237.022 69.035 239.166 68.5999 240.893C68.127 242.791 67.6164 244.955 66.1788 246.966C64.6844 249.073 62.4333 250.857 60.4281 252.451C58.7824 253.742 56.5312 255.526 56.5312 256.323C56.5312 257.101 58.8014 258.885 60.466 260.194C62.4901 261.788 64.7599 263.572 66.2732 265.679C67.7487 267.71 68.2974 269.854 68.7703 271.771C69.2054 273.498 69.7539 275.643 70.8511 276.288C71.9482 276.933 75.6369 277.237 78.6067 277.483C81.8793 277.749 85.6059 278.072 89.1054 278.907C92.6995 279.78 95.8018 281.108 98.5446 282.266C100.777 283.234 103.879 284.543 105.222 284.543C106.565 284.543 109.629 283.234 111.862 282.266C114.586 281.089 117.669 279.761 121.282 278.907C124.763 278.072 128.47 277.749 131.743 277.483C134.713 277.237 138.401 276.914 139.499 276.288C140.596 275.662 141.106 273.517 141.523 271.79C141.995 269.892 142.525 267.729 143.944 265.698C145.419 263.61 147.689 261.807 149.694 260.232C151.321 258.923 153.591 257.139 153.591 256.361C153.591 255.582 151.302 253.78 149.657 252.489C147.633 250.914 145.344 249.111 143.849 247.023C142.393 244.993 141.844 242.829 141.352 240.931C140.917 239.204 140.369 237.06 139.272 236.433" fill="#0F1114"/>
+          <path d="M147.827 253.242L210 0.660704L0 0L64.8141 253.242C64.8141 253.242 67.1966 277 106.32 277C145.444 277 147.827 253.242 147.827 253.242Z" fill="url(#intro-modal-xp-gradient)"/>
+          <g class="intro-modal-xp-coin">
+            <path d="M178.5 130.504L158.028 148.779L141.871 160.859L162.344 142.584L178.5 130.504Z" fill="black"/>
+            <path d="M88.8416 67.3026L68.3691 85.5781L80.3833 69.2755L100.856 51L88.8416 67.3026Z" fill="black"/>
+            <path d="M163.174 164.564L142.701 182.839L121.193 181.662L141.631 163.387L163.174 164.564Z" fill="black"/>
+            <path d="M68.1311 88.1392L47.6586 106.415L46.8301 84.4356L67.3025 66.1602L68.1311 88.1392Z" fill="#FFC22F"/>
+            <path d="M129.618 179.723L109.145 197.999L90.4336 184.119L110.906 165.844L129.618 179.723Z" fill="#FFC22F"/>
+            <path d="M65.4366 119.36L44.9642 137.635L31.5 118.494L51.9724 100.219L65.4366 119.36Z" fill="black"/>
+            <path d="M90.5695 170.38L70.1316 188.69L61.3281 167.334L81.8005 149.059L90.5695 170.38Z" fill="#FFC22F"/>
+            <path d="M110.905 165.844L90.4326 184.119L70.1328 188.688L90.5707 170.378L110.905 165.844Z" fill="black"/>
+            <path d="M60.8793 140.058L40.4414 158.333L44.964 137.635L65.4364 119.359L60.8793 140.058Z" fill="#FFC22F"/>
+            <path d="M81.8005 149.058L61.3281 167.333L40.4414 158.334L60.8793 140.059L81.8005 149.058Z" fill="black"/>
+            <path d="M139.869 60.3454L148.673 81.6322L169.525 90.6661L165.037 111.33L178.501 130.505L162.344 142.585L163.173 164.564L141.63 163.387L129.616 179.725L110.904 165.845L90.5699 170.379L81.8009 149.058L60.8797 140.058L65.4368 119.36L51.9727 100.219L68.1296 88.1394L67.3011 66.1603L88.8437 67.3026L100.858 51L119.57 64.9143L139.869 60.3454Z" fill="#F07600"/>
+          </g>
+          <defs>
+            <linearGradient id="intro-modal-xp-gradient" x1="105" y1="21" x2="105" y2="417" gradientUnits="userSpaceOnUse">
+              <stop offset="0.15" stop-color="#F28100" stop-opacity="0"/>
+              <stop offset="1" stop-color="#FFC936"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="intro-modal-body">
+        <h2 id="intro-modal-title" class="intro-modal-title">Introducing Skill Points!</h2>
+        <p class="intro-modal-desc">Skill points (XP) are rewarded as you complete learning items. The more you collect, the more you develop the skills needed for your career!</p>
+        <button type="button" class="intro-modal-btn" onclick="window.location.href='learning.html'">Resume learning</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header - from 1.1 M1-Skills (links, search bar, icons) -->
+  <header class="coursera-header">
+    <div class="coursera-header-inner">
+      <div class="coursera-header-left">
+        <a href="homepage.html" class="coursera-logo" aria-label="Coursera">
+          <svg width="114" height="16" viewBox="0 0 114 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M37.2119 9.23926C37.2121 11.1935 38.303 12.3476 40.1973 12.3477C42.3165 12.3477 43.5352 11.0646 43.5352 8.59668V0.392578H47.4844V15.6162H43.5381V13.8525C42.6076 15.2947 41.0975 16 39.0107 16C35.479 16.001 33.2637 13.4368 33.2637 9.71875V0.392578H37.2119V9.23926ZM79.6289 0.104492C84.1244 0.11331 87.2958 3.7081 87.2852 7.94238C87.2859 8.36088 87.2535 8.77911 87.1875 9.19238L75.5645 9.1709C76.0101 10.9981 77.5168 12.3154 79.7969 12.3203C81.177 12.3203 82.6556 11.8123 83.5566 10.6602L86.25 12.8154C84.865 14.768 82.4215 15.918 79.8223 15.9131C75.2337 15.8973 71.7082 12.4614 71.7158 8.00684C71.7247 3.74409 74.7811 0.0958069 79.6289 0.104492ZM104.69 0.104492C107.098 0.104492 108.48 0.841292 109.41 2.25195L109.78 0.390625H113.392V15.6162H109.78L109.313 14.0488C108.254 15.2027 106.937 15.9102 104.69 15.9102C101.223 15.9051 97.2725 12.8599 97.2725 8.11719C97.2725 3.34205 101.158 0.104614 104.69 0.104492ZM23.7715 0.104492C28.2983 0.104492 31.8953 3.6316 31.8955 7.98828C31.8955 12.3148 28.2985 15.9053 23.7715 15.9053C19.276 15.9051 15.6807 12.3108 15.6807 7.98828C15.6809 3.62973 19.2762 0.10463 23.7715 0.104492ZM64.3838 0.0078125C66.93 0.0078125 69.1861 1.13385 70.4111 3.22461L66.9326 5.06152C66.4173 4.03193 65.4504 3.45227 64.2256 3.45215C63.034 3.45215 62.4522 3.87085 62.4521 4.57812C62.4521 6.95888 70.7676 5.44738 70.7676 11.1426C70.7675 14.1023 68.3508 15.9033 64.4512 15.9033C61.1315 15.9004 58.8106 14.8069 57.6514 12.2979L61.1621 10.4639C61.7422 11.7186 62.9021 12.4579 64.5459 12.458C66.0605 12.458 66.6406 11.9758 66.6406 11.2998C66.6396 8.85113 58.3265 10.3348 58.3262 4.73633C58.3262 1.64834 61.0329 0.00795633 64.3838 0.0078125ZM8.09082 0.0732422C9.44253 0.0637857 10.7759 0.389636 11.9697 1.02246C13.1635 1.65528 14.1806 2.57522 14.9297 3.69824L11.5586 5.64941C11.1686 5.09327 10.6497 4.63965 10.0459 4.32715C9.44201 4.01459 8.77107 3.85214 8.09082 3.85449C5.77935 3.85465 3.88477 5.77809 3.88477 7.98926C3.88481 10.2004 5.77938 12.1239 8.09082 12.124C8.80314 12.1286 9.50496 11.9505 10.1289 11.6074C10.7529 11.2644 11.2785 10.7675 11.6553 10.1641L14.9922 12.1514C14.2522 13.3071 13.2314 14.2574 12.0244 14.9131C10.8173 15.5689 9.46317 15.9086 8.08887 15.9014C3.59538 15.9051 4.75605e-05 12.3117 0 7.98926C0 3.59916 3.59535 0.0733919 8.09082 0.0732422ZM56.8994 3.67871C56.7652 3.66412 56.6301 3.65664 56.4951 3.65625C54.377 3.66124 53.1591 4.9462 53.165 7.41309L53.1865 15.6152L49.2373 15.624L49.2041 0.401367L53.1533 0.392578V2.15625C54.073 0.724053 55.5668 0.0166892 57.6279 0L56.8994 3.67871ZM96.5771 3.68555C96.4467 3.67282 96.3131 3.6631 96.1729 3.66309C94.0566 3.66309 92.835 4.94513 92.835 7.41309V15.6162H88.8867V0.391602H92.835V2.15527C93.7586 0.725841 95.2512 0.0215193 97.3096 0.0107422L96.5771 3.68555ZM23.7715 3.88672C21.4602 3.88686 19.5657 5.80962 19.5654 7.98828C19.5654 10.1995 21.46 12.1229 23.7715 12.123C26.1194 12.123 28.0098 10.1995 28.0098 7.98828C28.0095 5.80953 26.1153 3.88672 23.7715 3.88672ZM105.365 3.8877C104.246 3.89204 103.174 4.34075 102.386 5.13379C101.597 5.92687 101.157 6.99995 101.161 8.11719C101.161 10.2324 103.056 12.123 105.368 12.123C107.709 12.1229 109.602 10.2324 109.603 8.08496C109.598 6.96764 109.149 5.89738 108.354 5.11035C107.56 4.32345 106.485 3.88341 105.365 3.8877ZM79.5908 3.69434C77.7603 3.69436 76.2823 4.7781 75.7012 6.41113L83.3105 6.4248C83.0886 4.88672 81.4852 3.69728 79.5908 3.69434Z" fill="#0056D2"/>
+          </svg>
+        </a>
+        <nav class="coursera-header-nav">
+          <button class="coursera-nav-btn">
+            Explore
+            <svg class="coursera-nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <a href="my-learning.html" class="coursera-nav-link">My Learning</a>
+        </nav>
+      </div>
+      <div class="coursera-header-search">
+        <div class="coursera-search-box">
+          <input type="text" placeholder="What do you want to learn?" class="coursera-search-input" aria-label="Search courses">
+          <button type="button" class="coursera-search-btn" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="coursera-header-right">
+        <button class="coursera-icon-btn" aria-label="Language">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        </button>
+        <button class="coursera-icon-btn" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+        </button>
+        <a href="my-learning.html" class="coursera-user-avatar" aria-label="Account">
+          <span>PP</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pages-main">
+    <!-- Hero Banner -->
+    <div class="home-hero">
+      <div class="pages-container">
+        <!-- Lapsed: skills waiting banner -->
+        <div id="home-lapsed-xp-banner" class="home-lapsed-xp-banner segment-hidden">
+          <svg class="lapsed-xp-coin" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="14" cy="14" r="14" fill="#FFF3E0"/>
+            <circle cx="14" cy="14" r="10.5" fill="#F07600"/>
+            <circle cx="14" cy="14" r="9" fill="#FFC22F"/>
+            <path d="M14 8.5l1.4 2.8 3.1.5-2.25 2.2.5 3.1L14 15.5l-2.75 1.6.5-3.1-2.25-2.2 3.1-.5L14 8.5z" fill="#F07600"/>
+          </svg>
+          <span class="home-lapsed-xp-banner-text cds-body-secondary">Your skills are waiting — you've built <strong>310 XP</strong> across <strong>3 in-demand skills</strong>.</span>
+          <a href="learning.html" class="home-lapsed-xp-banner-link cds-action-secondary">Continue learning</a>
+        </div>
+
+        <!-- Default hero greeting (active) -->
+        <p id="home-hero-greeting-default" class="cds-subtitle-md home-hero-greeting">Hi Nicholas, here's your progress in</p>
+        <!-- Lapsed hero greeting -->
+        <p id="home-hero-greeting-lapsed" class="cds-subtitle-md home-hero-greeting segment-hidden">Welcome back, Nicholas</p>
+        <!-- New learner hero greeting -->
+        <p id="home-hero-greeting-new" class="cds-subtitle-md home-hero-greeting segment-hidden">Welcome, Nicholas!</p>
+
+        <div class="home-hero-title-row">
+          <!-- Default subtitle (active) -->
+          <p id="home-hero-subtitle-default" class="cds-title-sm home-hero-subtitle">Digital Marketing</p>
+          <!-- Lapsed subtitle -->
+          <p id="home-hero-subtitle-lapsed" class="cds-title-sm home-hero-subtitle segment-hidden">You've started building 3 in-demand skills. Pick up where you left off.</p>
+          <!-- New learner subtitle -->
+          <p id="home-hero-subtitle-new" class="cds-title-sm home-hero-subtitle segment-hidden">Find courses to build in-demand skills</p>
+          <span class="cds-chip cds-chip-metric">
+            <svg class="cds-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+            <span class="cds-action-secondary">+12% job demand</span>
+          </span>
+        </div>
+        <div class="home-hero-grid">
+          <!-- New learner: Browse CTA (no course card) -->
+          <div id="home-new-browse" class="segment-hidden" style="margin-bottom: 24px;">
+            <a href="learning.html" class="home-new-hero-cta cds-action-primary">
+              <span class="material-symbols-rounded" style="font-size: 20px;">search</span>
+              Browse courses
+            </a>
+          </div>
+
+          <div id="home-course-card-wrap" class="home-course-card">
+            <div class="home-course-card-inner">
+              <div class="home-course-info">
+                <div class="home-course-progress-ring">
+                  <svg viewBox="0 0 36 36">
+                    <path class="progress-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.8"/>
+                    <path class="progress-fill" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.8" stroke-dasharray="12, 100" stroke-linecap="round"/>
+                  </svg>
+                  <span class="progress-value">12%</span>
+                </div>
+                <div class="home-course-title-meta">
+                  <h2 class="cds-subtitle-lg home-course-title">Foundations: Data, Data, Everywhere</h2>
+                  <p class="cds-body-secondary home-course-meta">Google Data Analytics & E-commerce Professional Certificate</p>
+                </div>
+                <a href="learning.html" class="btn-primary home-resume-btn" id="home-resume-btn">Resume learning</a>
+              </div>
+              <div class="home-course-hero-img"><img src="assets/image-bd00c960-8f6f-4f12-9387-1fc2ebbc3444.png" alt="Course preview"></div>
+            </div>
+          </div>
+          <div id="home-sidebar-wrap" class="home-sidebar">
+            <div class="home-widget" id="home-todays-goals">
+              <h3 class="home-widget-title">Today's goals</h3>
+              <span class="home-widget-badge">Personalized</span>
+              <ul class="home-goals-list">
+                <li class="home-goal-item">
+                  <span class="goal-star" id="goal-star-1" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg>
+                  </span>
+                  <span class="goal-text">Complete any <strong><span id="goal-1-target">8</span> learning items</strong> · <span id="goal-1-count">0</span>/<span id="goal-1-max">8</span></span>
+                </li>
+                <li class="home-goal-item home-goal-multi">
+                  <span class="goal-star" id="goal-star-2" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg>
+                  </span>
+                  <span class="goal-text" id="goal-2-text">Complete 1 practice item</span>
+                </li>
+                <li class="home-goal-item home-goal-multi">
+                  <span class="goal-star" id="goal-star-3" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg>
+                  </span>
+                  <span class="goal-text" id="goal-3-text">Use Coach</span>
+                </li>
+              </ul>
+            </div>
+            <div class="home-widget">
+              <h3 class="home-widget-title">Weekly activity</h3>
+              <span class="home-widget-badge">1 week streak</span>
+              <p class="home-widget-desc">Way to go! You've exceeded your learning target by x days this week.</p>
+              <div class="home-week-days">
+                <span class="week-day checked">✓</span><span class="week-day checked">✓</span><span class="week-day checked">✓</span><span class="week-day checked">✓</span><span class="week-day today">Sa</span><span class="week-day">Su</span><span class="week-day">Mo</span>
+              </div>
+              <p class="home-widget-meta">3 items completed · 10 minutes learned</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="pages-container pages-content">
+      <section class="home-section">
+        <div class="home-section-header">
+          <h2 class="home-section-title">Master SQL as a data analyst</h2>
+          <a href="#" class="home-edit-link">Edit →</a>
+        </div>
+        <div class="home-cards-grid">
+          <div class="home-recommend-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400')"></div>
+            <span class="card-badge">Top recommendation</span>
+            <div class="card-body">
+              <div class="card-provider">Google</div>
+              <h3>Foundations: Data, Data, Everywhere</h3>
+              <p class="card-meta">Skills: Data analysis, Data cleaning, SQL, Spreadsheets</p>
+              <p class="card-rating">★ 4.8 (147K reviews)</p>
+              <a href="learning.html" class="btn-primary card-btn">Enroll for free</a>
+            </div>
+          </div>
+          <div class="home-recommend-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400')"></div>
+            <div class="card-body">
+              <div class="card-provider">IBM</div>
+              <h3>Generative AI for Data Scientists</h3>
+              <p class="card-meta">Skills: Python, Excel, Data Visualization</p>
+              <p class="card-rating">★ 4.8 (147K reviews)</p>
+              <a href="learning.html" class="btn-primary card-btn">Enroll for free</a>
+            </div>
+          </div>
+          <div class="home-recommend-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=400')"></div>
+            <div class="card-body">
+              <div class="card-provider">IBM</div>
+              <h3>Generative AI for Data Scientists</h3>
+              <p class="card-meta">Skills: Python, Excel, Data Visualization</p>
+              <p class="card-rating">★ 4.8 (147K reviews)</p>
+              <a href="learning.html" class="btn-primary card-btn">Enroll for free</a>
+            </div>
+          </div>
+          <div class="home-recommend-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=400')"></div>
+            <div class="card-body">
+              <div class="card-provider">IBM</div>
+              <h3>Generative AI</h3>
+              <p class="card-meta">Skills: Python, Excel, Data Visualization</p>
+              <p class="card-rating">★ 4.8 (147K reviews)</p>
+              <a href="learning.html" class="btn-primary card-btn">Enroll for free</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <h2 class="home-section-title">Trending now</h2>
+        <div class="home-trending-grid">
+          <div class="trending-col">
+            <h3 class="trending-col-title">Most popular</h3>
+            <a href="#" class="trending-item"><strong>Google AI Essentials</strong> · Google · Course · ★ 4.9</a>
+            <a href="#" class="trending-item"><strong>Agentic AI and AI Agents</strong> · Microsoft · Course · ★ 4.9</a>
+            <a href="#" class="trending-item"><strong>Agentic AI and AI Agents</strong> · Meta · Course · ★ 4.9</a>
+          </div>
+          <div class="trending-col">
+            <h3 class="trending-col-title">Weekly spotlight</h3>
+            <a href="#" class="trending-item"><strong>Successful Negotiation</strong> · IBM · Specialization · ★ 4.9</a>
+            <a href="#" class="trending-item"><strong>Successful Negotiation</strong> · IBM · Prof. Certificate · ★ 4.9</a>
+            <a href="#" class="trending-item"><strong>Successful Negotiation</strong> · Google · Prof. Certificate · ★ 4.9</a>
+          </div>
+          <div class="trending-col">
+            <h3 class="trending-col-title">Earn a degree</h3>
+            <a href="#" class="trending-item"><strong>Excel Skills for Business</strong> · U of Illinois · Specialization · ★ 4.9</a>
+            <a href="#" class="trending-item"><strong>Prompt Engineering for ChatGPT</strong> · IBM · Course · ★ 4.9</a>
+            <a href="#" class="trending-item"><strong>Strategic Leadership</strong> · Macquarie · Course · ★ 4.9</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <h2 class="home-section-title">In-demand skills</h2>
+        <div class="home-skills-chips">
+          <button class="skill-chip">Natural Language</button>
+          <button class="skill-chip">Prompt Engineering</button>
+          <button class="skill-chip">Python</button>
+          <button class="skill-chip">Generative AI</button>
+          <button class="skill-chip">Computer Vision</button>
+          <button class="skill-chip">SQL</button>
+          <button class="skill-chip">Responsible AI</button>
+          <button class="skill-chip">→</button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- Proto control strip: sound/haptics toggle + segments -->
+  <div class="proto-control-strip">
+    <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
+      <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
+    </button>
+    <a href="index.html" class="home-segment-back cds-body-tertiary">
+      <span class="material-symbols-rounded">arrow_back</span>
+      Segments
+    </a>
+  </div>
+
+  <script src="js/goals-store.js"></script>
+  <script src="js/sounds.js"></script>
+  <script>
+    function hideHomeIntroModal() {
+      var el = document.getElementById('home-intro-modal');
+      if (el) el.classList.add('is-hidden');
+    }
+
+    function getSegment() {
+      return sessionStorage.getItem('m1-skills-segment') || 'active';
+    }
+
+    (function() {
+      var segment = getSegment();
+
+      function show(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('segment-hidden');
+      }
+      function hide(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add('segment-hidden');
+      }
+
+      /* Hide intro modal for all segments — XP introduced contextually, not upfront */
+      hideHomeIntroModal();
+
+      if (segment === 'active') {
+        show('home-hero-greeting-default');
+        show('home-hero-subtitle-default');
+      }
+
+      if (segment === 'lapsed') {
+        hide('home-hero-greeting-default');
+        hide('home-hero-subtitle-default');
+        show('home-hero-greeting-lapsed');
+        show('home-hero-subtitle-lapsed');
+        show('home-lapsed-xp-banner');
+
+        /* Change "Resume" to "Continue" */
+        var btn = document.getElementById('home-resume-btn');
+        if (btn) btn.textContent = 'Continue learning';
+      }
+
+      if (segment === 'new') {
+        hide('home-hero-greeting-default');
+        hide('home-hero-subtitle-default');
+        show('home-hero-greeting-new');
+        show('home-hero-subtitle-new');
+
+        /* Hide course card, goals, weekly activity */
+        hide('home-course-card-wrap');
+        hide('home-sidebar-wrap');
+
+        /* Show browse CTA */
+        show('home-new-browse');
+
+        /* Hide job demand chip */
+        var chip = document.querySelector('.cds-chip-metric');
+        if (chip) chip.style.display = 'none';
+      }
+
+      /* Render goals for active/lapsed (if visible) */
+      function renderGoals() {
+        if (typeof window.GoalsStore === 'undefined') return;
+        var d = window.GoalsStore.get();
+        var goal = window.GoalsStore.getLearningItemsGoal ? window.GoalsStore.getLearningItemsGoal() : 5;
+        var seg = window.GoalsStore.getSegment ? window.GoalsStore.getSegment() : 'active';
+        var completedStar = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="12" fill="#EDE9FE"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#7C3AED"/></svg>';
+        var t1 = document.getElementById('goal-1-target');
+        var c1 = document.getElementById('goal-1-count');
+        var m1 = document.getElementById('goal-1-max');
+        var s1 = document.getElementById('goal-star-1');
+        if (t1) t1.textContent = goal;
+        if (m1) m1.textContent = goal;
+        if (d.learningItemsCompleted >= goal && s1) s1.innerHTML = completedStar;
+        if (c1) c1.textContent = Math.min(d.learningItemsCompleted, goal);
+        if (seg !== 'new') {
+          var s2 = document.getElementById('goal-star-2');
+          var s3 = document.getElementById('goal-star-3');
+          var g2 = document.getElementById('goal-2-text');
+          var g3 = document.getElementById('goal-3-text');
+          if (d.practiceComplete && s2) s2.innerHTML = completedStar;
+          if (d.coachComplete && s3) s3.innerHTML = completedStar;
+          if (g2) g2.textContent = d.practiceComplete ? 'Complete 1 practice item - ✓' : 'Complete 1 practice item';
+          if (g3) g3.textContent = d.coachComplete ? 'Use Coach - ✓' : 'Use Coach';
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderGoals);
+      } else {
+        renderGoals();
+      }
+    })();
+
+    (function initSoundToggle() {
+      var btn = document.getElementById('proto-sound-toggle');
+      var icon = btn && btn.querySelector('.proto-sound-icon');
+      function updateUI() {
+        var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
+        if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (icon) icon.textContent = on ? 'volume_up' : 'volume_off';
+      }
+      if (btn) {
+        updateUI();
+        btn.addEventListener('click', function() {
+          var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
+          if (typeof setSoundEnabled === 'function') setSoundEnabled(!on);
+          updateUI();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
