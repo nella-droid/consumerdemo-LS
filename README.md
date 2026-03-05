@@ -1,42 +1,89 @@
-# Current LEX v1.0 Prototype
+# Skill Points Prototype V1.2
 
-A lecture platform prototype based on the Coursera learning experience. Watch lectures, browse course content, and follow along with interactive transcripts.
+A Coursera-style learning experience prototype that explores **Skill Points (XP)** — a gamification system for learner engagement and progress visualization.
+
+**Live prototype:** [m1-skills-prototype.vercel.app](https://m1-skills-prototype.vercel.app)
+
+---
+
+## Features
+
+### Skill Points (XP) System
+- **XP earned per item** — Video and reading completions, practice assignments, and graded assignments award Skill Points
+- **Retroactive credit** — Active and lapsed learners receive XP for prior progress on arrival
+- **Contextual introduction** — XP is revealed on first completion, not upfront
+- **Video-end feedback** — Completion modals show XP earned and skill progress
+- **Practice feedback** — Assignment feedback modals display per-item XP and skill attribution
+
+### Learner Segments
+- **Active Enrolled** — Currently taking a course; sees retroactive XP, no intro modal
+- **Lapsed Learner** — Previously enrolled; welcome-back experience with XP credit
+- **New Learner** — First-time experience; commitment screen on enrollment, XP discovered on first completion
+
+### Course Content
+- **Share Data Through the Art of Visualization** — Full 4-module structure
+- **Module 1:** Visualize data (Communicate insights, Understand visualization, Design visualizations, etc.)
+- **Module 2:** Create data visualizations with Tableau
+- **Module 3:** Craft data stories
+- **Module 4:** Develop presentations and slideshows + Course wrap-up
+
+### Daily Goals
+- 8 learning items + 1 practice item + Coach usage
+- Progress shown in header and goals-complete modal
+- Streaks integration (toast on session start when applicable)
+
+### My Learning
+- Skills tab with XP by skill (expandable accordion)
+- Course recommendations and progress overview
+
+### Email Templates
+- **Active learner** — Announcement email (active-email.html)
+- **Lapsed learner** — Re-engagement email (lapsed-email.html)
+
+---
 
 ## Project Structure
 
 ```
-lecture-app/
-├── index.html      # Main entry point
-├── css/
-│   └── styles.css  # Styles
-├── js/
-│   └── main.js     # Application logic
-├── package.json
-└── README.md
+├── index.html         # Segment selection (Active / Lapsed / New)
+├── homepage.html      # Home page with goals, recommendations
+├── learning.html      # Course learning view (video, sidebar, XP)
+├── my-learning.html   # Skills and course overview
+├── active-email.html  # Announcement email template
+├── lapsed-email.html  # Re-engagement email template
+├── css/               # Styles (CDS tokens, components)
+├── js/                # App logic (XP, goals, modals)
+└── vercel.json        # Deployment config and route rewrites
 ```
+
+---
 
 ## Getting Started
 
 ### Option 1: Open directly
-Open `index.html` in your browser. The prototype starts at the homepage with the intro modal.
+Open `index.html` in your browser. Select a learner segment to preview different experiences.
 
 ### Option 2: Run with dev server
 ```bash
 npm start
 ```
-Then visit http://localhost:3000 (or the port shown).
+Then visit http://localhost:3456
 
-## Features
+### Option 3: Deploy to Vercel
+```bash
+vercel --prod
+```
 
-- **Header**: Logo, course badge, progress tracker, language/coach icons
-- **Sidebar**: Collapsible course modules and lecture list
-- **Video player**: Placeholder with play button and controls
-- **Tabs**: About and Transcript sections
-- **Transcript**: Timestamped lecture content
+---
 
 ## Tech Stack
 
-- HTML5
-- CSS3 (custom properties, flexbox)
+- HTML5, CSS3 (custom properties, flexbox)
 - Vanilla JavaScript
+- [Coursera Design System (CDS)](./cds-styling-spec.md) tokens and components
 - [Source Sans 3](https://fonts.google.com/specimen/Source+Sans+3) font
+- [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) icons
+
+---
+
+*For internal review only — Skill Points Prototype V1.2*
