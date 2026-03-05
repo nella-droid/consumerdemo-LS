@@ -980,38 +980,40 @@
 
 .mylearning-tabs {
   display: flex;
-  gap: 4px;
+  gap: 24px;
   border-bottom: 1px solid var(--color-border-gray-200);
   margin-bottom: 24px;
+  position: relative;
+  padding: 0;
+}
+
+.mylearning-tabs-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 4px;
+  background: var(--cds-color-interactive-secondary);
+  transition: left 0.25s ease, width 0.25s ease;
+  pointer-events: none;
 }
 
 .mylearning-tab {
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text-slate-500);
+  padding: 12px 0;
   background: none;
   border: none;
   cursor: pointer;
   position: relative;
+  color: var(--cds-color-interactive-secondary);
+  font-family: var(--cds-font-family);
 }
 
+.mylearning-tab,
 .mylearning-tab:hover {
-  color: var(--color-text-slate-700);
+  color: var(--cds-color-interactive-secondary);
 }
 
 .mylearning-tab.active {
-  color: var(--color-primary);
-}
-
-.mylearning-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-primary);
+  font-weight: 600;
 }
 
 /* My Learning Banner - full width */
@@ -1644,11 +1646,7 @@
 
 /* Skills tab (from 1.1 - expandable cards, comprehension bands) */
 .mylearning-skills-section {
-  background: var(--color-bg-white);
-  border: 1px solid var(--color-border-gray-200);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  padding: 0;
 }
 
 .mylearning-skills-grid {
@@ -1665,7 +1663,7 @@
 
 .mylearning-skill-card {
   border: 1px solid var(--color-border-gray-200);
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
 }
 
@@ -1684,20 +1682,27 @@
 }
 
 .mylearning-skill-card-header:hover {
-  background: var(--color-bg-gray-50);
+  background: #F0F6FF;
 }
 
 .mylearning-skill-chevron {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m6 9 6 6 6-6' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
-  transform: rotate(-90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.2s;
 }
 
+.mylearning-skill-chevron img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
 .mylearning-skill-card.is-expanded .mylearning-skill-chevron {
-  transform: rotate(0);
+  transform: rotate(180deg);
 }
 
 .mylearning-skill-info {
@@ -1713,8 +1718,6 @@
 }
 
 .mylearning-skill-name {
-  font-size: 0.875rem;
-  font-weight: 600;
   color: var(--color-text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1728,20 +1731,21 @@
 
 .mylearning-skill-xp {
   flex-shrink: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
   color: var(--color-text-primary);
 }
 
 .mylearning-skill-expanded {
   display: none;
-  border-top: 1px solid var(--color-border-gray-200);
-  background: var(--color-bg-gray-50);
+  background: var(--cds-color-white);
   padding: 16px;
 }
 
 .mylearning-skill-card.is-expanded .mylearning-skill-expanded {
   display: block;
+}
+
+.mylearning-skill-card.is-expanded .mylearning-skill-card-header {
+  border-radius: 16px 16px 0 0;
 }
 
 .mylearning-skill-expanded-title {
@@ -2013,4 +2017,38 @@
 
 .skill-progress-modal-cta:hover {
   background: #0047a3;
+}
+
+/* Dialogs: when edges touch viewport (narrow), full height + full-width buttons */
+@media (max-width: 480px) {
+  .intro-modal {
+    padding: 0;
+    align-items: stretch;
+  }
+  .intro-modal-card {
+    max-width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    border-radius: 0 !important;
+  }
+  .intro-modal-btn {
+    width: 100%;
+  }
+
+  .skill-progress-modal {
+    padding: 0;
+    align-items: stretch;
+  }
+  .skill-progress-modal-content {
+    max-width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    max-height: none;
+    border-radius: 0 !important;
+  }
+  .skill-progress-modal-cta {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

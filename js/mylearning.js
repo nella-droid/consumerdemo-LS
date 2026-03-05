@@ -52,54 +52,34 @@
       '</div>';
       return;
     }
+    var SKILL_TOTAL_XP = 2000;
     var skills = getSkillProgress().sort(function(a, b) { return b.points - a.points; });
-    var html = skills.map(function(skill, idx) {
-      var pct = skill.total ? Math.round((skill.points / skill.total) * 100) : 0;
-      var level = getSkillLevel(pct);
-      var contributing = [
-        { name: COURSE_TITLE, provider: COURSE_PROVIDER, xp: skill.points, total: skill.total, isCurrent: true }
-      ];
-      if (skill.name === 'Visualizing and Reporting Clean Data') {
-        contributing.push({ name: 'Data Visualization with Tableau', provider: 'Coursera', xp: 0, total: 25, isCurrent: false });
-        contributing.push({ name: 'Advanced Excel for Data Analysis', provider: 'Microsoft', xp: 0, total: 15, isCurrent: false });
-      } else if (skill.name === 'Preparing and Cleaning Data') {
-        contributing.push({ name: 'Data Wrangling with Python', provider: 'Microsoft', xp: 0, total: 20, isCurrent: false });
-      } else if (skill.name === 'Connecting and Importing Data') {
-        contributing.push({ name: 'SQL for Data Science', provider: 'Coursera', xp: 0, total: 20, isCurrent: false });
-      }
-      var totalXP = contributing.reduce(function(sum, c) { return sum + c.xp; }, 0);
+    var html = skills.map(function(skill) {
+      var currentXP = skill.points;
       var key = 'skills-tab-' + skill.name.replace(/\s/g, '-');
       return '<div class="mylearning-skill-card" data-skill-key="' + key + '">' +
         '<button type="button" class="mylearning-skill-card-header" aria-expanded="false">' +
-          '<span class="mylearning-skill-chevron"></span>' +
+          '<span class="mylearning-skill-chevron"><img src="assets/ChevronDown.svg" alt="" aria-hidden="true"></span>' +
           '<div class="mylearning-skill-info">' +
-            '<div class="mylearning-skill-name-row">' +
-              '<span class="mylearning-skill-name">' + skill.name + '</span>' +
-              '<span class="mylearning-skill-level-badge ' + level.className + '">' + level.label + '</span>' +
-            '</div>' +
-            '<span class="mylearning-skill-meta">' + contributing.length + ' course' + (contributing.length > 1 ? 's' : '') + ' contribute to this skill</span>' +
+            '<span class="mylearning-skill-name cds-subtitle-md">' + skill.name + '</span>' +
           '</div>' +
-          '<div class="mylearning-skill-xp">' + totalXP + ' XP</div>' +
+          '<div class="mylearning-skill-xp cds-body-primary">' + currentXP + '/' + SKILL_TOTAL_XP + ' XP</div>' +
         '</button>' +
-        '<div class="mylearning-skill-expanded">' +
-          '<p class="mylearning-skill-expanded-title">Courses contributing to this skill</p>' +
-          '<div class="mylearning-skill-courses">' +
-            contributing.map(function(c) {
-              var iconClass = c.isCurrent ? ' is-current' : '';
-              return '<div class="mylearning-skill-course-item' + iconClass + '">' +
-                '<div class="mylearning-skill-course-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8"/></svg></div>' +
-                '<div class="mylearning-skill-course-info">' +
-                  '<p class="mylearning-skill-course-name">' + c.name + '</p>' +
-                  '<p class="mylearning-skill-course-provider">' + c.provider + '</p>' +
-                '</div>' +
-                '<div class="mylearning-skill-course-xp">' + c.xp + ' XP</div>' +
-              '</div>';
-            }).join('') +
-          '</div>' +
-        '</div>' +
+        '<div class="mylearning-skill-expanded" aria-hidden="true"></div>' +
       '</div>';
     }).join('');
     if (container) container.innerHTML = html;
+  }
+
+  function updateTabIndicator() {
+    var active = document.querySelector('.mylearning-tab.active');
+    var indicator = document.getElementById('mylearning-tabs-indicator');
+    if (!active || !indicator) return;
+    var tabsEl = active.closest('.mylearning-tabs');
+    var tabsRect = tabsEl.getBoundingClientRect();
+    var activeRect = active.getBoundingClientRect();
+    indicator.style.left = (activeRect.left - tabsRect.left) + 'px';
+    indicator.style.width = activeRect.width + 'px';
   }
 
   function switchToTab(tabId) {
@@ -112,6 +92,7 @@
     tab.classList.add('active');
     var panel = document.getElementById('panel-' + tabId);
     if (panel) panel.classList.add('active');
+    updateTabIndicator();
     if (tabId === 'skills') {
       var container = document.getElementById('skills-cards-container');
       if (container && !container.innerHTML) renderSkillsTab(container);
@@ -130,6 +111,8 @@
     if (hash && ['overview', 'courses', 'skills', 'certificates'].indexOf(hash) >= 0) {
       switchToTab(hash);
     }
+    updateTabIndicator();
+    window.addEventListener('resize', updateTabIndicator);
   }
 
   function initSkillCards() {

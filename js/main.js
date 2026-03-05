@@ -11,8 +11,24 @@ function hideCourseIntroModal() {
 }
 
 function toggleSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.classList.toggle('collapsed');
+  if (window.innerWidth < 1024) {
+    var open = document.body.classList.toggle('sidebar-overlay-open');
+    var btn = document.getElementById('header-menu-btn');
+    var backdrop = document.getElementById('sidebar-backdrop');
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (backdrop) backdrop.setAttribute('aria-hidden', open ? 'false' : 'true');
+  } else {
+    var sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('collapsed');
+  }
+}
+
+function closeSidebarOverlay() {
+  document.body.classList.remove('sidebar-overlay-open');
+  var btn = document.getElementById('header-menu-btn');
+  var backdrop = document.getElementById('sidebar-backdrop');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+  if (backdrop) backdrop.setAttribute('aria-hidden', 'true');
 }
 
 function toggleModule(header) {
@@ -34,6 +50,7 @@ var videoEndModalTriggered = false;
 var videoEndCountdownInterval = null;
 var videoEndCountdownValue = 5;
 var videoEndCountdownPaused = false;
+var videoEndNextItemTitle = 'Next item';
 var skillProgress = {}; /* { skillName: xp } - cumulative per skill */
 try {
   var stored = localStorage.getItem('m1-skills-skill-progress');
@@ -87,6 +104,17 @@ function getNextLectureItem() {
   return all[idx + 1];
 }
 
+function getItemTypeIcon(type) {
+  var icons = { Video: 'play_circle', Reading: 'menu_book', Activity: 'tune', Practice: 'quiz', Assignment: 'edit_note' };
+  return icons[type] || 'play_circle';
+}
+
+function parseLectureMeta(metaEl) {
+  if (!metaEl || !metaEl.textContent) return { type: 'Item' };
+  var parts = metaEl.textContent.trim().split(/\s*·\s*/);
+  return { type: parts[0] || 'Item' };
+}
+
 function triggerVideoEndModal() {
   var modal = document.getElementById('video-end-modal');
   var player = document.getElementById('video-player');
@@ -114,10 +142,8 @@ function triggerVideoEndModal() {
 
   var startPct = (currentSkillXP / 25) * 100;
   var targetPct = (newSkillXP / 25) * 100;
-  var levelFromXp = function(x) { return x >= 15 ? 'Practicing' : x >= 5 ? 'Developing' : 'Exploring'; };
 
   document.getElementById('video-end-skill-name').textContent = skillName;
-  document.getElementById('video-end-skill-level').textContent = levelFromXp(newSkillXP);
   document.getElementById('video-end-xp-tag').textContent = '+' + xp + ' XP';
   document.getElementById('video-end-progress-label').textContent = newSkillXP + '/25 XP';
 
@@ -132,11 +158,19 @@ function triggerVideoEndModal() {
   xpTag.classList.remove('xp-tag-visible');
 
   var nextItem = getNextLectureItem();
+  var nextTitleEl = document.getElementById('video-end-next-title');
   if (nextItem) {
     var nextTitle = nextItem.querySelector('.lecture-title');
-    document.getElementById('video-end-next-title').textContent = nextTitle ? nextTitle.textContent : 'Next item';
+    videoEndNextItemTitle = nextTitle ? nextTitle.textContent : 'Next item';
+    var meta = parseLectureMeta(nextItem.querySelector('.lecture-meta'));
+    var typeEl = document.getElementById('video-end-item-type-text');
+    var iconEl = document.getElementById('video-end-item-icon');
+    if (typeEl) typeEl.textContent = meta.type;
+    if (iconEl) iconEl.textContent = getItemTypeIcon(meta.type);
+  } else {
+    videoEndNextItemTitle = 'Next item';
   }
-  document.getElementById('video-end-countdown').textContent = 'starts in ' + videoEndCountdownValue + 's';
+  if (nextTitleEl) nextTitleEl.textContent = videoEndNextItemTitle + ' starts in ' + videoEndCountdownValue + 's';
 
   /* First completion: show the big XP intro modal instead of video-end modal */
   if (!sessionStorage.getItem('m1-skills-xp-intro-shown')) {
@@ -182,8 +216,8 @@ function triggerVideoEndModal() {
   videoEndCountdownInterval = setInterval(function() {
     if (videoEndCountdownPaused) return;
     videoEndCountdownValue--;
-    var el = document.getElementById('video-end-countdown');
-    if (el) el.textContent = 'starts in ' + videoEndCountdownValue + 's';
+    var el = document.getElementById('video-end-next-title');
+    if (el) el.textContent = videoEndNextItemTitle + ' starts in ' + videoEndCountdownValue + 's';
     if (videoEndCountdownValue <= 0) {
       clearInterval(videoEndCountdownInterval);
       videoEndCountdownInterval = null;
@@ -586,12 +620,6 @@ function populateAndAnimateGoalsCompleteSkills() {
   goalsCompleteSkillsList = skills;
   goalsCompleteSkillIndex = 0;
 
-  var levelFromXp = function(xp) {
-    if (xp >= 15) return 'Practicing';
-    if (xp >= 5) return 'Developing';
-    return 'Exploring';
-  };
-
   var grid = document.getElementById('goals-complete-skills-grid');
   var skillsWrap = document.getElementById('goals-complete-skills-wrap');
   var pagination = document.getElementById('goals-complete-pagination');
@@ -617,10 +645,6 @@ function populateAndAnimateGoalsCompleteSkills() {
     var card = document.createElement('div');
     card.className = 'feedback-skill-card feedback-skill-card-' + (i + 1) + (i === 0 ? ' goals-skill-active' : '');
     card.innerHTML = '<h4 class="feedback-skill-card-name cds-action-primary">' + escapeHtml(s.name) + '</h4>' +
-      '<div class="feedback-skill-tags-row">' +
-      '<span class="feedback-skill-level-tag cds-body-secondary">' + levelFromXp(s.xp) + '</span>' +
-      '<span class="feedback-skill-xp-tag">' + s.xp + ' XP</span>' +
-      '</div>' +
       '<div class="feedback-skill-progress-row">' +
       '<div class="feedback-skill-progress-bar">' +
       '<div class="feedback-skill-progress-fill" data-progress="' + pct + '" data-start="0" style="width: 0%"></div>' +
@@ -637,28 +661,23 @@ function populateAndAnimateGoalsCompleteSkills() {
   }
 
   var cards = grid.querySelectorAll('.feedback-skill-card');
-  var xpTags = grid.querySelectorAll('.feedback-skill-xp-tag');
   var progressFills = grid.querySelectorAll('.feedback-skill-progress-fill');
   cards.forEach(function(c) { c.classList.remove('card-visible'); });
-  xpTags.forEach(function(t) { t.classList.remove('xp-tag-visible'); });
 
   setTimeout(function() {
     if (skillsWrap) skillsWrap.classList.add('is-visible');
     cards.forEach(function(c) { c.classList.add('card-visible'); });
     setTimeout(function() {
-      xpTags.forEach(function(t) { t.classList.add('xp-tag-visible'); });
-      setTimeout(function() {
-        progressFills.forEach(function(f) {
-          var target = f.getAttribute('data-progress');
-          if (target) f.style.width = target + '%';
-        });
-        var first = progressFills[0];
-        if (first && typeof playFillingSound === 'function') {
-          var p = first.getAttribute('data-progress');
-          if (p) playFillingSound(parseFloat(p));
-        }
-      }, 500);
-    }, 900);
+      progressFills.forEach(function(f) {
+        var target = f.getAttribute('data-progress');
+        if (target) f.style.width = target + '%';
+      });
+      var first = progressFills[0];
+      if (first && typeof playFillingSound === 'function') {
+        var p = first.getAttribute('data-progress');
+        if (p) playFillingSound(parseFloat(p));
+      }
+    }, 500);
   }, 300);
 }
 
@@ -677,11 +696,9 @@ function hideGoalsCompleteDialog() {
     if (dialog) dialog.classList.remove('goals-complete-dialog-active');
     var skillsWrap = document.getElementById('goals-complete-skills-wrap');
     var cards = modal.querySelectorAll('#goals-complete-skills-wrap .feedback-skill-card');
-    var xpTags = modal.querySelectorAll('#goals-complete-skills-wrap .feedback-skill-xp-tag');
     var progressFills = modal.querySelectorAll('#goals-complete-skills-wrap .feedback-skill-progress-fill');
     if (skillsWrap) skillsWrap.classList.remove('is-visible');
     if (cards.length) cards.forEach(function(c) { c.classList.remove('card-visible'); });
-    if (xpTags.length) xpTags.forEach(function(t) { t.classList.remove('xp-tag-visible'); });
     progressFills.forEach(function(f) {
       f.style.width = (f.getAttribute('data-start') || '0') + '%';
     });
@@ -1170,13 +1187,8 @@ function showXpIntroModal() {
     var d = skillData[key];
     var valEl = row.querySelector('[data-xp-value]');
     var barEl = row.querySelector('[data-xp-bar]');
-    var lvlEl = row.querySelector('[data-xp-level]');
     if (valEl) valEl.textContent = d.xp + '/25 XP';
     if (barEl) barEl.style.width = (d.xp / 25 * 100) + '%';
-    if (lvlEl) {
-      lvlEl.textContent = d.level;
-      lvlEl.className = 'xp-intro-skill-level xp-intro-level--' + d.levelClass + ' cds-body-tertiary';
-    }
   });
 
   modal.style.display = 'flex';

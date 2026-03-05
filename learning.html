@@ -242,6 +242,9 @@
   <!-- Header -->
   <header class="header">
     <div class="header-left">
+      <button type="button" class="header-menu-btn" id="header-menu-btn" onclick="toggleSidebar()" aria-label="Open course navigation" aria-expanded="false">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
       <a href="homepage.html" class="logo" aria-label="Coursera Home">
         <svg class="logo-icon" width="113" height="16" viewBox="0 0 114 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M37.2119 9.23926C37.2121 11.1935 38.303 12.3476 40.1973 12.3477C42.3165 12.3477 43.5352 11.0646 43.5352 8.59668V0.392578H47.4844V15.6162H43.5381V13.8525C42.6076 15.2947 41.0975 16 39.0107 16C35.479 16.001 33.2637 13.4368 33.2637 9.71875V0.392578H37.2119V9.23926ZM79.6289 0.104492C84.1244 0.11331 87.2958 3.7081 87.2852 7.94238C87.2859 8.36088 87.2535 8.77911 87.1875 9.19238L75.5645 9.1709C76.0101 10.9981 77.5168 12.3154 79.7969 12.3203C81.177 12.3203 82.6556 11.8123 83.5566 10.6602L86.25 12.8154C84.865 14.768 82.4215 15.918 79.8223 15.9131C75.2337 15.8973 71.7082 12.4614 71.7158 8.00684C71.7247 3.74409 74.7811 0.0958069 79.6289 0.104492ZM104.69 0.104492C107.098 0.104492 108.48 0.841292 109.41 2.25195L109.78 0.390625H113.392V15.6162H109.78L109.313 14.0488C108.254 15.2027 106.937 15.9102 104.69 15.9102C101.223 15.9051 97.2725 12.8599 97.2725 8.11719C97.2725 3.34205 101.158 0.104614 104.69 0.104492ZM23.7715 0.104492C28.2983 0.104492 31.8953 3.6316 31.8955 7.98828C31.8955 12.3148 28.2985 15.9053 23.7715 15.9053C19.276 15.9051 15.6807 12.3108 15.6807 7.98828C15.6809 3.62973 19.2762 0.10463 23.7715 0.104492ZM64.3838 0.0078125C66.93 0.0078125 69.1861 1.13385 70.4111 3.22461L66.9326 5.06152C66.4173 4.03193 65.4504 3.45227 64.2256 3.45215C63.034 3.45215 62.4522 3.87085 62.4521 4.57812C62.4521 6.95888 70.7676 5.44738 70.7676 11.1426C70.7675 14.1023 68.3508 15.9033 64.4512 15.9033C61.1315 15.9004 58.8106 14.8069 57.6514 12.2979L61.1621 10.4639C61.7422 11.7186 62.9021 12.4579 64.5459 12.458C66.0605 12.458 66.6406 11.9758 66.6406 11.2998C66.6396 8.85113 58.3265 10.3348 58.3262 4.73633C58.3262 1.64834 61.0329 0.00795633 64.3838 0.0078125ZM8.09082 0.0732422C9.44253 0.0637857 10.7759 0.389636 11.9697 1.02246C13.1635 1.65528 14.1806 2.57522 14.9297 3.69824L11.5586 5.64941C11.1686 5.09327 10.6497 4.63965 10.0459 4.32715C9.44201 4.01459 8.77107 3.85214 8.09082 3.85449C5.77935 3.85465 3.88477 5.77809 3.88477 7.98926C3.88481 10.2004 5.77938 12.1239 8.09082 12.124C8.80314 12.1286 9.50496 11.9505 10.1289 11.6074C10.7529 11.2644 11.2785 10.7675 11.6553 10.1641L14.9922 12.1514C14.2522 13.3071 13.2314 14.2574 12.0244 14.9131C10.8173 15.5689 9.46317 15.9086 8.08887 15.9014C3.59538 15.9051 4.75605e-05 12.3117 0 7.98926C0 3.59916 3.59535 0.0733919 8.09082 0.0732422ZM56.8994 3.67871C56.7652 3.66412 56.6301 3.65664 56.4951 3.65625C54.377 3.66124 53.1591 4.9462 53.165 7.41309L53.1865 15.6152L49.2373 15.624L49.2041 0.401367L53.1533 0.392578V2.15625C54.073 0.724053 55.5668 0.0166892 57.6279 0L56.8994 3.67871ZM96.5771 3.68555C96.4467 3.67282 96.3131 3.6631 96.1729 3.66309C94.0566 3.66309 92.835 4.94513 92.835 7.41309V15.6162H88.8867V0.391602H92.835V2.15527C93.7586 0.725841 95.2512 0.0215193 97.3096 0.0107422L96.5771 3.68555ZM23.7715 3.88672C21.4602 3.88686 19.5657 5.80962 19.5654 7.98828C19.5654 10.1995 21.46 12.1229 23.7715 12.123C26.1194 12.123 28.0098 10.1995 28.0098 7.98828C28.0095 5.80953 26.1153 3.88672 23.7715 3.88672ZM105.365 3.8877C104.246 3.89204 103.174 4.34075 102.386 5.13379C101.597 5.92687 101.157 6.99995 101.161 8.11719C101.161 10.2324 103.056 12.123 105.368 12.123C107.709 12.1229 109.602 10.2324 109.603 8.08496C109.598 6.96764 109.149 5.89738 108.354 5.11035C107.56 4.32345 106.485 3.88341 105.365 3.8877ZM79.5908 3.69434C77.7603 3.69436 76.2823 4.7781 75.7012 6.41113L83.3105 6.4248C83.0886 4.88672 81.4852 3.69728 79.5908 3.69434Z" fill="#0056D2"/>
@@ -321,11 +324,12 @@
     </div>
   </header>
 
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebarOverlay()" aria-hidden="true"></div>
   <div class="main-layout">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <a href="#" class="course-title" id="course-title">Foundations: Data, Data, Everywhere</a>
+        <a href="#" class="course-title" id="course-title">Share Data Through the Art of Visualization</a>
         <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close navigation">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -349,87 +353,156 @@
       <div class="sidebar-content" id="sidebar-content">
       <div class="module">
         <div class="module-header" onclick="toggleModule(this)">
-          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 1</span><span class="module-name cds-subtitle-md">Introducing data analytics and analytical thinking</span></span>
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 1</span><span class="module-name cds-subtitle-md">Visualize data</span></span>
           <span class="module-chevron expanded"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
         <div class="module-content">
-          <a href="#" class="lecture-item active" data-lesson-id="m1-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Choosing the right chart for your data</div><div class="lecture-meta">Video · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Best practices for clean data visualizations</div><div class="lecture-meta">Video · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Formatting data for effective reporting</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Common visualization mistakes to avoid</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Design principles for clear dashboards</div><div class="lecture-meta">Activity · 10 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Telling stories with your data</div><div class="lecture-meta">Video · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Discover data skill sets</div><div class="lecture-meta">Video · 46 sec</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">What to expect moving forward</div><div class="lecture-meta">Video · 1 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from course 1, module 1</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Assessment-taking strategies</div><div class="lecture-meta">Practice · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m1-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 1 challenge</div><div class="lecture-meta">Assignment · 40 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Communicate data insights</div>
+          <a href="#" class="lecture-item active" data-lesson-id="m1-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Introduction to communicating data insights</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Course 6 overview</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Kevin: The power's in the data viz</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Helpful resources and tips</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Understand data visualization</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Why data visualization matters</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Effective data visualizations</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connect images with data</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The beauty of visualizing</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">A recipe for a powerful visualization</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Correlation and causation</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Dynamic visualizations</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The wonderful world of visualizations</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data grows on decision trees</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Choose your visualization type</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on data visualizations</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Design data visualizations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Elements of art</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Principles of design</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data visualization impact</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data is beautiful</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Design thinking and visualizations</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l21"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">[Optional] Design thinking for visualization improvement</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l22"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on designing data visualizations</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Visualization considerations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l23"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Pro tips for highlighting key information</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l24"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Accessible visualizations</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l25"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Andrew: Making data accessible</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l26"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Design a chart in 60 minutes</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l27"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Create your own visualization</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l28"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on exploring data visualizations</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 1 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l29"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 1</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l30"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 1 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
         </div>
       </div>
 
       <div class="module">
         <div class="module-header" onclick="toggleModule(this)">
-          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 2</span><span class="module-name cds-subtitle-md">The wonderful world of data</span></span>
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 2</span><span class="module-name cds-subtitle-md">Create data visualizations with Tableau</span></span>
           <span class="module-chevron"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
         <div class="module-content collapsed">
-          <a href="#" class="lecture-item" data-lesson-id="m2-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Learn about data phases and tools</div><div class="lecture-meta">Video · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Phases of data analysis</div><div class="lecture-meta">Activity · 10 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Stages of the data life cycle</div><div class="lecture-meta">Video · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Variations of the data life cycle</div><div class="lecture-meta">Reading · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on the data life cycle</div><div class="lecture-meta">Practice · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The phases of data analysis and this program</div><div class="lecture-meta">Video · 6 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">More on the phases of data analysis and this program</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Molly: Example of the data analysis process</div><div class="lecture-meta">Video · 6 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on the data analysis process</div><div class="lecture-meta">Practice · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Explore data analyst tools</div><div class="lecture-meta">Video · 6 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Key data analyst tools</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Choose the right tool for the job</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Review past concepts</div><div class="lecture-meta">Practice · 20 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on the data analysis toolbox</div><div class="lecture-meta">Practice · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from course 1, module 2</div><div class="lecture-meta">Reading · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m2-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 2 challenge</div><div class="lecture-meta">Assignment · 50 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Get started with Tableau</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data visualizations with Tableau</div><div class="lecture-meta">Video · 1 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tableau Public and other online tools</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Begin to use Tableau Public</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Meet Tableau</div><div class="lecture-meta">Video · 9 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Visualizations in spreadsheets and Tableau</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Create a data visualization in Tableau</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Create a data visualization in Tableau</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Optional: Using Tableau Desktop</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Design visualizations in Tableau</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Optimize the color palette in data visualization</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Essential design principles</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Bonus Guide: Additional insights on selecting the right data visualization</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Select visuals and charts</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Get creative</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Creating effective visualizations</div><div class="lecture-meta">Ungraded Plugin · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on creating visualizations in Tableau</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Optional: Work with multiple data sources</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Link multiple datasets in Tableau</div><div class="lecture-meta">Video · 9 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Link multiple datasets in Tableau</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tableau resources for combining multiple data sources</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 2 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 2</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 2 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
         </div>
       </div>
 
       <div class="module">
         <div class="module-header" onclick="toggleModule(this)">
-          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 3</span><span class="module-name cds-subtitle-md">Set up your data analytics toolbox</span></span>
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 3</span><span class="module-name cds-subtitle-md">Craft data stories</span></span>
           <span class="module-chevron"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
         <div class="module-content collapsed">
-          <a href="#" class="lecture-item" data-lesson-id="m3-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The ins and outs of core data tools</div><div class="lecture-meta">Video · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Step-by-Step: Make spreadsheets your friend</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Make spreadsheets your friend</div><div class="lecture-meta">Video · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Generate a chart from a spreadsheet</div><div class="lecture-meta">Practice · 1 h</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">More spreadsheet resources</div><div class="lecture-meta">Reading · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on spreadsheet basics</div><div class="lecture-meta">Practice · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">SQL in action</div><div class="lecture-meta">Video · 3 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">SQL guide: Getting started</div><div class="lecture-meta">Reading · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Angie: Everyday struggles when learning new skills</div><div class="lecture-meta">Video · 1 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Endless SQL possibilities</div><div class="lecture-meta">Reading · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Become a data viz whiz</div><div class="lecture-meta">Video · 5 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Plan a data visualization</div><div class="lecture-meta">Reading · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Lilah: The power of a visualization</div><div class="lecture-meta">Video · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on SQL and data visualization</div><div class="lecture-meta">Practice · 8 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from course 1, module 3</div><div class="lecture-meta">Reading · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m3-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 3 challenge</div><div class="lecture-meta">Assignment · 50 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Data-driven storytelling</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Craft stories with data</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Bring ideas to life</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Effective data stories</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Speak to your audience</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Understanding data storytelling</div><div class="lecture-meta">Ungraded Plugin · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Carolyn: Data journalism</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on data-driven stories</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Tableau dashboards</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tableau dashboard basics</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Live and static insights</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">From filters to charts</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Create, filter, and customize charts</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Create your first Tableau dashboard</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Build a dashboard in Tableau</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on using Tableau dashboards</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Share data stories</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Compelling presentation tips</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Share a narrative</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Practice presenting</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Elements of an effective narrative</div><div class="lecture-meta">Ungraded Plugin · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Sundas: How to manage imposter syndrome</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on sharing data stories</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 3 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l21"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 3</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l22"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 3 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
         </div>
       </div>
 
       <div class="module">
         <div class="module-header" onclick="toggleModule(this)">
-          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 4</span><span class="module-name cds-subtitle-md">Become a fair and impactful data professional</span></span>
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 4</span><span class="module-name cds-subtitle-md">Develop presentations and slideshows</span></span>
           <span class="module-chevron"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
         <div class="module-content collapsed">
-          <a href="#" class="lecture-item" data-lesson-id="m4-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Let's get down to business</div><div class="lecture-meta">Video · 49 sec</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m4-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The job of a data analyst</div><div class="lecture-meta">Video · 4 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m4-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Joey: Path to becoming a data analyst</div><div class="lecture-meta">Video · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m4-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Business use of data</div><div class="lecture-meta">Practice · 20 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m4-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tony: Supporting careers in data analytics</div><div class="lecture-meta">Video · 2 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m4-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on data analyst roles</div><div class="lecture-meta">Activity · 10 min</div></div></a>
-          <a href="#" class="lecture-item" data-lesson-id="m4-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The power of data in business</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">The art and science of presentations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Pull it all together</div><div class="lecture-meta">Video · 57 sec</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Present with a framework</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Weave data into your presentation</div><div class="lecture-meta">Video · 7 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Review a slide presentation</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Brittany: Presentation skills for new data analysts</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Step-by-Step: Critique of a presentation</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connor: Messy example of a data presentation</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connor: Good example of a data presentation</div><div class="lecture-meta">Video · 15 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Presentation skills and practices</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Proven presentation tips</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Examples of great presentations</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Guide: Share data findings in presentations</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Evaluate your presentation</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Present like a pro</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on presentation skills and practices</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Data caveats and limitations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Prepare for the Q&A</div><div class="lecture-meta">Reading · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Anticipate the question</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Handle objections</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Practice handling objections</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on caveats and limitations to data</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Listen, respond, and include</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Q&A best practices</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l21"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connor: Becoming an expert data translator</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l22"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on listening, responding, and including</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 4 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l23"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 4</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l24"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 4 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Course wrap-up</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l25"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Reflect and connect with peers</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l26"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Course 6 glossary</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l27"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Congratulations! Course wrap-up</div><div class="lecture-meta">Video · 30 sec</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l28"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Coming up next...</div><div class="lecture-meta">Reading · 4 min</div></div></a>
         </div>
       </div>
       </div>
@@ -447,19 +520,12 @@
           <div class="video-end-modal" id="video-end-modal" role="dialog" aria-labelledby="video-end-modal-title" aria-hidden="true">
             <div class="video-end-modal-backdrop"></div>
             <div class="video-end-modal-content">
-              <button type="button" class="dialog-close-btn" id="video-end-close" onclick="hideVideoEndModalAndGoNext()" aria-label="Close">
-                <img src="assets/icon-button-close.svg" alt="">
-              </button>
-              <div class="video-end-modal-header">
-                <span class="video-end-modal-label">Item complete!</span>
-              </div>
               <section class="feedback-skill-progress-section video-end-skill-section">
                 <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="video-end-skill-title">Skill progress from this item</h3>
                 <div class="feedback-skill-progress-grid" id="video-end-skills-grid">
                   <div class="feedback-skill-card feedback-skill-card-1" id="video-end-skill-card">
                     <h4 class="feedback-skill-card-name cds-action-primary" id="video-end-skill-name">Skill Progress</h4>
                     <div class="feedback-skill-tags-row">
-                      <span class="feedback-skill-level-tag cds-body-secondary" id="video-end-skill-level">Exploring</span>
                       <span class="feedback-skill-xp-tag" id="video-end-xp-tag">+1 XP</span>
                     </div>
                     <div class="feedback-skill-progress-row">
@@ -476,13 +542,11 @@
                 <button type="button" class="video-end-btn-pause" id="video-end-btn-pause">Pause</button>
               </div>
               <div class="video-end-next-preview" id="video-end-next-preview">
-                <div class="video-end-next-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
+                <div class="video-end-next-type-row">
+                  <span class="video-end-next-icon material-symbols-rounded" id="video-end-item-icon" aria-hidden="true">play_circle</span>
+                  <span class="video-end-next-type-text" id="video-end-item-type-text">Video</span>
                 </div>
-                <div class="video-end-next-text">
-                  <p class="video-end-next-title" id="video-end-next-title">Next item</p>
-                  <p class="video-end-next-countdown" id="video-end-countdown">starts in 5s</p>
-                </div>
+                <p class="video-end-next-name" id="video-end-next-title">Next item starts in 5s</p>
               </div>
             </div>
           </div>
@@ -680,7 +744,7 @@
     <button type="button" class="dialog-close-btn" onclick="hideCourseIntroModal()" aria-label="Close">
       <img src="assets/icon-button-close.svg" alt="">
     </button>
-    <h1 id="course-intro-title" class="course-intro-title cds-title-md">Welcome to Foundations: Data, Data, Everywhere!</h1>
+    <h1 id="course-intro-title" class="course-intro-title cds-title-md">Welcome to Share Data Through the Art of Visualization!</h1>
     <div class="course-intro-subheader">
       <h2 class="course-intro-subtitle cds-subtitle-md">Here are the 4 skill goals covered in this course</h2>
     </div>
@@ -739,7 +803,6 @@
               <div class="feedback-skill-card feedback-skill-card-1">
                 <h4 class="feedback-skill-card-name cds-action-primary">Visualizing and Reporting Clean Data</h4>
                 <div class="feedback-skill-tags-row">
-                  <span class="feedback-skill-level-tag cds-body-secondary">Developing</span>
                   <span class="feedback-skill-xp-tag">+5 XP</span>
                 </div>
                 <div class="feedback-skill-progress-row">
@@ -752,7 +815,6 @@
               <div class="feedback-skill-card feedback-skill-card-2">
                 <h4 class="feedback-skill-card-name cds-action-primary">Preparing and Cleaning Data</h4>
                 <div class="feedback-skill-tags-row">
-                  <span class="feedback-skill-level-tag cds-body-secondary">Practicing</span>
                   <span class="feedback-skill-xp-tag">+2 XP</span>
                 </div>
                 <div class="feedback-skill-progress-row">
@@ -852,10 +914,6 @@
           <div class="module-complete-skill-cards">
             <div class="feedback-skill-card module-complete-skill-card active" id="module-skill-card-0">
               <h4 class="feedback-skill-card-name cds-action-primary">Visualizing and Reporting Clean Data</h4>
-              <div class="feedback-skill-tags-row">
-                <span class="feedback-skill-level-tag cds-body-secondary">Practicing</span>
-                <span class="feedback-skill-xp-tag">17 XP</span>
-              </div>
               <div class="feedback-skill-progress-row">
                 <div class="feedback-skill-progress-bar">
                   <div class="feedback-skill-progress-fill" style="width: 17%"></div>
@@ -865,10 +923,6 @@
             </div>
             <div class="feedback-skill-card module-complete-skill-card" id="module-skill-card-1">
               <h4 class="feedback-skill-card-name cds-action-primary">Preparing and Cleaning Data</h4>
-              <div class="feedback-skill-tags-row">
-                <span class="feedback-skill-level-tag cds-body-secondary">Exploring</span>
-                <span class="feedback-skill-xp-tag">8 XP</span>
-              </div>
               <div class="feedback-skill-progress-row">
                 <div class="feedback-skill-progress-bar">
                   <div class="feedback-skill-progress-fill" style="width: 8%"></div>
@@ -1064,7 +1118,6 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Visualizing and Reporting Clean Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-level xp-intro-level--practicing cds-body-tertiary" data-xp-level>Practicing</span>
                 <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/25 XP</span>
               </div>
             </div>
@@ -1074,7 +1127,6 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Preparing and Cleaning Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-level xp-intro-level--practicing cds-body-tertiary" data-xp-level>Practicing</span>
                 <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/25 XP</span>
               </div>
             </div>
@@ -1084,7 +1136,6 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Connecting and Importing Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-level xp-intro-level--practicing cds-body-tertiary" data-xp-level>Practicing</span>
                 <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/25 XP</span>
               </div>
             </div>
@@ -1094,7 +1145,6 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Prepare Datasets in Power BI</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-level xp-intro-level--practicing cds-body-tertiary" data-xp-level>Practicing</span>
                 <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/25 XP</span>
               </div>
             </div>
@@ -1124,7 +1174,7 @@
       </div>
       <div class="commitment-card">
         <h1 class="commitment-title cds-title-xs">My commitment</h1>
-        <p class="commitment-body cds-body-primary">I'm beginning my learning in <strong>Foundations: Data, Data, Everywhere</strong>.</p>
+        <p class="commitment-body cds-body-primary">I'm beginning my learning in <strong>Share Data Through the Art of Visualization</strong>.</p>
         <p class="commitment-body cds-body-primary">As I complete items, I'll build real skills — tracked with <strong>Skill Points</strong> — that I can show to employers.</p>
         <p class="commitment-body cds-body-primary">I know learning can be hard, but I have the patience, determination, and discipline to reach my goals.</p>
         <p class="commitment-body cds-body-primary">When I'm stuck, I'll find a solution, like...</p>

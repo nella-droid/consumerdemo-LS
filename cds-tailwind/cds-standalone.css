@@ -401,6 +401,21 @@
   --cds-z-modal: 10000;
   --cds-z-snackbar: 10100;
   --cds-z-tooltip: 11000;
+
+  /* ========================================================================
+     BREAKPOINTS — CDS responsive
+     sm: 600px, md: 1024px, lg: 1440px, xl: 1920px
+     Use: @media (min-width: var(--cds-breakpoint-md)) { ... }
+     ======================================================================== */
+  --cds-breakpoint-sm: 600px;
+  --cds-breakpoint-md: 1024px;
+  --cds-breakpoint-lg: 1440px;
+  --cds-breakpoint-xl: 1920px;
+  /* Supplemental (used in this prototype) */
+  --cds-breakpoint-xs: 480px;
+  --cds-breakpoint-tablet: 768px;
+  --cds-breakpoint-tablet-sm: 640px;
+  --cds-breakpoint-desktop-sm: 1200px;
 }
 
 
