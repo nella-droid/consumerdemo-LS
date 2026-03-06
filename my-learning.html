@@ -207,6 +207,28 @@
     </div>
   </main>
 
+  <!-- Skills Early Access Modal (leverages module-complete dialog structure) -->
+  <div id="skills-early-access-modal" class="module-complete-modal" role="dialog" aria-modal="true" aria-labelledby="skills-early-access-title" aria-hidden="true">
+    <div class="module-complete-backdrop" id="skills-early-access-backdrop"></div>
+    <div class="module-complete-dialog">
+      <button type="button" class="dialog-close-btn" id="skills-early-access-close" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="module-complete-inner skills-early-access-inner">
+        <div class="module-complete-content">
+          <h2 id="skills-early-access-title" class="module-complete-title cds-title-xs">You're on the list!</h2>
+          <p class="module-complete-subtext cds-body-primary">We'll let you know the second the Skills tab goes live. Help us build exactly what you need:</p>
+          <label for="skills-feedback-input" class="skills-early-access-label cds-body-primary">What is the #1 thing you'd want to be able to do with a Skills feature?</label>
+          <textarea id="skills-feedback-input" class="skills-early-access-input cds-body-primary" rows="4" placeholder="Share your thoughts..."></textarea>
+          <div class="module-complete-actions">
+            <button type="button" class="module-complete-btn-primary" id="skills-early-access-submit">Send Feedback</button>
+            <button type="button" class="module-complete-btn-secondary" id="skills-early-access-skip">No thanks, just notify me</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Skill Progress Modal (from 1.1 - comprehension bands) -->
   <div class="skill-progress-modal" id="skill-progress-modal" aria-hidden="true">
     <div class="skill-progress-modal-backdrop" id="skill-modal-backdrop"></div>
@@ -229,6 +251,10 @@
   <div class="proto-control-strip">
     <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
       <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
+    </button>
+    <button type="button" class="proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
+      <span class="material-symbols-rounded">highlight</span>
+      <span class="proto-net-new-label">Show differences</span>
     </button>
     <a href="index.html" class="home-segment-back cds-body-tertiary" style="background:var(--cds-color-grey-975);color:var(--cds-color-white);padding:8px 16px;border-radius:var(--cds-border-radius-100);text-decoration:none;display:flex;align-items:center;gap:6px;box-shadow:var(--cds-elevation-level2);font-family:var(--cds-font-family);font-size:12px;">
       <span class="material-symbols-rounded" style="font-size:16px;">arrow_back</span>
@@ -276,6 +302,22 @@
           var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
           if (typeof setSoundEnabled === 'function') setSoundEnabled(!on);
           updateUI();
+        });
+      }
+    })();
+
+    (function initNetNewToggle() {
+      var btn = document.getElementById('proto-net-new-toggle');
+      var body = document.body;
+      if (btn && body) {
+        var on = sessionStorage.getItem('proto-highlight-net-new') === 'true';
+        if (on) body.classList.add('proto-highlight-net-new');
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.addEventListener('click', function() {
+          on = !on;
+          sessionStorage.setItem('proto-highlight-net-new', on ? 'true' : 'false');
+          body.classList.toggle('proto-highlight-net-new', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
       }
     })();

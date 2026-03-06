@@ -1,7 +1,7 @@
 /**
  * Shared goals storage - syncs progress between homepage, my-learning, and learning experience
  * Reset on refresh; persist when navigating between pages so homepage reflects learning state.
- * New learners: 1 goal (3 learning items). Active/lapsed: 3 goals (5 items, 1 practice, Coach).
+ * New learners: 1 goal (3 learning items). Active: 3 goals (5 items, 1 practice, Coach).
  */
 (function() {
   var STORAGE_KEY = 'm1-skills-daily-goals';
@@ -17,7 +17,8 @@
 
   function getSegment() {
     try {
-      return sessionStorage.getItem('m1-skills-segment') || 'active';
+      var s = sessionStorage.getItem('m1-skills-segment') || 'active';
+      return s === 'lapsed' ? 'active' : s;
     } catch (e) {
       return 'active';
     }

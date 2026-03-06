@@ -48,7 +48,7 @@
 
     .starter-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       align-items: stretch;
       gap: 24px;
       max-width: 960px;
@@ -98,11 +98,6 @@
     .starter-card--active .starter-card-icon {
       background: var(--cds-color-blue-50);
       color: var(--cds-color-blue-700);
-    }
-
-    .starter-card--lapsed .starter-card-icon {
-      background: var(--cds-color-purple-50);
-      color: var(--cds-color-purple-700);
     }
 
     .starter-card--new .starter-card-icon {
@@ -225,25 +220,6 @@
       </div>
     </div>
 
-    <!-- Lapsed -->
-    <div class="starter-card starter-card--lapsed" onclick="selectSegment('lapsed')">
-      <div class="starter-card-icon">
-        <span class="material-symbols-rounded">schedule</span>
-      </div>
-      <h2 class="starter-card-title cds-subtitle-lg">Lapsed Learner</h2>
-      <p class="starter-card-desc cds-body-secondary">Previously enrolled but hasn't been active recently.</p>
-      <ul class="starter-card-details cds-body-tertiary">
-        <li>Welcome back experience</li>
-        <li>Skills-first re-engagement framing</li>
-        <li>Retroactive XP credit</li>
-        <li>Low-commitment re-entry CTA</li>
-      </ul>
-      <div class="starter-card-actions">
-        <button class="starter-card-cta cds-action-primary" type="button">Enter as lapsed learner</button>
-        <a class="starter-card-email-link cds-body-tertiary" href="lapsed-email.html" onclick="event.stopPropagation()">View re-engagement email</a>
-      </div>
-    </div>
-
     <!-- New Learner -->
     <div class="starter-card starter-card--new" onclick="selectSegment('new')">
       <div class="starter-card-icon">
@@ -265,7 +241,7 @@
     </div>
   </div>
 
-  <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.2 — For internal review only</p>
+  <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.3 — For internal review only</p>
 
   <script>
     function selectSegment(segment) {

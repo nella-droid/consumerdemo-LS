@@ -13,20 +13,6 @@
   <style>
     .segment-hidden { display: none !important; }
 
-    .home-lapsed-xp-banner {
-      background: var(--cds-color-purple-25);
-      border: 1px solid var(--cds-color-purple-100);
-      border-radius: var(--cds-border-radius-100);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .home-lapsed-xp-banner .lapsed-xp-coin { width: 28px; height: 28px; flex-shrink: 0; }
-    .home-lapsed-xp-banner-text { flex: 1; color: var(--cds-color-grey-975); }
-    .home-lapsed-xp-banner-link { color: var(--cds-color-purple-700); white-space: nowrap; text-decoration: underline; text-underline-offset: 2px; }
-
     .home-new-hero-cta {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 28px;
@@ -142,30 +128,14 @@
     <!-- Hero Banner -->
     <div class="home-hero">
       <div class="pages-container">
-        <!-- Lapsed: skills waiting banner -->
-        <div id="home-lapsed-xp-banner" class="home-lapsed-xp-banner segment-hidden">
-          <svg class="lapsed-xp-coin" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="14" cy="14" r="14" fill="#FFF3E0"/>
-            <circle cx="14" cy="14" r="10.5" fill="#F07600"/>
-            <circle cx="14" cy="14" r="9" fill="#FFC22F"/>
-            <path d="M14 8.5l1.4 2.8 3.1.5-2.25 2.2.5 3.1L14 15.5l-2.75 1.6.5-3.1-2.25-2.2 3.1-.5L14 8.5z" fill="#F07600"/>
-          </svg>
-          <span class="home-lapsed-xp-banner-text cds-body-secondary">Your skills are waiting — you've built <strong>310 XP</strong> across <strong>3 in-demand skills</strong>.</span>
-          <a href="learning.html" class="home-lapsed-xp-banner-link cds-action-secondary">Continue learning</a>
-        </div>
-
         <!-- Default hero greeting (active) -->
         <p id="home-hero-greeting-default" class="cds-subtitle-md home-hero-greeting">Hi Nicholas, here's your progress in</p>
-        <!-- Lapsed hero greeting -->
-        <p id="home-hero-greeting-lapsed" class="cds-subtitle-md home-hero-greeting segment-hidden">Welcome back, Nicholas</p>
         <!-- New learner hero greeting -->
         <p id="home-hero-greeting-new" class="cds-subtitle-md home-hero-greeting segment-hidden">Welcome, Nicholas!</p>
 
         <div class="home-hero-title-row">
           <!-- Default subtitle (active) -->
           <p id="home-hero-subtitle-default" class="cds-title-sm home-hero-subtitle">Digital Marketing</p>
-          <!-- Lapsed subtitle -->
-          <p id="home-hero-subtitle-lapsed" class="cds-title-sm home-hero-subtitle segment-hidden">You've started building 3 in-demand skills. Pick up where you left off.</p>
           <!-- New learner subtitle -->
           <p id="home-hero-subtitle-new" class="cds-title-sm home-hero-subtitle segment-hidden">Find courses to build in-demand skills</p>
           <span class="cds-chip cds-chip-metric">
@@ -341,6 +311,10 @@
     <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
       <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
     </button>
+    <button type="button" class="proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
+      <span class="material-symbols-rounded">highlight</span>
+      <span class="proto-net-new-label">Show differences</span>
+    </button>
     <a href="index.html" class="home-segment-back cds-body-tertiary">
       <span class="material-symbols-rounded">arrow_back</span>
       Segments
@@ -356,7 +330,9 @@
     }
 
     function getSegment() {
-      return sessionStorage.getItem('m1-skills-segment') || 'active';
+      var seg = sessionStorage.getItem('m1-skills-segment') || 'active';
+      if (seg === 'lapsed') return 'active'; /* Lapsed flow removed; treat as active */
+      return seg;
     }
 
     (function() {
@@ -379,18 +355,6 @@
         show('home-hero-subtitle-default');
       }
 
-      if (segment === 'lapsed') {
-        hide('home-hero-greeting-default');
-        hide('home-hero-subtitle-default');
-        show('home-hero-greeting-lapsed');
-        show('home-hero-subtitle-lapsed');
-        show('home-lapsed-xp-banner');
-
-        /* Change "Resume" to "Continue" */
-        var btn = document.getElementById('home-resume-btn');
-        if (btn) btn.textContent = 'Continue learning';
-      }
-
       if (segment === 'new') {
         hide('home-hero-greeting-default');
         hide('home-hero-subtitle-default');
@@ -409,7 +373,7 @@
         if (chip) chip.style.display = 'none';
       }
 
-      /* Render goals for active/lapsed (if visible) */
+      /* Render goals for active (if visible) */
       function renderGoals() {
         if (typeof window.GoalsStore === 'undefined') return;
         var d = window.GoalsStore.get();
@@ -456,6 +420,22 @@
           var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
           if (typeof setSoundEnabled === 'function') setSoundEnabled(!on);
           updateUI();
+        });
+      }
+    })();
+
+    (function initNetNewToggle() {
+      var btn = document.getElementById('proto-net-new-toggle');
+      var body = document.body;
+      if (btn && body) {
+        var on = sessionStorage.getItem('proto-highlight-net-new') === 'true';
+        if (on) body.classList.add('proto-highlight-net-new');
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.addEventListener('click', function() {
+          on = !on;
+          sessionStorage.setItem('proto-highlight-net-new', on ? 'true' : 'false');
+          body.classList.toggle('proto-highlight-net-new', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
       }
     })();

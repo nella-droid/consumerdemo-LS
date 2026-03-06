@@ -1,4 +1,4 @@
-# Skill Points Prototype V1.2
+# Skill Points Prototype V1.3
 
 A Coursera-style learning experience prototype that explores **Skill Points (XP)** — a gamification system for learner engagement and progress visualization.
 
@@ -10,14 +10,13 @@ A Coursera-style learning experience prototype that explores **Skill Points (XP)
 
 ### Skill Points (XP) System
 - **XP earned per item** — Video and reading completions, practice assignments, and graded assignments award Skill Points
-- **Retroactive credit** — Active and lapsed learners receive XP for prior progress on arrival
+- **Retroactive credit** — Active learners receive XP for prior progress on arrival
 - **Contextual introduction** — XP is revealed on first completion, not upfront
 - **Video-end feedback** — Completion modals show XP earned and skill progress
 - **Practice feedback** — Assignment feedback modals display per-item XP and skill attribution
 
 ### Learner Segments
 - **Active Enrolled** — Currently taking a course; sees retroactive XP, no intro modal
-- **Lapsed Learner** — Previously enrolled; welcome-back experience with XP credit
 - **New Learner** — First-time experience; commitment screen on enrollment, XP discovered on first completion
 
 ### Course Content
@@ -33,24 +32,25 @@ A Coursera-style learning experience prototype that explores **Skill Points (XP)
 - Streaks integration (toast on session start when applicable)
 
 ### My Learning
-- Skills tab with XP by skill (expandable accordion)
+- Skills tab with "Coming soon" empty state (XP coin, Explore content CTA)
 - Course recommendations and progress overview
+
+### Proto Controls (Engineers)
+- **Show differences** — Toggle (bottom-left) highlights net-new elements with a red outline. Available on homepage, learning, and My Learning. State persists via sessionStorage across navigation.
 
 ### Email Templates
 - **Active learner** — Announcement email (active-email.html)
-- **Lapsed learner** — Re-engagement email (lapsed-email.html)
 
 ---
 
 ## Project Structure
 
 ```
-├── index.html         # Segment selection (Active / Lapsed / New)
+├── index.html         # Segment selection (Active / New)
 ├── homepage.html      # Home page with goals, recommendations
 ├── learning.html      # Course learning view (video, sidebar, XP)
 ├── my-learning.html   # Skills and course overview
 ├── active-email.html  # Announcement email template
-├── lapsed-email.html  # Re-engagement email template
 ├── css/               # Styles (CDS tokens, components)
 ├── js/                # App logic (XP, goals, modals)
 └── vercel.json        # Deployment config and route rewrites
@@ -86,4 +86,4 @@ vercel --prod
 
 ---
 
-*For internal review only — Skill Points Prototype V1.2*
+*For internal review only — Skill Points Prototype V1.3*

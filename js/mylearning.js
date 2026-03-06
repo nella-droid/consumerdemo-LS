@@ -42,33 +42,16 @@
   }
 
   function renderSkillsTab(container) {
-    if (isNewNotEnrolled()) {
-      container.innerHTML = '<div style="text-align:center;padding:48px 24px;">' +
-        '<div style="width:56px;height:56px;border-radius:50%;background:var(--cds-color-grey-50);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">' +
-          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--cds-color-grey-400)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' +
+    if (!container) return;
+    container.innerHTML =
+      '<div class="mylearning-skills-empty">' +
+        '<div class="mylearning-skills-empty-illustration">' +
+          '<img src="assets/xp-coin.svg" alt="" width="120" height="120" aria-hidden="true">' +
         '</div>' +
-        '<p class="cds-subtitle-md" style="color:var(--cds-color-grey-975);margin-bottom:8px;">No skills yet</p>' +
-        '<p class="cds-body-secondary" style="color:var(--cds-color-grey-600);max-width:320px;margin:0 auto;">Complete your first lesson to start building skills. Every learning item earns XP toward in-demand skills.</p>' +
+        '<h2 class="mylearning-skills-empty-title cds-title-md">Level Up Your Skill Tracking</h2>' +
+        '<p class="mylearning-skills-empty-desc cds-body-primary">A whole new way to view your learning progress is in the works. Let us know if you want a heads-up when it\'s ready!</p>' +
+        '<button type="button" class="mylearning-skills-empty-cta btn-primary cds-action-primary" id="skills-get-early-access-btn">Get early access</button>' +
       '</div>';
-      return;
-    }
-    var SKILL_TOTAL_XP = 2000;
-    var skills = getSkillProgress().sort(function(a, b) { return b.points - a.points; });
-    var html = skills.map(function(skill) {
-      var currentXP = skill.points;
-      var key = 'skills-tab-' + skill.name.replace(/\s/g, '-');
-      return '<div class="mylearning-skill-card" data-skill-key="' + key + '">' +
-        '<button type="button" class="mylearning-skill-card-header" aria-expanded="false">' +
-          '<span class="mylearning-skill-chevron"><img src="assets/ChevronDown.svg" alt="" aria-hidden="true"></span>' +
-          '<div class="mylearning-skill-info">' +
-            '<span class="mylearning-skill-name cds-subtitle-md">' + skill.name + '</span>' +
-          '</div>' +
-          '<div class="mylearning-skill-xp cds-body-primary">' + currentXP + '/' + SKILL_TOTAL_XP + ' XP</div>' +
-        '</button>' +
-        '<div class="mylearning-skill-expanded" aria-hidden="true"></div>' +
-      '</div>';
-    }).join('');
-    if (container) container.innerHTML = html;
   }
 
   function updateTabIndicator() {
@@ -95,7 +78,7 @@
     updateTabIndicator();
     if (tabId === 'skills') {
       var container = document.getElementById('skills-cards-container');
-      if (container && !container.innerHTML) renderSkillsTab(container);
+      if (container) renderSkillsTab(container);
     }
   }
 
@@ -117,19 +100,55 @@
 
   function initSkillCards() {
     var container = document.getElementById('skills-cards-container');
-    if (container) renderSkillsTab(container);
+    if (container) {
+      renderSkillsTab(container);
+      container.addEventListener('click', function(e) {
+        var cta = e.target.closest('.mylearning-skills-empty-cta');
+        if (cta) {
+          e.preventDefault();
+          var modal = document.getElementById('skills-early-access-modal');
+          if (modal) {
+            modal.classList.add('is-visible');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+      });
+    }
+  }
 
-    document.addEventListener('click', function(e) {
-      var header = e.target.closest('.mylearning-skill-card-header');
-      if (!header) return;
-      var card = header.closest('.mylearning-skill-card');
-      if (!card) return;
-      e.preventDefault();
-      var expanded = card.querySelector('.mylearning-skill-expanded');
-      var chevron = header.querySelector('.mylearning-skill-chevron');
-      var isOpen = card.classList.toggle('is-expanded');
-      header.setAttribute('aria-expanded', isOpen);
-    });
+  function initSkillsEarlyAccessModal() {
+    var modal = document.getElementById('skills-early-access-modal');
+    var backdrop = document.getElementById('skills-early-access-backdrop');
+    var closeBtn = document.getElementById('skills-early-access-close');
+    var submitBtn = document.getElementById('skills-early-access-submit');
+    var skipBtn = document.getElementById('skills-early-access-skip');
+    var input = document.getElementById('skills-feedback-input');
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.remove('is-visible');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      if (input) input.value = '';
+    }
+
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        /* In a real app, would send feedback to server */
+        closeModal();
+      });
+    }
+
+    if (skipBtn) {
+      skipBtn.addEventListener('click', function() {
+        closeModal();
+      });
+    }
   }
 
   function renderSkillModalBody(container) {
@@ -190,6 +209,7 @@
   function init() {
     initTabs();
     initSkillCards();
+    initSkillsEarlyAccessModal();
     initSkillModal();
   }
 

@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 32px;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
@@ -35,7 +35,10 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   width: 100%;
   max-width: 360px;
+  max-height: calc(100vh - 64px);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .intro-modal-close {
@@ -148,7 +151,7 @@
 }
 
 .intro-modal-body {
-  padding: 24px;
+  padding: 24px 16px 16px;
 }
 
 .intro-modal-title {
@@ -1644,7 +1647,97 @@
   margin: 0 auto;
 }
 
-/* Skills tab (from 1.1 - expandable cards, comprehension bands) */
+/* Skills tab - coming soon empty state */
+.mylearning-skills-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--cds-color-white);
+}
+
+.mylearning-skills-empty-illustration {
+  width: 80px;
+  height: 96px;
+  margin-bottom: 32px;
+  flex-shrink: 0;
+}
+
+.mylearning-skills-empty-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mylearning-skills-empty-title {
+  margin-bottom: 8px;
+  color: var(--cds-color-grey-975);
+}
+
+.mylearning-skills-empty-desc {
+  max-width: 28rem;
+  margin: 0 auto 32px;
+  color: var(--cds-color-grey-600);
+}
+
+.mylearning-skills-empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--cds-color-blue-700);
+  color: var(--cds-color-white);
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mylearning-skills-empty-cta:hover {
+  background: var(--cds-color-blue-800);
+}
+
+/* Skills Early Access Modal - input and label */
+.skills-early-access-inner .module-complete-content {
+  padding-top: 24px;
+}
+
+.skills-early-access-label {
+  display: block;
+  color: var(--cds-color-grey-975);
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+
+.skills-early-access-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--cds-color-grey-400);
+  border-radius: var(--cds-border-radius-100);
+  background: var(--cds-color-white);
+  color: var(--cds-color-grey-975);
+  font-family: var(--cds-font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.skills-early-access-input::placeholder {
+  color: var(--cds-color-grey-600);
+}
+
+.skills-early-access-input:focus {
+  outline: none;
+  border-color: var(--cds-color-blue-700);
+  box-shadow: 0 0 0 2px rgba(0, 86, 210, 0.2);
+}
+
+/* Skills tab grid */
 .mylearning-skills-section {
   padding: 0;
 }
@@ -1675,34 +1768,6 @@
   justify-content: space-between;
   gap: 12px;
   text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
-}
-
-.mylearning-skill-card-header:hover {
-  background: #F0F6FF;
-}
-
-.mylearning-skill-chevron {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-
-.mylearning-skill-chevron img {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
-.mylearning-skill-card.is-expanded .mylearning-skill-chevron {
-  transform: rotate(180deg);
 }
 
 .mylearning-skill-info {
@@ -1732,20 +1797,6 @@
 .mylearning-skill-xp {
   flex-shrink: 0;
   color: var(--color-text-primary);
-}
-
-.mylearning-skill-expanded {
-  display: none;
-  background: var(--cds-color-white);
-  padding: 16px;
-}
-
-.mylearning-skill-card.is-expanded .mylearning-skill-expanded {
-  display: block;
-}
-
-.mylearning-skill-card.is-expanded .mylearning-skill-card-header {
-  border-radius: 16px 16px 0 0;
 }
 
 .mylearning-skill-expanded-title {
@@ -1874,7 +1925,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 32px;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.2s, opacity 0.2s;
@@ -1899,7 +1950,7 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   width: 100%;
   max-width: 520px;
-  max-height: 90vh;
+  max-height: calc(100vh - 64px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1947,7 +1998,8 @@
 .skill-progress-modal-body {
   padding: 24px;
   overflow-y: auto;
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
 }
 
 .skill-modal-skill {
@@ -2003,9 +2055,9 @@
 }
 
 .skill-progress-modal-cta {
-  margin: 0 24px 24px;
+  margin: 0 16px 16px;
   padding: 12px 16px;
-  width: calc(100% - 48px);
+  width: calc(100% - 32px);
   background: var(--color-primary);
   color: white;
   font-size: 0.9375rem;

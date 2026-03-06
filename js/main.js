@@ -58,22 +58,11 @@ try {
 } catch (e) {}
 
 var SESSION_XP_KEY = 'm1-skills-session-xp';
-var XP_TRACKER_VISIBLE_KEY = 'm1-skills-xp-tracker-visible';
 
-function isXpTrackerVisible() {
-  return sessionStorage.getItem(XP_TRACKER_VISIBLE_KEY) === 'true';
-}
-
-function setXpTrackerVisible(on) {
-  sessionStorage.setItem(XP_TRACKER_VISIBLE_KEY, on ? 'true' : 'false');
-  applyXpTrackerVisibility();
-}
-
+/* XP tracker always visible in sidebar */
 function applyXpTrackerVisibility() {
   var tracker = document.getElementById('sidebar-xp-tracker');
-  var btn = document.getElementById('proto-xp-tracker-toggle');
-  if (tracker) tracker.style.display = isXpTrackerVisible() ? '' : 'none';
-  if (btn) btn.setAttribute('aria-pressed', isXpTrackerVisible() ? 'true' : 'false');
+  if (tracker) tracker.style.display = '';
 }
 
 function getSessionXp() {
@@ -1019,7 +1008,7 @@ function hideToast(onComplete) {
   setTimeout(done, 400);
 }
 
-var PRE_COMPLETE_COUNT = 4; /* Active/lapsed: items pre-completed before session; don't count toward daily goal */
+var PRE_COMPLETE_COUNT = 4; /* Active: items pre-completed before session; don't count toward daily goal */
 
 function updateProgressDisplay(completedCount, opts) {
   opts = opts || {};
@@ -1056,6 +1045,16 @@ function updateProgressDisplay(completedCount, opts) {
     if (dropdownStars[0]) dropdownStars[0].outerHTML = completeSvg.replace('<svg ', '<svg class="progress-tracker-dropdown-star" ');
   }
 
+  /* Update GoalsStore first so syncProgressToNextGoal reads fresh data (fixes lag for new learners) */
+  if (typeof window.GoalsStore !== 'undefined') {
+    var updateOpts = { learningItemsCompleted: sessionCount };
+    if (!isNew) {
+      updateOpts.practiceComplete = goal2Complete;
+      updateOpts.coachComplete = goal3Complete;
+    }
+    window.GoalsStore.updateFromLearning(updateOpts);
+  }
+
   syncProgressToNextGoal();
 
   var allGoalsComplete = isNew ? goal1Complete : (goal1Complete && goal2Complete && goal3Complete);
@@ -1070,15 +1069,6 @@ function updateProgressDisplay(completedCount, opts) {
         toastTimeout = null;
       });
     }, 5000);
-  }
-
-  if (typeof window.GoalsStore !== 'undefined') {
-    var updateOpts = { learningItemsCompleted: sessionCount };
-    if (!isNew) {
-      updateOpts.practiceComplete = goal2Complete;
-      updateOpts.coachComplete = goal3Complete;
-    }
-    window.GoalsStore.updateFromLearning(updateOpts);
   }
 }
 
@@ -1161,15 +1151,12 @@ function showXpIntroModal() {
   if (seg === 'active') {
     if (titleEl) titleEl.textContent = 'Introducing Skill Points!';
     if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here\u2019s what you\u2019ve built so far in this course:';
-  } else if (seg === 'lapsed') {
-    if (titleEl) titleEl.textContent = 'Welcome back \u2014 meet Skill Points!';
-    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here\u2019s what you\u2019ve built so far in this course:';
   } else {
     if (titleEl) titleEl.textContent = 'You just earned Skill Points!';
     if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here are the skills you can expect to build in this course:';
   }
 
-  var skillData = (seg === 'active' || seg === 'lapsed') ? {
+  var skillData = seg === 'active' ? {
     visualizing: { xp: 4, level: 'Practicing', levelClass: 'practicing' },
     preparing:   { xp: 0, level: 'Practicing', levelClass: 'practicing' },
     connecting:  { xp: 0, level: 'Practicing', levelClass: 'practicing' },
@@ -1187,8 +1174,8 @@ function showXpIntroModal() {
     var d = skillData[key];
     var valEl = row.querySelector('[data-xp-value]');
     var barEl = row.querySelector('[data-xp-bar]');
-    if (valEl) valEl.textContent = d.xp + '/25 XP';
-    if (barEl) barEl.style.width = (d.xp / 25 * 100) + '%';
+    if (valEl) valEl.textContent = d.xp + '/2000 XP';
+    if (barEl) barEl.style.width = (d.xp / 2000 * 100) + '%';
   });
 
   modal.style.display = 'flex';
@@ -1213,16 +1200,74 @@ function hideXpIntroModal() {
   modal.style.display = 'none';
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  applyXpTrackerVisibility();
   var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
   if (seg === 'new') {
     setTimeout(showWeeklyStreakToast, 300);
   }
 }
 
-/* Pre-complete first N sidebar items for active/lapsed learners */
+/* Skills intro modal (copy for sidebar click - design can be changed separately) */
+var SKILL_KEY_TO_NAME = {
+  visualizing: 'Visualizing and Reporting Clean Data',
+  preparing: 'Preparing and Cleaning Data',
+  connecting: 'Connecting and Importing Data',
+  powerbi: 'Prepare Datasets in Power BI'
+};
+var SKILL_XP_MAX = 25;
+
+function showSkillsIntroModal() {
+  var modal = document.getElementById('skills-intro-modal');
+  if (!modal) return;
+  var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
+
+  var titleEl = document.getElementById('skills-intro-title');
+  var earnedEl = document.getElementById('skills-intro-earned');
+  if (seg === 'active') {
+    if (titleEl) titleEl.textContent = 'Introducing Skill Points!';
+    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here\u2019s what you\u2019ve built so far in this course:';
+  } else {
+    if (titleEl) titleEl.textContent = 'You just earned Skill Points!';
+    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here are the skills you can expect to build in this course:';
+  }
+
+  Object.keys(SKILL_KEY_TO_NAME).forEach(function(key) {
+    var row = modal.querySelector('[data-xp-skill="' + key + '"]');
+    if (!row) return;
+    var fullName = SKILL_KEY_TO_NAME[key];
+    var xp = (typeof skillProgress !== 'undefined' && skillProgress[fullName]) ? skillProgress[fullName] : 0;
+    var valEl = row.querySelector('[data-xp-value]');
+    var barEl = row.querySelector('[data-xp-bar]');
+    if (valEl) valEl.textContent = xp + '/' + SKILL_XP_MAX + ' XP';
+    if (barEl) barEl.style.width = (xp / SKILL_XP_MAX * 100) + '%';
+  });
+
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  var svg = modal.querySelector('.xp-intro-illustration');
+  if (svg) {
+    svg.classList.remove('is-animating');
+    void svg.offsetWidth;
+    svg.classList.add('is-animating');
+  }
+}
+
+function hideSkillsIntroModal() {
+  var modal = document.getElementById('skills-intro-modal');
+  if (!modal) return;
+  var svg = modal.querySelector('.xp-intro-illustration');
+  if (svg) svg.classList.remove('is-animating');
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+/* Pre-complete first N sidebar items for active learners */
 function preCompleteItemsForReturningLearners() {
   var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
-  if (seg !== 'active' && seg !== 'lapsed') return;
+  if (seg !== 'active') return;
 
   var preCompleteIds = ['m1-l1', 'm1-l2', 'm1-l3', 'm1-l4'];
   var firstIncompleteId = 'm1-l5';
