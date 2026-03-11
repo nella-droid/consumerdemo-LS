@@ -1,0 +1,9 @@
+{
+  "name": "current-lex-v1-prototype",
+  "version": "1.0.0",
+  "description": "Current LEX v1.0 Prototype - Coursera-style learning experience",
+  "scripts": {
+    "start": "npx serve . -l 3456",
+    "dev": "npx serve . -l 3456"
+  }
+}

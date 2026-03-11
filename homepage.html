@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/pages.css">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     .segment-hidden { display: none !important; }
 
@@ -308,17 +309,38 @@
   </main>
   <!-- Proto control strip: sound/haptics toggle + segments -->
   <div class="proto-control-strip">
-    <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
-      <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
-    </button>
-    <button type="button" class="proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
-      <span class="material-symbols-rounded">highlight</span>
-      <span class="proto-net-new-label">Show differences</span>
-    </button>
-    <a href="index.html" class="home-segment-back cds-body-tertiary">
+    <a href="index.html" class="home-segment-back">
       <span class="material-symbols-rounded">arrow_back</span>
       Segments
     </a>
+    <div class="proto-experiment-dropdown" id="proto-experiment-dropdown">
+      <button type="button" class="proto-experiment-trigger-strip" id="proto-experiment-trigger" aria-haspopup="listbox" aria-expanded="false">
+        <span class="material-symbols-rounded">science</span>
+        <span class="proto-experiment-label" id="proto-experiment-label">Experiment 1</span>
+        <span class="material-symbols-rounded proto-experiment-chevron">expand_more</span>
+      </button>
+      <ul class="proto-experiment-menu" id="proto-experiment-menu" role="listbox" aria-label="Select experiment">
+        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="1">Experiment 1</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="2">Experiment 2</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment 3</li>
+      </ul>
+    </div>
+    <div class="proto-tools-wrapper">
+      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools">
+        <span class="material-symbols-rounded">build</span>
+      </button>
+      <div class="proto-tools-flyout">
+        <div class="proto-tools-header cds-body-tertiary">Prototype tools</div>
+        <button type="button" class="proto-tools-row proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
+          <span class="material-symbols-rounded">highlight</span>
+          <span class="proto-net-new-label">Show differences</span>
+        </button>
+        <button type="button" class="proto-tools-row proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
+          <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
+          <span class="proto-sound-label">Sound</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <script src="js/goals-store.js"></script>
@@ -409,10 +431,12 @@
     (function initSoundToggle() {
       var btn = document.getElementById('proto-sound-toggle');
       var icon = btn && btn.querySelector('.proto-sound-icon');
+      var label = btn && btn.querySelector('.proto-sound-label');
       function updateUI() {
         var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
         if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         if (icon) icon.textContent = on ? 'volume_up' : 'volume_off';
+        if (label) label.textContent = on ? 'Sound' : 'Sound off';
       }
       if (btn) {
         updateUI();
@@ -438,6 +462,77 @@
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
       }
+    })();
+
+    (function initToolsFlyout() {
+      var wrapper = document.querySelector('.proto-tools-wrapper');
+      var btn = wrapper && wrapper.querySelector('.proto-tools-trigger');
+      if (!wrapper || !btn) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        wrapper.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove('is-open');
+        }
+      });
+    })();
+
+    (function initExperimentDropdown() {
+      var dropdown = document.getElementById('proto-experiment-dropdown');
+      var trigger = document.getElementById('proto-experiment-trigger');
+      var menu = document.getElementById('proto-experiment-menu');
+      var label = document.getElementById('proto-experiment-label');
+      if (!dropdown || !trigger || !menu || !label) return;
+
+      function applyExperimentClass(val) {
+        document.body.className = document.body.className.replace(/\bproto-experiment-\d+\b/g, '').trim();
+        document.body.classList.add('proto-experiment-' + val);
+      }
+
+      var stored = sessionStorage.getItem('proto-experiment') || '1';
+      applyExperimentClass(stored);
+      var current = menu.querySelector('[data-value="' + stored + '"]');
+      if (current) {
+        label.textContent = current.textContent;
+        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
+          o.classList.remove('is-selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        current.classList.add('is-selected');
+        current.setAttribute('aria-selected', 'true');
+      }
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = dropdown.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      menu.addEventListener('click', function(e) {
+        var option = e.target.closest('.proto-experiment-option');
+        if (!option) return;
+        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
+          o.classList.remove('is-selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        option.classList.add('is-selected');
+        option.setAttribute('aria-selected', 'true');
+        label.textContent = option.textContent;
+        var val = option.getAttribute('data-value');
+        sessionStorage.setItem('proto-experiment', val);
+        applyExperimentClass(val);
+        dropdown.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
     })();
   </script>
 </body>

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/pages.css">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body class="pages-body mylearning-page">
   <!-- Header - from 1.1 M1-Skills (links, search bar, icons) -->
@@ -138,20 +139,23 @@
                 <div class="skill-goals-provider-icon">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 </div>
-                <h3 class="skill-goals-card-title cds-subtitle-md">Data Analytics: Professional</h3>
+                <h3 class="skill-goals-card-title cds-subtitle-md">Data Analytics: Early Professional</h3>
               </div>
               <div class="skill-goals-card-body">
-                <span class="skill-goals-label">6 skill goals</span>
+                <span class="skill-goals-label">7 skill goals</span>
                 <div class="skill-goals-badges">
-                  <div class="skill-goal-badge active">
+                  <button type="button" class="skill-goal-badge complete" data-goal-idx="0" aria-label="Skill goal 1 – complete">
                     <span>1</span>
+                  </button>
+                  <button type="button" class="skill-goal-badge active" data-goal-idx="1" aria-label="Skill goal 2 – in progress">
+                    <span>2</span>
                     <svg class="skill-goal-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
-                  </div>
-                  <div class="skill-goal-badge"><span>2</span></div>
-                  <div class="skill-goal-badge"><span>3</span></div>
-                  <div class="skill-goal-badge"><span>4</span></div>
-                  <div class="skill-goal-badge"><span>5</span></div>
-                  <div class="skill-goal-badge"><span>6</span></div>
+                  </button>
+                  <button type="button" class="skill-goal-badge" data-goal-idx="2" aria-label="Skill goal 3"><span>3</span></button>
+                  <button type="button" class="skill-goal-badge" data-goal-idx="3" aria-label="Skill goal 4"><span>4</span></button>
+                  <button type="button" class="skill-goal-badge" data-goal-idx="4" aria-label="Skill goal 5"><span>5</span></button>
+                  <button type="button" class="skill-goal-badge" data-goal-idx="5" aria-label="Skill goal 6"><span>6</span></button>
+                  <button type="button" class="skill-goal-badge" data-goal-idx="6" aria-label="Skill goal 7"><span>7</span></button>
                 </div>
                 <a href="#" class="skill-goals-view-btn" id="see-skill-progress-link">View skill progress</a>
                 <button class="skill-goals-more-btn" aria-label="More options">
@@ -164,10 +168,10 @@
 
             <div class="mylearning-course-row">
               <div class="mylearning-course-row-info">
-                <h3 class="mylearning-course-row-title">Data Engineering & Management</h3>
-                <p class="mylearning-course-row-meta">30% complete • Started</p>
+                <h3 class="mylearning-course-row-title" id="skill-goal-active-name">Acquire &amp; Prepare Data</h3>
+                <p class="mylearning-course-row-meta" id="skill-goal-active-meta">0/17 skills mastered</p>
                 <div class="mylearning-course-row-progress">
-                  <div class="mylearning-course-row-progress-fill" style="width: 30%"></div>
+                  <div class="mylearning-course-row-progress-fill" id="skill-goal-active-bar" style="width: 0%"></div>
                 </div>
               </div>
               <div class="mylearning-course-row-actions">
@@ -247,19 +251,59 @@
     </div>
   </div>
 
+  <!-- Your Progress Dialog (Experiment 3) -->
+  <div class="yp-modal" id="your-progress-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+    <div class="yp-backdrop" id="yp-backdrop"></div>
+    <div class="yp-dialog">
+      <div class="yp-dialog-header">
+        <button type="button" class="yp-close-btn" id="yp-close-btn" aria-label="Close">
+          <img src="assets/icon-button-close.svg" alt="">
+        </button>
+        <h2 class="cds-title-sm" style="color:var(--cds-color-grey-975);padding:48px 48px 32px;">Your progress</h2>
+      </div>
+      <div class="yp-content" id="yp-content">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="yp-footer">
+        <button type="button" class="yp-footer-close-btn cds-action-primary" id="yp-footer-close">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Proto control strip: sound/haptics toggle + segments -->
   <div class="proto-control-strip">
-    <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
-      <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
-    </button>
-    <button type="button" class="proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
-      <span class="material-symbols-rounded">highlight</span>
-      <span class="proto-net-new-label">Show differences</span>
-    </button>
-    <a href="index.html" class="home-segment-back cds-body-tertiary" style="background:var(--cds-color-grey-975);color:var(--cds-color-white);padding:8px 16px;border-radius:var(--cds-border-radius-100);text-decoration:none;display:flex;align-items:center;gap:6px;box-shadow:var(--cds-elevation-level2);font-family:var(--cds-font-family);font-size:12px;">
-      <span class="material-symbols-rounded" style="font-size:16px;">arrow_back</span>
+    <a href="index.html" class="home-segment-back">
+      <span class="material-symbols-rounded">arrow_back</span>
       Segments
     </a>
+    <div class="proto-experiment-dropdown" id="proto-experiment-dropdown">
+      <button type="button" class="proto-experiment-trigger-strip" id="proto-experiment-trigger" aria-haspopup="listbox" aria-expanded="false">
+        <span class="material-symbols-rounded">science</span>
+        <span class="proto-experiment-label" id="proto-experiment-label">Experiment 1</span>
+        <span class="material-symbols-rounded proto-experiment-chevron">expand_more</span>
+      </button>
+      <ul class="proto-experiment-menu" id="proto-experiment-menu" role="listbox" aria-label="Select experiment">
+        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="1">Experiment 1</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="2">Experiment 2</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment 3</li>
+      </ul>
+    </div>
+    <div class="proto-tools-wrapper">
+      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools">
+        <span class="material-symbols-rounded">build</span>
+      </button>
+      <div class="proto-tools-flyout">
+        <div class="proto-tools-header cds-body-tertiary">Prototype tools</div>
+        <button type="button" class="proto-tools-row proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
+          <span class="material-symbols-rounded">highlight</span>
+          <span class="proto-net-new-label">Show differences</span>
+        </button>
+        <button type="button" class="proto-tools-row proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
+          <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
+          <span class="proto-sound-label">Sound</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <script src="js/goals-store.js"></script>
@@ -291,10 +335,12 @@
     (function initSoundToggle() {
       var btn = document.getElementById('proto-sound-toggle');
       var icon = btn && btn.querySelector('.proto-sound-icon');
+      var label = btn && btn.querySelector('.proto-sound-label');
       function updateUI() {
         var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
         if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         if (icon) icon.textContent = on ? 'volume_up' : 'volume_off';
+        if (label) label.textContent = on ? 'Sound' : 'Sound off';
       }
       if (btn) {
         updateUI();
@@ -320,6 +366,151 @@
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
       }
+    })();
+
+    (function initToolsFlyout() {
+      var wrapper = document.querySelector('.proto-tools-wrapper');
+      var btn = wrapper && wrapper.querySelector('.proto-tools-trigger');
+      if (!wrapper || !btn) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        wrapper.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove('is-open');
+        }
+      });
+    })();
+
+    (function initSkillGoalBadges() {
+      var GOALS = [
+        { name: 'Data Integrity & Literacy', mastered: 13, total: 13 },
+        { name: 'Acquire & Prepare Data', mastered: 0, total: 17 },
+        { name: 'Analyze & Interpret', mastered: 0, total: 9 },
+        { name: 'Visualize & Communicate', mastered: 0, total: 7 },
+        { name: 'Script and Automate', mastered: 0, total: 4 },
+        { name: 'Collaborate & Grow', mastered: 0, total: 18 },
+        { name: 'Tools & Technology', mastered: 0, total: 10 }
+      ];
+      var badges = document.querySelectorAll('.skill-goal-badge[data-goal-idx]');
+      var nameEl = document.getElementById('skill-goal-active-name');
+      var metaEl = document.getElementById('skill-goal-active-meta');
+      var barEl = document.getElementById('skill-goal-active-bar');
+
+      function selectGoal(idx) {
+        var goal = GOALS[idx];
+        if (!goal) return;
+        badges.forEach(function(b) {
+          var i = parseInt(b.getAttribute('data-goal-idx'), 10);
+          var isComplete = b.classList.contains('complete');
+          b.classList.remove('active');
+          var chevron = b.querySelector('.skill-goal-chevron');
+          if (chevron) chevron.remove();
+          if (i === idx && !isComplete) {
+            b.classList.add('active');
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'skill-goal-chevron');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('stroke', 'currentColor');
+            svg.setAttribute('stroke-width', '2');
+            var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', 'm6 9 6 6 6-6');
+            svg.appendChild(path);
+            b.appendChild(svg);
+          }
+        });
+        if (nameEl) nameEl.textContent = goal.name;
+        if (metaEl) metaEl.textContent = goal.mastered + '/' + goal.total + ' skills mastered';
+        var pct = goal.total ? Math.round((goal.mastered / goal.total) * 100) : 0;
+        if (barEl) barEl.style.width = pct + '%';
+      }
+
+      badges.forEach(function(badge) {
+        badge.addEventListener('click', function() {
+          selectGoal(parseInt(badge.getAttribute('data-goal-idx'), 10));
+        });
+      });
+    })();
+
+    function applyExperimentLayout(exp) {
+      var gridWrapper = document.querySelector('#panel-overview .mylearning-grid > div');
+      if (!gridWrapper) return;
+      var combinedCard = gridWrapper.querySelector('.mylearning-combined-card');
+      var certCard = gridWrapper.querySelector('.mylearning-certificate-card');
+      if (!combinedCard || !certCard) return;
+      if (exp === '3') {
+        combinedCard.style.display = '';
+        gridWrapper.insertBefore(combinedCard, certCard);
+      } else {
+        combinedCard.style.display = 'none';
+      }
+    }
+
+    (function() {
+      var exp = sessionStorage.getItem('proto-experiment') || '1';
+      applyExperimentLayout(exp);
+      window.addEventListener('experiment-changed', function(e) {
+        applyExperimentLayout(e.detail.experiment);
+      });
+    })();
+
+    (function initExperimentDropdown() {
+      var dropdown = document.getElementById('proto-experiment-dropdown');
+      var trigger = document.getElementById('proto-experiment-trigger');
+      var menu = document.getElementById('proto-experiment-menu');
+      var label = document.getElementById('proto-experiment-label');
+      if (!dropdown || !trigger || !menu || !label) return;
+
+      function applyExperimentClass(val) {
+        document.body.className = document.body.className.replace(/\bproto-experiment-\d+\b/g, '').trim();
+        document.body.classList.add('proto-experiment-' + val);
+      }
+
+      var stored = sessionStorage.getItem('proto-experiment') || '1';
+      applyExperimentClass(stored);
+      var current = menu.querySelector('[data-value="' + stored + '"]');
+      if (current) {
+        label.textContent = current.textContent;
+        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
+          o.classList.remove('is-selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        current.classList.add('is-selected');
+        current.setAttribute('aria-selected', 'true');
+      }
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = dropdown.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      menu.addEventListener('click', function(e) {
+        var option = e.target.closest('.proto-experiment-option');
+        if (!option) return;
+        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
+          o.classList.remove('is-selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        option.classList.add('is-selected');
+        option.setAttribute('aria-selected', 'true');
+        label.textContent = option.textContent;
+        var val = option.getAttribute('data-value');
+        sessionStorage.setItem('proto-experiment', val);
+        applyExperimentClass(val);
+        dropdown.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        window.dispatchEvent(new CustomEvent('experiment-changed', { detail: { experiment: val } }));
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
     })();
   </script>
 </body>

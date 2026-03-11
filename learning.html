@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
   <script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     .commitment-screen {
       position: fixed; inset: 0; z-index: 20000;
@@ -378,13 +379,16 @@
       </div>
 
       <div class="sidebar-xp-tracker" id="sidebar-xp-tracker" aria-live="polite">
-        <div class="sidebar-xp-tracker-label-row">
-          <span class="sidebar-xp-tracker-label cds-action-secondary">Today's Skill points</span>
+        <div class="sidebar-xp-tracker-top">
+          <div class="sidebar-xp-tracker-label-row">
+            <span class="sidebar-xp-tracker-label cds-action-secondary">Today's Skill Points</span>
+          </div>
+          <button type="button" class="sidebar-xp-tracker-value" onclick="showSkillsIntroModal()" aria-label="View Skill Points details">
+            <img src="assets/xp-coin.svg" alt="" class="sidebar-xp-icon" aria-hidden="true">
+            <span class="sidebar-xp-value-text"><span id="sidebar-xp-value">0</span> XP</span>
+          </button>
         </div>
-        <button type="button" class="sidebar-xp-tracker-value" onclick="showSkillsIntroModal()" aria-label="View Skill Points details">
-          <img src="assets/xp-coin.svg" alt="" class="sidebar-xp-icon" aria-hidden="true">
-          <span class="sidebar-xp-value-text"><span id="sidebar-xp-value">0</span> XP</span>
-        </button>
+        <button type="button" class="sidebar-skill-progress-link cds-body-tertiary" onclick="showSkillsIntroModal()">See skill progress</button>
       </div>
 
       <div class="sidebar-content" id="sidebar-content">
@@ -558,18 +562,18 @@
             <div class="video-end-modal-backdrop"></div>
             <div class="video-end-modal-content">
               <section class="feedback-skill-progress-section video-end-skill-section">
-                <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="video-end-skill-title">Skill progress from this item</h3>
+                <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="video-end-skill-title">Skill progress from this item <span class="beta-pill-sm">Beta</span></h3>
                 <div class="feedback-skill-progress-grid" id="video-end-skills-grid">
                   <div class="feedback-skill-card feedback-skill-card-1" id="video-end-skill-card">
                     <h4 class="feedback-skill-card-name cds-action-primary" id="video-end-skill-name">Skill Progress</h4>
                     <div class="feedback-skill-tags-row">
-                      <span class="feedback-skill-xp-tag" id="video-end-xp-tag">+1 XP</span>
+                      <span class="feedback-skill-xp-tag" id="video-end-xp-tag">+8 XP</span>
                     </div>
                     <div class="feedback-skill-progress-row">
                       <div class="feedback-skill-progress-bar">
                         <div class="feedback-skill-progress-fill" id="video-end-progress-fill" data-progress="4" data-start="0" style="width: 0%"></div>
                       </div>
-                      <span class="feedback-skill-progress-value" id="video-end-progress-label">0/25 XP</span>
+                      <span class="feedback-skill-progress-value" id="video-end-progress-label">0/1500 XP</span>
                     </div>
                   </div>
                 </div>
@@ -835,30 +839,30 @@
           </div>
           <div class="feedback-skill-progress-banner-wrap">
             <section class="feedback-skill-progress-section feedback-skill-progress-banner">
-            <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="feedback-skill-progress-title">Skill progress from this assignment</h3>
+            <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="feedback-skill-progress-title">Skill progress from this assignment <span class="beta-pill-sm">Beta</span></h3>
             <div class="feedback-skill-progress-grid">
               <div class="feedback-skill-card feedback-skill-card-1">
                 <h4 class="feedback-skill-card-name cds-action-primary">Visualizing and Reporting Clean Data</h4>
                 <div class="feedback-skill-tags-row">
-                  <span class="feedback-skill-xp-tag">+5 XP</span>
+                  <span class="feedback-skill-xp-tag">+35 XP</span>
                 </div>
                 <div class="feedback-skill-progress-row">
                   <div class="feedback-skill-progress-bar">
                     <div class="feedback-skill-progress-fill" data-progress="17" data-start="14" style="width: 14%"></div>
                   </div>
-                  <span class="feedback-skill-progress-value">17/100 XP</span>
+                  <span class="feedback-skill-progress-value">255/1500 XP</span>
                 </div>
               </div>
               <div class="feedback-skill-card feedback-skill-card-2">
                 <h4 class="feedback-skill-card-name cds-action-primary">Preparing and Cleaning Data</h4>
                 <div class="feedback-skill-tags-row">
-                  <span class="feedback-skill-xp-tag">+2 XP</span>
+                  <span class="feedback-skill-xp-tag">+15 XP</span>
                 </div>
                 <div class="feedback-skill-progress-row">
                   <div class="feedback-skill-progress-bar">
                     <div class="feedback-skill-progress-fill" data-progress="8" data-start="5" style="width: 5%"></div>
                   </div>
-                  <span class="feedback-skill-progress-value">8/100 XP</span>
+                  <span class="feedback-skill-progress-value">120/1500 XP</span>
                 </div>
               </div>
             </div>
@@ -933,18 +937,18 @@
               <div class="module-complete-stat-icon module-complete-stat-icon-xp">
                 <img src="assets/xp-coin.svg" alt="" width="24" height="24" aria-hidden="true">
               </div>
-              <span class="module-complete-stat-value cds-subtitle-md">19 <span class="module-complete-stat-unit cds-subtitle-md">XP</span></span>
+              <span class="module-complete-stat-value cds-subtitle-md">320 <span class="module-complete-stat-unit cds-subtitle-md">XP</span></span>
               <span class="module-complete-stat-label cds-body-tertiary">Earned</span>
             </div>
           </div>
           <div class="module-complete-skills-header">
-            <h3 class="module-complete-skills-title cds-subtitle-md">2 Skills Developed</h3>
+            <h3 class="module-complete-skills-title cds-subtitle-md">2 skills developed <span class="beta-pill-sm">Beta</span></h3>
             <div class="module-complete-skills-nav">
               <button type="button" class="module-complete-nav-btn" onclick="moduleCompletePrevSkill()" aria-label="Previous skill">
-                <span class="material-symbols-rounded">chevron_left</span>
+                <img src="assets/ChevronPrevious.svg" alt="" width="20" height="20" aria-hidden="true">
               </button>
               <button type="button" class="module-complete-nav-btn" onclick="moduleCompleteNextSkill()" aria-label="Next skill">
-                <span class="material-symbols-rounded">chevron_right</span>
+                <img src="assets/ChevronNext.svg" alt="" width="20" height="20" aria-hidden="true">
               </button>
             </div>
           </div>
@@ -955,7 +959,7 @@
                 <div class="feedback-skill-progress-bar">
                   <div class="feedback-skill-progress-fill" style="width: 17%"></div>
                 </div>
-                <span class="feedback-skill-progress-value">17/100 XP</span>
+                <span class="feedback-skill-progress-value">255/1500 XP</span>
               </div>
             </div>
             <div class="feedback-skill-card module-complete-skill-card" id="module-skill-card-1">
@@ -964,7 +968,7 @@
                 <div class="feedback-skill-progress-bar">
                   <div class="feedback-skill-progress-fill" style="width: 8%"></div>
                 </div>
-                <span class="feedback-skill-progress-value">8/100 XP</span>
+                <span class="feedback-skill-progress-value">120/1500 XP</span>
               </div>
             </div>
           </div>
@@ -1156,7 +1160,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Visualizing and Reporting Clean Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1165,7 +1169,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Preparing and Cleaning Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1174,7 +1178,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Connecting and Importing Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1183,7 +1187,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Prepare Datasets in Power BI</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1256,7 +1260,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Visualizing and Reporting Clean Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1265,7 +1269,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Preparing and Cleaning Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1274,7 +1278,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Connecting and Importing Data</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1283,7 +1287,7 @@
             <div class="xp-intro-skill-info">
               <span class="xp-intro-skill-name cds-body-primary">Prepare Datasets in Power BI</span>
               <div class="xp-intro-skill-meta">
-                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/1500 XP</span>
               </div>
             </div>
             <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
@@ -1351,17 +1355,38 @@
 
   <!-- Proto control strip: sound toggle + segments -->
   <div class="proto-control-strip">
-    <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
-      <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
-    </button>
-    <button type="button" class="proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
-      <span class="material-symbols-rounded">highlight</span>
-      <span class="proto-net-new-label">Show differences</span>
-    </button>
-    <a href="index.html" class="home-segment-back cds-body-tertiary" style="background:var(--cds-color-grey-975);color:var(--cds-color-white);padding:8px 16px;border-radius:var(--cds-border-radius-100);text-decoration:none;display:flex;align-items:center;gap:6px;box-shadow:var(--cds-elevation-level2);">
-      <span class="material-symbols-rounded" style="font-size:16px;">arrow_back</span>
+    <a href="index.html" class="home-segment-back">
+      <span class="material-symbols-rounded">arrow_back</span>
       Segments
     </a>
+    <div class="proto-experiment-dropdown" id="proto-experiment-dropdown">
+      <button type="button" class="proto-experiment-trigger-strip" id="proto-experiment-trigger" aria-haspopup="listbox" aria-expanded="false">
+        <span class="material-symbols-rounded">science</span>
+        <span class="proto-experiment-label" id="proto-experiment-label">Experiment 1</span>
+        <span class="material-symbols-rounded proto-experiment-chevron">expand_more</span>
+      </button>
+      <ul class="proto-experiment-menu" id="proto-experiment-menu" role="listbox" aria-label="Select experiment">
+        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="1">Experiment 1</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="2">Experiment 2</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment 3</li>
+      </ul>
+    </div>
+    <div class="proto-tools-wrapper">
+      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools">
+        <span class="material-symbols-rounded">build</span>
+      </button>
+      <div class="proto-tools-flyout">
+        <div class="proto-tools-header cds-body-tertiary">Prototype tools</div>
+        <button type="button" class="proto-tools-row proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
+          <span class="material-symbols-rounded">highlight</span>
+          <span class="proto-net-new-label">Show differences</span>
+        </button>
+        <button type="button" class="proto-tools-row proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
+          <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
+          <span class="proto-sound-label">Sound</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <script src="js/goals-store.js"></script>
@@ -1408,10 +1433,12 @@
     (function initSoundToggle() {
       var btn = document.getElementById('proto-sound-toggle');
       var icon = btn && btn.querySelector('.proto-sound-icon');
+      var label = btn && btn.querySelector('.proto-sound-label');
       function updateUI() {
         var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
         if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         if (icon) icon.textContent = on ? 'volume_up' : 'volume_off';
+        if (label) label.textContent = on ? 'Sound' : 'Sound off';
       }
       if (btn) {
         updateUI();
@@ -1437,6 +1464,77 @@
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
       }
+    })();
+
+    (function initToolsFlyout() {
+      var wrapper = document.querySelector('.proto-tools-wrapper');
+      var btn = wrapper && wrapper.querySelector('.proto-tools-trigger');
+      if (!wrapper || !btn) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        wrapper.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove('is-open');
+        }
+      });
+    })();
+
+    (function initExperimentDropdown() {
+      var dropdown = document.getElementById('proto-experiment-dropdown');
+      var trigger = document.getElementById('proto-experiment-trigger');
+      var menu = document.getElementById('proto-experiment-menu');
+      var label = document.getElementById('proto-experiment-label');
+      if (!dropdown || !trigger || !menu || !label) return;
+
+      function applyExperimentClass(val) {
+        document.body.className = document.body.className.replace(/\bproto-experiment-\d+\b/g, '').trim();
+        document.body.classList.add('proto-experiment-' + val);
+      }
+
+      var stored = sessionStorage.getItem('proto-experiment') || '1';
+      applyExperimentClass(stored);
+      var current = menu.querySelector('[data-value="' + stored + '"]');
+      if (current) {
+        label.textContent = current.textContent;
+        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
+          o.classList.remove('is-selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        current.classList.add('is-selected');
+        current.setAttribute('aria-selected', 'true');
+      }
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = dropdown.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      menu.addEventListener('click', function(e) {
+        var option = e.target.closest('.proto-experiment-option');
+        if (!option) return;
+        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
+          o.classList.remove('is-selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        option.classList.add('is-selected');
+        option.setAttribute('aria-selected', 'true');
+        label.textContent = option.textContent;
+        var val = option.getAttribute('data-value');
+        sessionStorage.setItem('proto-experiment', val);
+        applyExperimentClass(val);
+        dropdown.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
     })();
 
   </script>

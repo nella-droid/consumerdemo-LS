@@ -1,0 +1,11 @@
+{
+  "buildCommand": "echo 'Static site'",
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/home", "destination": "/homepage.html" },
+    { "source": "/homepage", "destination": "/homepage.html" },
+    { "source": "/learning", "destination": "/learning.html" },
+    { "source": "/my-learning", "destination": "/my-learning.html" }
+  ]
+}

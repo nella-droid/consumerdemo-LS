@@ -122,19 +122,19 @@ function triggerVideoEndModal() {
   var skillName = tags[0] || 'Skill Progress';
   var xp = getSkillPointsFromItem(activeItem);
   var currentSkillXP = skillProgress[skillName] || 0;
-  var newSkillXP = Math.min(currentSkillXP + xp, 25);
+  var newSkillXP = Math.min(currentSkillXP + xp, 1500);
   skillProgress[skillName] = newSkillXP;
   try {
     localStorage.setItem('m1-skills-skill-progress', JSON.stringify(skillProgress));
   } catch (e) {}
   addSessionXp(xp);
 
-  var startPct = (currentSkillXP / 25) * 100;
-  var targetPct = (newSkillXP / 25) * 100;
+  var startPct = (currentSkillXP / 1500) * 100;
+  var targetPct = (newSkillXP / 1500) * 100;
 
   document.getElementById('video-end-skill-name').textContent = skillName;
   document.getElementById('video-end-xp-tag').textContent = '+' + xp + ' XP';
-  document.getElementById('video-end-progress-label').textContent = newSkillXP + '/25 XP';
+  document.getElementById('video-end-progress-label').textContent = newSkillXP + '/1500 XP';
 
   var progressFill = document.getElementById('video-end-progress-fill');
   progressFill.setAttribute('data-progress', targetPct);
@@ -422,11 +422,26 @@ function getLessonSkillTags(lessonId) {
 
 function getSkillPointsFromItem(item) {
   var meta = item && item.querySelector('.lecture-meta');
-  if (!meta) return 5;
+  if (!meta) return 30;
   var text = (meta.textContent || '').toLowerCase();
-  if (/video|reading/i.test(text)) return 1;
-  if (/practice|assignment|activity/i.test(text)) return 5;
-  return 5;
+  var mins = 0;
+  var hourMatch = text.match(/(\d+)\s*h/);
+  var minMatch = text.match(/(\d+)\s*min/);
+  if (hourMatch) mins = parseInt(hourMatch[1], 10) * 60;
+  if (minMatch) mins += parseInt(minMatch[1], 10);
+
+  if (/video|reading/.test(text)) {
+    if (mins <= 3) return 8;
+    if (mins <= 6) return 10;
+    return 12;
+  }
+  if (/graded/.test(text)) return 50;
+  if (/practice|assignment|activity/.test(text)) {
+    if (mins <= 10) return 30;
+    if (mins <= 30) return 40;
+    return 50;
+  }
+  return 30;
 }
 
 function updateSkillTags(item, contentTagsEl, readingTagsEl) {
@@ -630,7 +645,7 @@ function populateAndAnimateGoalsCompleteSkills() {
   if (skillsWrap) skillsWrap.style.display = '';
 
   skills.forEach(function(s, i) {
-    var pct = Math.min((s.xp / 25) * 100, 100);
+    var pct = Math.min((s.xp / 1500) * 100, 100);
     var card = document.createElement('div');
     card.className = 'feedback-skill-card feedback-skill-card-' + (i + 1) + (i === 0 ? ' goals-skill-active' : '');
     card.innerHTML = '<h4 class="feedback-skill-card-name cds-action-primary">' + escapeHtml(s.name) + '</h4>' +
@@ -638,7 +653,7 @@ function populateAndAnimateGoalsCompleteSkills() {
       '<div class="feedback-skill-progress-bar">' +
       '<div class="feedback-skill-progress-fill" data-progress="' + pct + '" data-start="0" style="width: 0%"></div>' +
       '</div>' +
-      '<span class="feedback-skill-progress-value">' + s.xp + '/25 XP</span>' +
+      '<span class="feedback-skill-progress-value">' + s.xp + '/1500 XP</span>' +
       '</div>';
     grid.appendChild(card);
   });
@@ -720,7 +735,15 @@ function showAssignmentFeedback() {
       var completedCount = getCompletedLearningItemsCount();
       updateProgressDisplay(completedCount, { justCompletedPracticeItem: isAssignmentType(activeItem) });
     }
-    addSessionXp(getSkillPointsFromItem(activeItem));
+    var xp = getSkillPointsFromItem(activeItem);
+    addSessionXp(xp);
+    var lessonId = activeItem.getAttribute('data-lesson-id');
+    var tags = getLessonSkillTags(lessonId);
+    tags.forEach(function(skillName) {
+      var current = skillProgress[skillName] || 0;
+      skillProgress[skillName] = Math.min(current + xp, 1500);
+    });
+    try { localStorage.setItem('m1-skills-skill-progress', JSON.stringify(skillProgress)); } catch (e) {}
   }
 
   if (!sessionStorage.getItem('m1-skills-xp-intro-shown')) {
@@ -896,8 +919,17 @@ function handleReadingMarkComplete() {
   doneEl.style.display = 'block';
 
   var activeItem = document.querySelector('.lecture-item.active');
-  if (activeItem) addSessionXp(getSkillPointsFromItem(activeItem));
   if (activeItem) {
+    var xp = getSkillPointsFromItem(activeItem);
+    addSessionXp(xp);
+    var lessonId = activeItem.getAttribute('data-lesson-id');
+    var tags = getLessonSkillTags(lessonId);
+    tags.forEach(function(skillName) {
+      var current = skillProgress[skillName] || 0;
+      skillProgress[skillName] = Math.min(current + xp, 1500);
+    });
+    try { localStorage.setItem('m1-skills-skill-progress', JSON.stringify(skillProgress)); } catch (e) {}
+
     var statusEl = activeItem.querySelector('.lecture-status');
     if (statusEl && statusEl.classList.contains('pending')) {
       statusEl.classList.remove('pending');
@@ -1142,6 +1174,8 @@ function refreshStarsFromGoals() {
 
 /* ─── First-time XP Introduction Modal ──────────────────────── */
 function showXpIntroModal() {
+  var _exp = sessionStorage.getItem('proto-experiment') || '1';
+  if (_exp === '2' || _exp === '3') return;
   var modal = document.getElementById('xp-intro-modal');
   if (!modal) return;
   var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
@@ -1156,26 +1190,15 @@ function showXpIntroModal() {
     if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here are the skills you can expect to build in this course:';
   }
 
-  var skillData = seg === 'active' ? {
-    visualizing: { xp: 4, level: 'Practicing', levelClass: 'practicing' },
-    preparing:   { xp: 0, level: 'Practicing', levelClass: 'practicing' },
-    connecting:  { xp: 0, level: 'Practicing', levelClass: 'practicing' },
-    powerbi:     { xp: 0, level: 'Practicing', levelClass: 'practicing' }
-  } : {
-    visualizing: { xp: 1, level: 'Practicing', levelClass: 'practicing' },
-    preparing:   { xp: 0, level: 'Practicing', levelClass: 'practicing' },
-    connecting:  { xp: 0, level: 'Practicing', levelClass: 'practicing' },
-    powerbi:     { xp: 0, level: 'Practicing', levelClass: 'practicing' }
-  };
-
-  Object.keys(skillData).forEach(function(key) {
+  Object.keys(SKILL_KEY_TO_NAME).forEach(function(key) {
     var row = modal.querySelector('[data-xp-skill="' + key + '"]');
     if (!row) return;
-    var d = skillData[key];
+    var fullName = SKILL_KEY_TO_NAME[key];
+    var xp = (typeof skillProgress !== 'undefined' && skillProgress[fullName]) ? skillProgress[fullName] : 0;
     var valEl = row.querySelector('[data-xp-value]');
     var barEl = row.querySelector('[data-xp-bar]');
-    if (valEl) valEl.textContent = d.xp + '/2000 XP';
-    if (barEl) barEl.style.width = (d.xp / 2000 * 100) + '%';
+    if (valEl) valEl.textContent = xp + '/' + SKILL_XP_MAX + ' XP';
+    if (barEl) barEl.style.width = (xp / SKILL_XP_MAX * 100) + '%';
   });
 
   modal.style.display = 'flex';
@@ -1214,7 +1237,7 @@ var SKILL_KEY_TO_NAME = {
   connecting: 'Connecting and Importing Data',
   powerbi: 'Prepare Datasets in Power BI'
 };
-var SKILL_XP_MAX = 25;
+var SKILL_XP_MAX = 1500;
 
 function showSkillsIntroModal() {
   var modal = document.getElementById('skills-intro-modal');

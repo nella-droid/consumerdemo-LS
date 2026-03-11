@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     body.starter-body {
       display: flex;
@@ -241,7 +242,7 @@
     </div>
   </div>
 
-  <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.3 — For internal review only</p>
+  <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.4 — For internal review only</p>
 
   <script>
     function selectSegment(segment) {
@@ -249,7 +250,16 @@
       sessionStorage.removeItem('m1-skills-xp-intro-shown');
       sessionStorage.removeItem('m1-skills-commitment-done');
       sessionStorage.removeItem('m1-skills-weekly-streak-toast-shown');
-      try { localStorage.removeItem('m1-skills-skill-progress'); } catch(e) {}
+      try {
+        if (segment === 'active') {
+          localStorage.setItem('m1-skills-skill-progress', JSON.stringify({
+            'Visualizing and Reporting Clean Data': 255,
+            'Preparing and Cleaning Data': 120
+          }));
+        } else {
+          localStorage.removeItem('m1-skills-skill-progress');
+        }
+      } catch(e) {}
       window.location.href = 'homepage.html';
     }
   </script>

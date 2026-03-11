@@ -411,19 +411,51 @@ input, button, textarea, select {
 .sidebar-xp-tracker {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
+  gap: 0px;
   padding: 12px 16px;
   background: linear-gradient(to right, #FFF4E8, #FFFFFF);
   border-bottom: 1px solid var(--cds-color-grey-100);
 }
 
+.sidebar-xp-tracker-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sidebar-skill-progress-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--cds-color-blue-700);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s;
+  text-align: left;
+}
+
+.sidebar-skill-progress-link:hover {
+  color: var(--cds-color-blue-800);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.sidebar.collapsed .sidebar-skill-progress-link {
+  display: none;
+}
+
 .sidebar.collapsed .sidebar-xp-tracker {
+  padding: 10px 8px;
+  gap: 4px;
+  align-items: center;
+}
+
+.sidebar.collapsed .sidebar-xp-tracker-top {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 8px;
   gap: 4px;
 }
 
@@ -498,6 +530,26 @@ input, button, textarea, select {
   line-height: 1;
   border-radius: 9999px;
   white-space: nowrap;
+}
+
+.beta-pill-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 0 8px;
+  background: var(--cds-color-emphasis-primary-bg-xxstrong);
+  color: var(--cds-color-white);
+  font-family: var(--cds-font-family);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 9999px;
+  white-space: nowrap;
+  vertical-align: middle;
+  margin-left: 6px;
+  position: relative;
+  top: -1px;
 }
 
 .sidebar-content {
@@ -3285,7 +3337,12 @@ input, button, textarea, select {
   gap: 8px;
 }
 
-.proto-sound-toggle {
+/* Tools wrapper: single icon button with hover flyout */
+.proto-tools-wrapper {
+  position: relative;
+}
+
+.proto-tools-trigger {
   width: 40px;
   height: 40px;
   padding: 0;
@@ -3301,60 +3358,107 @@ input, button, textarea, select {
   transition: background 0.2s;
 }
 
-.proto-sound-toggle:hover {
+.proto-tools-trigger:hover {
   background: var(--cds-color-grey-800);
 }
 
-.proto-sound-toggle .material-symbols-rounded {
+.proto-tools-trigger .material-symbols-rounded {
   font-size: 20px;
 }
 
-.proto-net-new-toggle {
-  padding: 8px 16px;
-  height: 40px;
+.proto-tools-flyout {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: var(--cds-color-white);
+  border-radius: var(--cds-border-radius-200);
+  box-shadow: var(--cds-elevation-level2);
+  padding: 8px 0;
+  z-index: 10000;
+  flex-direction: column;
+}
+
+.proto-tools-wrapper.is-open .proto-tools-flyout {
+  display: flex;
+}
+
+.proto-tools-header {
+  padding: 8px 16px 4px;
+  color: var(--cds-color-grey-600);
+  pointer-events: none;
+}
+
+.proto-tools-row {
+  width: 100%;
+  padding: 10px 16px;
   border: none;
-  border-radius: var(--cds-border-radius-100);
-  background: var(--cds-color-grey-975);
-  color: var(--cds-color-white);
+  background: none;
+  color: var(--cds-color-grey-975);
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  box-shadow: var(--cds-elevation-level2);
-  transition: background 0.2s;
+  gap: 10px;
   font-family: var(--cds-font-family);
   font-size: 14px;
   font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
 }
 
-.proto-net-new-toggle:hover {
-  background: var(--cds-color-grey-800);
+.proto-tools-row:hover {
+  background: var(--cds-color-blue-25);
+  color: var(--cds-color-blue-800);
 }
 
-.proto-net-new-toggle[aria-pressed="true"] {
-  background: var(--cds-color-blue-700);
-  color: var(--cds-color-white);
-}
-
-.proto-net-new-toggle .material-symbols-rounded {
+.proto-tools-row .material-symbols-rounded {
   font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Show differences toggle — active state inside flyout */
+.proto-tools-row.proto-net-new-toggle[aria-pressed="true"] {
+  background: var(--cds-color-blue-50);
+  color: var(--cds-color-blue-700);
 }
 
 .proto-net-new-toggle .proto-net-new-label {
   white-space: nowrap;
 }
 
-/* Net new element highlights - when proto-highlight-net-new is on body */
-body.proto-highlight-net-new .skill-tag,
-body.proto-highlight-net-new .sidebar-xp-tracker,
-body.proto-highlight-net-new .xp-intro-content,
-body.proto-highlight-net-new .feedback-skill-card,
-body.proto-highlight-net-new .module-complete-dialog,
-body.proto-highlight-net-new .goals-complete-dialog,
-body.proto-highlight-net-new .mylearning-tab[data-tab="skills"],
-body.proto-highlight-net-new #panel-skills,
-body.proto-highlight-net-new .commitment-card {
+/* Sound toggle — active state inside flyout */
+.proto-tools-row.proto-sound-toggle[aria-pressed="false"] {
+  color: var(--cds-color-grey-400);
+}
+
+/* Net new element highlights - Experiment 1: all new elements */
+body.proto-highlight-net-new.proto-experiment-1 .skill-tag,
+body.proto-highlight-net-new.proto-experiment-1 .sidebar-xp-tracker,
+body.proto-highlight-net-new.proto-experiment-1 .xp-intro-content,
+body.proto-highlight-net-new.proto-experiment-1 .feedback-skill-card,
+body.proto-highlight-net-new.proto-experiment-1 .module-complete-dialog,
+body.proto-highlight-net-new.proto-experiment-1 .goals-complete-dialog,
+body.proto-highlight-net-new.proto-experiment-1 .mylearning-tab[data-tab="skills"],
+body.proto-highlight-net-new.proto-experiment-1 #panel-skills,
+body.proto-highlight-net-new.proto-experiment-1 .commitment-card {
+  outline: 2px solid var(--cds-color-red-700);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--cds-color-white);
+}
+
+/* Net new element highlights - Experiment 2: only skills tab on my-learning */
+body.proto-highlight-net-new.proto-experiment-2 .mylearning-tab[data-tab="skills"],
+body.proto-highlight-net-new.proto-experiment-2 #panel-skills {
+  outline: 2px solid var(--cds-color-red-700);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--cds-color-white);
+}
+
+/* Net new element highlights - Experiment 3 */
+body.proto-highlight-net-new.proto-experiment-3 #see-skill-progress-link,
+body.proto-highlight-net-new.proto-experiment-3 .mylearning-tab[data-tab="skills"],
+body.proto-highlight-net-new.proto-experiment-3 .skill-verified-tag {
   outline: 2px solid var(--cds-color-red-700);
   outline-offset: 2px;
   box-shadow: 0 0 0 2px var(--cds-color-white);
@@ -3390,7 +3494,114 @@ body.proto-highlight-net-new .commitment-card {
   object-fit: contain;
 }
 
+/* Experiment dropdown (in control strip) */
+.proto-experiment-dropdown {
+  position: relative;
+}
+
+.proto-experiment-trigger-strip {
+  height: 40px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  background: var(--cds-color-grey-975);
+  color: var(--cds-color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--cds-elevation-level2);
+  transition: background 0.2s;
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.proto-experiment-trigger-strip:hover {
+  background: var(--cds-color-grey-800);
+}
+
+.proto-experiment-trigger-strip .material-symbols-rounded {
+  font-size: 20px;
+}
+
+.proto-experiment-chevron {
+  margin-left: 2px;
+  transition: transform 0.2s;
+  font-size: 18px !important;
+  color: var(--cds-color-grey-400);
+}
+
+.proto-experiment-dropdown.is-open .proto-experiment-chevron {
+  transform: rotate(180deg);
+}
+
+.proto-experiment-menu {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  background: var(--cds-color-white);
+  border-radius: var(--cds-border-radius-200);
+  box-shadow: var(--cds-elevation-level2);
+  z-index: 10001;
+}
+
+.proto-experiment-dropdown.is-open .proto-experiment-menu {
+  display: block;
+}
+
+.proto-experiment-option {
+  padding: 10px 16px;
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  color: var(--cds-color-grey-975);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.proto-experiment-option:hover {
+  background: var(--cds-color-blue-25);
+  color: var(--cds-color-blue-800);
+}
+
+.proto-experiment-option.is-selected {
+  color: var(--cds-color-blue-700);
+  font-weight: 600;
+}
+
 .proto-control-strip .home-segment-back {
   position: static;
   margin: 0;
+  height: 40px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  background: var(--cds-color-grey-975);
+  color: var(--cds-color-white);
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: var(--cds-elevation-level2);
+  transition: background 0.2s;
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.proto-control-strip .home-segment-back:hover {
+  background: var(--cds-color-grey-800);
+}
+
+.proto-control-strip .home-segment-back .material-symbols-rounded {
+  font-size: 20px;
 }

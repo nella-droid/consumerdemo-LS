@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choosing the right chart for your data | Current LEX v1.0 Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
+  <style>
+    .commitment-screen {
+      position: fixed; inset: 0; z-index: 20000;
+      background: var(--cds-color-white);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    .commitment-inner {
+      position: relative;
+      width: 100%; max-width: 640px; padding: 40px 24px;
+    }
+    .commitment-logo { margin-bottom: 48px; }
+    .commitment-card {
+      background: var(--cds-color-white);
+      border: 1px solid var(--cds-color-grey-100);
+      border-radius: var(--cds-border-radius-200);
+      padding: 40px;
+    }
+    .commitment-title {
+      color: var(--cds-color-grey-975);
+      margin-bottom: 24px;
+    }
+    .commitment-body {
+      color: var(--cds-color-grey-700);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .commitment-strategies {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px 32px;
+      margin-bottom: 32px;
+    }
+    .commitment-strategies-col {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .commitment-strategies span { color: var(--cds-color-grey-700); }
+    .commitment-checkbox {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 0;
+      border-top: 1px solid var(--cds-color-grey-100);
+      margin-bottom: 24px;
+      cursor: pointer;
+      color: var(--cds-color-grey-975);
+    }
+    .commitment-checkbox input[type="checkbox"] {
+      width: 20px; height: 20px;
+      accent-color: var(--cds-color-blue-700);
+      cursor: pointer;
+    }
+    .commitment-cta {
+      display: inline-flex; align-items: center;
+      padding: 12px 28px;
+      background: var(--cds-color-blue-700); color: var(--cds-color-white);
+      border: none; border-radius: var(--cds-border-radius-100);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .commitment-cta:hover { background: var(--cds-color-blue-800); }
+
+    /* Commitment loading screen (80% of learners) */
+    .commitment-loading-screen {
+      position: fixed; inset: 0; z-index: 20000;
+      background: var(--cds-color-grey-25);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .commitment-loading-inner {
+      max-width: 520px; margin: 0 auto; padding: 24px; text-align: center;
+    }
+    .commitment-loading-text {
+      color: var(--cds-color-grey-975);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .commitment-loading-text .commitment-loading-highlight-blue {
+      background: var(--cds-color-blue-700);
+      color: var(--cds-color-white);
+      padding: 2px 8px;
+      border-radius: var(--cds-border-radius-50);
+    }
+    .commitment-loading-text .commitment-loading-highlight-yellow {
+      background: var(--cds-color-yellow-100);
+      padding: 2px 4px;
+      border-radius: var(--cds-border-radius-50);
+    }
+    .commitment-loading-spinner {
+      width: 32px; height: 32px;
+      margin: 0 auto;
+      color: var(--cds-color-grey-400);
+      animation: commitment-spin 0.75s linear infinite;
+    }
+    @keyframes commitment-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* First-time XP Introduction Modal */
+    .xp-intro-modal {
+      position: fixed; inset: 0; z-index: 15000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+    }
+    .xp-intro-backdrop {
+      position: absolute; inset: 0;
+      background: var(--cds-color-utility-overlay);
+    }
+    .xp-intro-content {
+      position: relative; z-index: 1;
+      width: 480px; max-height: calc(100vh - 64px); overflow-y: auto;
+      background: var(--cds-color-white);
+      border-radius: var(--cds-border-radius-200);
+      box-shadow: var(--cds-elevation-level3);
+      padding: 32px 32px 0 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .xp-intro-hero {
+      background: linear-gradient(to bottom, #fff7ed 0%, white 100%);
+      padding: 20px 16px 8px;
+      display: flex; justify-content: center;
+      border-radius: var(--cds-border-radius-200) var(--cds-border-radius-200) 0 0;
+      margin: -32px -32px 0 -32px;
+    }
+    .xp-intro-illustration {
+      max-width: 140px; max-height: 190px;
+      width: auto; height: auto;
+    }
+    
+    @keyframes portalOpen {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes lightAppear {
+      0% { transform: scaleY(0); opacity: 0; }
+      100% { transform: scaleY(1); opacity: 1; }
+    }
+    @keyframes lightPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    @keyframes coinAppear {
+      0% { transform: translateY(40px) scale(0.5); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    @keyframes coinFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .xp-intro-portal { transform-origin: 105px 265px; }
+    .xp-intro-light  { transform-origin: 105px 253px; }
+    .xp-intro-coin   { transform-origin: 105px 120px; }
+
+    .is-animating .xp-intro-portal {
+      animation: portalOpen 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .is-animating .xp-intro-light {
+      animation: lightAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both, lightPulse 3s ease-in-out 1.1s infinite;
+    }
+    .is-animating .xp-intro-coin {
+      animation: coinAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both, coinFloat 4s ease-in-out 1.3s infinite;
+    }
+    /* Ensure skills intro modal gets animation (both modals share .xp-intro-modal) */
+    #skills-intro-modal .is-animating .xp-intro-portal {
+      animation: portalOpen 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    #skills-intro-modal .is-animating .xp-intro-light {
+      animation: lightAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both, lightPulse 3s ease-in-out 1.1s infinite;
+    }
+    #skills-intro-modal .is-animating .xp-intro-coin {
+      animation: coinAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both, coinFloat 4s ease-in-out 1.3s infinite;
+    }
+    #skills-intro-modal .is-animating .xp-intro-portal {
+      animation: portalOpen 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    #skills-intro-modal .is-animating .xp-intro-light {
+      animation: lightAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both, lightPulse 3s ease-in-out 1.1s infinite;
+    }
+    #skills-intro-modal     .is-animating .xp-intro-coin {
+      animation: coinAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both, coinFloat 4s ease-in-out 1.3s infinite;
+    }
+    #skills-intro-modal .is-animating .xp-intro-portal {
+      animation: portalOpen 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    #skills-intro-modal .is-animating .xp-intro-light {
+      animation: lightAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both, lightPulse 3s ease-in-out 1.1s infinite;
+    }
+    #skills-intro-modal     .is-animating .xp-intro-coin {
+      animation: coinAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both, coinFloat 4s ease-in-out 1.3s infinite;
+    }
+    #skills-intro-modal .is-animating .xp-intro-portal { animation: portalOpen 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    #skills-intro-modal .is-animating .xp-intro-light { animation: lightAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both, lightPulse 3s ease-in-out 1.1s infinite; }
+    #skills-intro-modal .is-animating .xp-intro-coin { animation: coinAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both, coinFloat 4s ease-in-out 1.3s infinite; }
+    .xp-intro-header { text-align: center; margin-bottom: 24px; padding-top: 16px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .xp-intro-title { color: var(--cds-color-grey-975); margin: 0; }
+    .xp-intro-earned { color: var(--cds-color-grey-600); line-height: 1.5; }
+
+    .xp-intro-body { margin-bottom: 28px; }
+    .xp-intro-domain { color: var(--cds-color-grey-975); margin-bottom: 16px; }
+
+    .xp-intro-skills { display: flex; flex-direction: column; gap: 32px; margin-bottom: 20px; }
+    .xp-intro-skill-row {
+      padding: 0;
+    }
+    .xp-intro-skill-info {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+    }
+    .xp-intro-skill-name { color: var(--cds-color-grey-975); flex: 1; min-width: 0; }
+    .xp-intro-skill-meta {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: 12px;
+    }
+    .xp-intro-skill-level {
+      padding: 2px 8px;
+      border-radius: var(--cds-border-radius-400);
+      white-space: nowrap;
+    }
+    .xp-intro-level--practicing {
+      background: var(--cds-color-blue-50);
+      color: var(--cds-color-blue-700);
+    }
+    .xp-intro-level--developing {
+      background: var(--cds-color-purple-50);
+      color: var(--cds-color-purple-700);
+    }
+    .xp-intro-level--comprehending {
+      background: var(--cds-color-green-50);
+      color: var(--cds-color-green-700);
+    }
+    .xp-intro-skill-xp {
+      color: var(--cds-color-grey-600); white-space: nowrap;
+    }
+    .xp-intro-skill-bar {
+      height: 4px; border-radius: 2px;
+      background: var(--cds-color-grey-100);
+      overflow: hidden;
+    }
+    .xp-intro-skill-bar-fill {
+      height: 100%; border-radius: 2px;
+      background: var(--cds-color-blue-700);
+      transition: width 0.8s ease;
+    }
+
+    .xp-intro-explainer {
+      color: var(--cds-color-grey-600);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .xp-intro-actions {
+      display: flex; justify-content: center;
+      margin-top: auto;
+      padding: 4px 32px 32px 32px;
+    }
+    .xp-intro-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 12px 32px;
+      background: var(--cds-color-blue-700); color: var(--cds-color-white);
+      border: none; border-radius: var(--cds-border-radius-100);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .xp-intro-cta:hover { background: var(--cds-color-blue-800); }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden"><defs><linearGradient id="sparkle-grad" x1="1.941" y1="17" x2="20.891" y2="16.531" gradientUnits="userSpaceOnUse"><stop stop-color="#0048B0"/><stop offset="1" stop-color="#1E72EB"/></linearGradient></defs></svg>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button type="button" class="header-menu-btn" id="header-menu-btn" onclick="toggleSidebar()" aria-label="Open course navigation" aria-expanded="false">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
+      <a href="homepage.html" class="logo" aria-label="Coursera Home">
+        <svg class="logo-icon" width="113" height="16" viewBox="0 0 114 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M37.2119 9.23926C37.2121 11.1935 38.303 12.3476 40.1973 12.3477C42.3165 12.3477 43.5352 11.0646 43.5352 8.59668V0.392578H47.4844V15.6162H43.5381V13.8525C42.6076 15.2947 41.0975 16 39.0107 16C35.479 16.001 33.2637 13.4368 33.2637 9.71875V0.392578H37.2119V9.23926ZM79.6289 0.104492C84.1244 0.11331 87.2958 3.7081 87.2852 7.94238C87.2859 8.36088 87.2535 8.77911 87.1875 9.19238L75.5645 9.1709C76.0101 10.9981 77.5168 12.3154 79.7969 12.3203C81.177 12.3203 82.6556 11.8123 83.5566 10.6602L86.25 12.8154C84.865 14.768 82.4215 15.918 79.8223 15.9131C75.2337 15.8973 71.7082 12.4614 71.7158 8.00684C71.7247 3.74409 74.7811 0.0958069 79.6289 0.104492ZM104.69 0.104492C107.098 0.104492 108.48 0.841292 109.41 2.25195L109.78 0.390625H113.392V15.6162H109.78L109.313 14.0488C108.254 15.2027 106.937 15.9102 104.69 15.9102C101.223 15.9051 97.2725 12.8599 97.2725 8.11719C97.2725 3.34205 101.158 0.104614 104.69 0.104492ZM23.7715 0.104492C28.2983 0.104492 31.8953 3.6316 31.8955 7.98828C31.8955 12.3148 28.2985 15.9053 23.7715 15.9053C19.276 15.9051 15.6807 12.3108 15.6807 7.98828C15.6809 3.62973 19.2762 0.10463 23.7715 0.104492ZM64.3838 0.0078125C66.93 0.0078125 69.1861 1.13385 70.4111 3.22461L66.9326 5.06152C66.4173 4.03193 65.4504 3.45227 64.2256 3.45215C63.034 3.45215 62.4522 3.87085 62.4521 4.57812C62.4521 6.95888 70.7676 5.44738 70.7676 11.1426C70.7675 14.1023 68.3508 15.9033 64.4512 15.9033C61.1315 15.9004 58.8106 14.8069 57.6514 12.2979L61.1621 10.4639C61.7422 11.7186 62.9021 12.4579 64.5459 12.458C66.0605 12.458 66.6406 11.9758 66.6406 11.2998C66.6396 8.85113 58.3265 10.3348 58.3262 4.73633C58.3262 1.64834 61.0329 0.00795633 64.3838 0.0078125ZM8.09082 0.0732422C9.44253 0.0637857 10.7759 0.389636 11.9697 1.02246C13.1635 1.65528 14.1806 2.57522 14.9297 3.69824L11.5586 5.64941C11.1686 5.09327 10.6497 4.63965 10.0459 4.32715C9.44201 4.01459 8.77107 3.85214 8.09082 3.85449C5.77935 3.85465 3.88477 5.77809 3.88477 7.98926C3.88481 10.2004 5.77938 12.1239 8.09082 12.124C8.80314 12.1286 9.50496 11.9505 10.1289 11.6074C10.7529 11.2644 11.2785 10.7675 11.6553 10.1641L14.9922 12.1514C14.2522 13.3071 13.2314 14.2574 12.0244 14.9131C10.8173 15.5689 9.46317 15.9086 8.08887 15.9014C3.59538 15.9051 4.75605e-05 12.3117 0 7.98926C0 3.59916 3.59535 0.0733919 8.09082 0.0732422ZM56.8994 3.67871C56.7652 3.66412 56.6301 3.65664 56.4951 3.65625C54.377 3.66124 53.1591 4.9462 53.165 7.41309L53.1865 15.6152L49.2373 15.624L49.2041 0.401367L53.1533 0.392578V2.15625C54.073 0.724053 55.5668 0.0166892 57.6279 0L56.8994 3.67871ZM96.5771 3.68555C96.4467 3.67282 96.3131 3.6631 96.1729 3.66309C94.0566 3.66309 92.835 4.94513 92.835 7.41309V15.6162H88.8867V0.391602H92.835V2.15527C93.7586 0.725841 95.2512 0.0215193 97.3096 0.0107422L96.5771 3.68555ZM23.7715 3.88672C21.4602 3.88686 19.5657 5.80962 19.5654 7.98828C19.5654 10.1995 21.46 12.1229 23.7715 12.123C26.1194 12.123 28.0098 10.1995 28.0098 7.98828C28.0095 5.80953 26.1153 3.88672 23.7715 3.88672ZM105.365 3.8877C104.246 3.89204 103.174 4.34075 102.386 5.13379C101.597 5.92687 101.157 6.99995 101.161 8.11719C101.161 10.2324 103.056 12.123 105.368 12.123C107.709 12.1229 109.602 10.2324 109.603 8.08496C109.598 6.96764 109.149 5.89738 108.354 5.11035C107.56 4.32345 106.485 3.88341 105.365 3.8877ZM79.5908 3.69434C77.7603 3.69436 76.2823 4.7781 75.7012 6.41113L83.3105 6.4248C83.0886 4.88672 81.4852 3.69728 79.5908 3.69434Z" fill="#0056D2"/>
+        </svg>
+      </a>
+    </div>
+    <div class="progress-tracker-wrapper">
+      <div class="progress-tracker" id="progress-tracker" onclick="toggleProgressDropdown()" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">
+        <span class="progress-text">0/3 learning items</span>
+        <div class="header-progress-bar">
+          <div class="header-progress-bar-fill"></div>
+        </div>
+        <div class="progress-tracker-divider"></div>
+        <div class="progress-stars">
+          <span id="progress-star-1"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66909 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3264L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg></span>
+          <span id="progress-star-2" class="progress-star-multi" style="display:none;"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg></span>
+          <span id="progress-star-3" class="progress-star-multi" style="display:none;"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg></span>
+        </div>
+        <svg class="progress-tracker-chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="progress-tracker-dropdown" id="progress-tracker-dropdown" role="menu">
+        <div class="progress-tracker-dropdown-item" role="menuitem">
+          <span id="dropdown-star-1"><svg class="progress-tracker-dropdown-star" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg></span>
+          <span id="progress-goal-learning-items">Complete any 3 learning items - 0/3</span>
+        </div>
+        <div class="progress-tracker-dropdown-item progress-goal-multi" role="menuitem" style="display:none;">
+          <span id="dropdown-star-2"><svg class="progress-tracker-dropdown-star" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66909 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3264L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg></span>
+          <span id="progress-goal-practice">Complete 1 practice item</span>
+        </div>
+        <div class="progress-tracker-dropdown-item progress-goal-multi" role="menuitem" style="display:none;">
+          <span id="dropdown-star-3"><svg class="progress-tracker-dropdown-star" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66909 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3264L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg></span>
+          <span id="progress-goal-coach">Use Coach</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" aria-label="Language">
+        <svg class="header-icon" viewBox="6 21 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.9999 41.1C14.6832 41.1 13.4416 40.85 12.2749 40.35C11.1082 39.85 10.0874 39.1625 9.2124 38.2875C8.3374 37.4125 7.6499 36.3917 7.1499 35.225C6.6499 34.0583 6.3999 32.8167 6.3999 31.5C6.3999 30.1667 6.6499 28.9208 7.1499 27.7625C7.6499 26.6042 8.3374 25.5875 9.2124 24.7125C10.0874 23.8375 11.1082 23.15 12.2749 22.65C13.4416 22.15 14.6832 21.9 15.9999 21.9C17.3332 21.9 18.5791 22.15 19.7374 22.65C20.8957 23.15 21.9124 23.8375 22.7874 24.7125C23.6624 25.5875 24.3499 26.6042 24.8499 27.7625C25.3499 28.9208 25.5999 30.1667 25.5999 31.5C25.5999 32.8167 25.3499 34.0583 24.8499 35.225C24.3499 36.3917 23.6624 37.4125 22.7874 38.2875C21.9124 39.1625 20.8957 39.85 19.7374 40.35C18.5791 40.85 17.3332 41.1 15.9999 41.1ZM15.9999 39.225C16.2832 38.9417 16.5666 38.4125 16.8499 37.6375C17.1332 36.8625 17.3499 36.0167 17.4999 35.1H14.4999C14.6499 36.0167 14.8666 36.8625 15.1499 37.6375C15.4332 38.4125 15.7166 38.9417 15.9999 39.225ZM13.7249 38.975C13.4916 38.475 13.2874 37.9 13.1124 37.25C12.9374 36.6 12.7916 35.8833 12.6749 35.1H9.0999C9.58324 36.05 10.2249 36.8625 11.0249 37.5375C11.8249 38.2125 12.7249 38.6917 13.7249 38.975ZM18.2749 38.975C19.2749 38.6917 20.1749 38.2125 20.9749 37.5375C21.7749 36.8625 22.4166 36.05 22.8999 35.1H19.3249C19.2082 35.8833 19.0624 36.6 18.8874 37.25C18.7124 37.9 18.5082 38.475 18.2749 38.975ZM8.4249 33.3H12.4499C12.4166 32.9833 12.3957 32.6708 12.3874 32.3625C12.3791 32.0542 12.3749 31.75 12.3749 31.45C12.3749 31.15 12.3791 30.8542 12.3874 30.5625C12.3957 30.2708 12.4166 29.9833 12.4499 29.7H8.4249C8.34157 30.0167 8.28324 30.3208 8.2499 30.6125C8.21657 30.9042 8.1999 31.2 8.1999 31.5C8.1999 31.8 8.21657 32.0958 8.2499 32.3875C8.28324 32.6792 8.34157 32.9833 8.4249 33.3ZM14.2749 33.3H17.7249C17.7582 32.9667 17.7791 32.6542 17.7874 32.3625C17.7957 32.0708 17.7999 31.7833 17.7999 31.5C17.7999 31.2167 17.7957 30.925 17.7874 30.625C17.7791 30.325 17.7582 30.0167 17.7249 29.7H14.2749C14.2416 30.0167 14.2207 30.325 14.2124 30.625C14.2041 30.925 14.1999 31.2167 14.1999 31.5C14.1999 31.7833 14.2041 32.075 14.2124 32.375C14.2207 32.675 14.2416 32.9833 14.2749 33.3ZM19.5499 33.3H23.5749C23.6582 32.9833 23.7166 32.6792 23.7499 32.3875C23.7832 32.0958 23.7999 31.8 23.7999 31.5C23.7999 31.2 23.7832 30.9 23.7499 30.6C23.7166 30.3 23.6582 30 23.5749 29.7H19.5499C19.5832 30.0167 19.6041 30.3292 19.6124 30.6375C19.6207 30.9458 19.6249 31.25 19.6249 31.55C19.6249 31.85 19.6207 32.1458 19.6124 32.4375C19.6041 32.7292 19.5832 33.0167 19.5499 33.3ZM19.3249 27.9H22.8999C22.4166 26.95 21.7749 26.1375 20.9749 25.4625C20.1749 24.7875 19.2749 24.3083 18.2749 24.025C18.5082 24.525 18.7124 25.1 18.8874 25.75C19.0624 26.4 19.2082 27.1167 19.3249 27.9ZM14.4999 27.9H17.4999C17.3499 26.9833 17.1332 26.1375 16.8499 25.3625C16.5666 24.5875 16.2832 24.0583 15.9999 23.775C15.7166 24.0583 15.4332 24.5875 15.1499 25.3625C14.8666 26.1375 14.6499 26.9833 14.4999 27.9ZM9.0999 27.9H12.6749C12.7916 27.1167 12.9374 26.4 13.1124 25.75C13.2874 25.1 13.4916 24.525 13.7249 24.025C12.7249 24.3083 11.8249 24.7875 11.0249 25.4625C10.2249 26.1375 9.58324 26.95 9.0999 27.9Z" fill="#5B6780"/>
+        </svg>
+      </button>
+      <button class="icon-btn" aria-label="AI Coach">
+        <svg class="header-icon header-icon-ai" viewBox="44 18 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M48.7811 38.0628C48.9466 37.8641 48.9323 37.5729 48.7579 37.382C47.0647 35.5293 46.0005 33.0002 46.0005 30.4999C46.0005 27.8478 47.0541 25.3042 48.9294 23.4289C50.8048 21.5535 53.3483 20.4999 56.0005 20.4999C57.6879 20.4999 59.3479 20.9696 60.8259 21.8653C62.3039 22.761 63.5518 24.0535 64.4534 25.6225C65.355 27.1915 65.881 28.986 65.9824 30.8388C66.0838 32.6917 65.7574 34.5426 65.0334 36.2192C64.3094 37.8959 63.2115 39.3438 61.8419 40.4281C60.4723 41.5124 58.8756 42.1978 57.2003 42.4205C56.801 42.4736 56.4004 42.4999 56.0005 42.4999C53.2419 42.4999 50.1971 41.2908 48.5182 39.5962C48.192 39.267 48.2099 38.7485 48.5065 38.3924L48.7811 38.0628Z" fill="url(#paint0_radial_header_ai)"/>
+          <circle cx="62" cy="30.4999" r="5" fill="url(#paint1_linear_header_ai)"/>
+          <circle cx="50" cy="30.4999" r="5" fill="url(#paint2_linear_header_ai)"/>
+          <path d="M61.9998 25.4998C63.6355 25.4998 65.0875 26.2855 65.9998 27.4998H66.9998C67.2759 27.4998 67.4998 27.7237 67.4998 27.9998V28.4998C67.4998 28.776 67.2759 28.9998 66.9998 28.9998H66.7712C66.9199 29.4733 66.9998 29.9773 66.9998 30.4998C66.9998 33.2612 64.7612 35.4998 61.9998 35.4998C59.2383 35.4998 56.9998 33.2612 56.9998 30.4998C56.9998 30.0005 57.0725 29.5182 57.2087 29.0633C56.8502 28.8646 56.4388 28.7498 55.9998 28.7498C55.5604 28.7498 55.1485 28.8644 54.7898 29.0633C54.9261 29.5183 54.9998 30.0004 54.9998 30.4998C54.9998 33.2612 52.7612 35.4998 49.9998 35.4998C47.2383 35.4998 44.9998 33.2612 44.9998 30.4998C44.9998 29.9773 45.0796 29.4733 45.2283 28.9998H44.9998C44.7236 28.9998 44.4998 28.776 44.4998 28.4998V27.9998C44.4998 27.7237 44.7236 27.4998 44.9998 27.4998H45.9998C46.912 26.2855 48.364 25.4998 49.9998 25.4998C51.9054 25.4998 53.5612 26.5663 54.405 28.1346C54.8834 27.8891 55.4254 27.7498 55.9998 27.7498C56.5738 27.7498 57.1153 27.8893 57.5935 28.1346C58.4372 26.5661 60.094 25.4998 61.9998 25.4998ZM49.9998 26.4998C47.7906 26.4998 45.9998 28.2907 45.9998 30.4998C45.9998 32.709 47.7906 34.4998 49.9998 34.4998C52.2089 34.4998 53.9998 32.709 53.9998 30.4998C53.9998 28.2907 52.2089 26.4998 49.9998 26.4998ZM61.9998 26.4998C59.7906 26.4998 57.9998 28.2907 57.9998 30.4998C57.9998 32.709 59.7906 34.4998 61.9998 34.4998C64.2089 34.4998 65.9998 32.709 65.9998 30.4998C65.9998 28.2907 64.2089 26.4998 61.9998 26.4998Z" fill="black"/>
+          <path d="M57.6011 35.2C57.7669 34.9793 58.0795 34.9346 58.3003 35.1003C58.5209 35.2661 58.5655 35.5788 58.3999 35.7996C57.8535 36.5271 56.9822 36.9997 56.0005 36.9998C55.0188 36.9998 54.1475 36.5271 53.6011 35.7996C53.4353 35.5788 53.4799 35.2661 53.7007 35.1003C53.9215 34.9347 54.2341 34.9792 54.3999 35.2C54.7656 35.6868 55.3467 35.9998 56.0005 35.9998C56.6543 35.9997 57.2354 35.6867 57.6011 35.2ZM50.7505 29.9998C51.4408 29.9998 52.0005 30.5594 52.0005 31.2498C52.0005 31.9401 51.4408 32.4998 50.7505 32.4998C50.0601 32.4998 49.5005 31.9401 49.5005 31.2498C49.5005 30.5594 50.0601 29.9998 50.7505 29.9998ZM61.2505 29.9998C61.9408 29.9998 62.5005 30.5594 62.5005 31.2498C62.5005 31.9401 61.9408 32.4998 61.2505 32.4998C60.5601 32.4998 60.0005 31.9401 60.0005 31.2498C60.0005 30.5594 60.5601 29.9998 61.2505 29.9998Z" fill="#1E2229"/>
+          <defs>
+            <radialGradient id="paint0_radial_header_ai" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(61.5005 24.4999) rotate(135) scale(22.6274 22.6274)">
+              <stop stop-color="#76EBC8"/>
+              <stop offset="0.333333" stop-color="#24DBE7"/>
+              <stop offset="0.666667" stop-color="#66A5FF"/>
+              <stop offset="1" stop-color="#1E72EB"/>
+            </radialGradient>
+            <linearGradient id="paint1_linear_header_ai" x1="62" y1="25.4999" x2="62" y2="35.4999" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#CFE2FF"/>
+              <stop offset="0.5" stop-color="white"/>
+              <stop offset="1" stop-color="white"/>
+            </linearGradient>
+            <linearGradient id="paint2_linear_header_ai" x1="50" y1="25.4999" x2="50" y2="35.4999" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#CFE2FF"/>
+              <stop offset="0.5" stop-color="white"/>
+              <stop offset="1" stop-color="white"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </button>
+      <div class="avatar">
+        <svg class="header-avatar-icon" viewBox="84 19.5 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="84" y="19.5" width="24" height="24" rx="12" fill="#002761"/>
+          <path d="M92.078 37.5V27.036H93.982L97.246 32.924L98.318 35.148H98.382C98.3393 34.6147 98.286 34.0333 98.222 33.404C98.1687 32.7747 98.142 32.1667 98.142 31.58V27.036H99.918V37.5H98.014L94.75 31.612L93.678 29.388H93.614C93.6567 29.9427 93.7047 30.524 93.758 31.132C93.822 31.74 93.854 32.3373 93.854 32.924V37.5H92.078Z" fill="white"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebarOverlay()" aria-hidden="true"></div>
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="course-title" id="course-title">Share Data Through the Art of Visualization</a>
+        <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close navigation">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="sidebar-menu-btn" onclick="toggleSidebar()" aria-label="Open navigation" id="sidebar-menu-btn">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-xp-tracker" id="sidebar-xp-tracker" aria-live="polite">
+        <div class="sidebar-xp-tracker-label-row">
+          <span class="sidebar-xp-tracker-label cds-action-secondary">Today's Skill points</span>
+        </div>
+        <button type="button" class="sidebar-xp-tracker-value" onclick="showSkillsIntroModal()" aria-label="View Skill Points details">
+          <img src="assets/xp-coin.svg" alt="" class="sidebar-xp-icon" aria-hidden="true">
+          <span class="sidebar-xp-value-text"><span id="sidebar-xp-value">0</span> XP</span>
+        </button>
+      </div>
+
+      <div class="sidebar-content" id="sidebar-content">
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 1</span><span class="module-name cds-subtitle-md">Visualize data</span></span>
+          <span class="module-chevron expanded"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="module-content">
+          <div class="lesson-header cds-subtitle-sm">Communicate data insights</div>
+          <a href="#" class="lecture-item active" data-lesson-id="m1-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Introduction to communicating data insights</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Course 6 overview</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Kevin: The power's in the data viz</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Helpful resources and tips</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Understand data visualization</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Why data visualization matters</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Effective data visualizations</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connect images with data</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The beauty of visualizing</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">A recipe for a powerful visualization</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Correlation and causation</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Dynamic visualizations</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">The wonderful world of visualizations</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data grows on decision trees</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Choose your visualization type</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on data visualizations</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Design data visualizations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Elements of art</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Principles of design</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data visualization impact</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data is beautiful</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Design thinking and visualizations</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l21"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">[Optional] Design thinking for visualization improvement</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l22"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on designing data visualizations</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Visualization considerations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l23"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Pro tips for highlighting key information</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l24"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Accessible visualizations</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l25"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Andrew: Making data accessible</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l26"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Design a chart in 60 minutes</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l27"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Create your own visualization</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m1-l28"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on exploring data visualizations</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 1 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l29"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 1</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m1-l30"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 1 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 2</span><span class="module-name cds-subtitle-md">Create data visualizations with Tableau</span></span>
+          <span class="module-chevron"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="module-content collapsed">
+          <div class="lesson-header cds-subtitle-sm">Get started with Tableau</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Data visualizations with Tableau</div><div class="lecture-meta">Video · 1 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tableau Public and other online tools</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Begin to use Tableau Public</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Meet Tableau</div><div class="lecture-meta">Video · 9 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Visualizations in spreadsheets and Tableau</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Create a data visualization in Tableau</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Create a data visualization in Tableau</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Optional: Using Tableau Desktop</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Design visualizations in Tableau</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Optimize the color palette in data visualization</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Essential design principles</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Bonus Guide: Additional insights on selecting the right data visualization</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Select visuals and charts</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Get creative</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Creating effective visualizations</div><div class="lecture-meta">Ungraded Plugin · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on creating visualizations in Tableau</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Optional: Work with multiple data sources</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Link multiple datasets in Tableau</div><div class="lecture-meta">Video · 9 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m2-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Link multiple datasets in Tableau</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tableau resources for combining multiple data sources</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 2 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 2</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m2-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 2 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 3</span><span class="module-name cds-subtitle-md">Craft data stories</span></span>
+          <span class="module-chevron"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="module-content collapsed">
+          <div class="lesson-header cds-subtitle-sm">Data-driven storytelling</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Craft stories with data</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Bring ideas to life</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Effective data stories</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Speak to your audience</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Understanding data storytelling</div><div class="lecture-meta">Ungraded Plugin · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Carolyn: Data journalism</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on data-driven stories</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Tableau dashboards</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Tableau dashboard basics</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Live and static insights</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">From filters to charts</div><div class="lecture-meta">Video · 6 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Create, filter, and customize charts</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Create your first Tableau dashboard</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Build a dashboard in Tableau</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on using Tableau dashboards</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Share data stories</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Compelling presentation tips</div><div class="lecture-meta">Video · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Share a narrative</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Hands-On Activity: Practice presenting</div><div class="lecture-meta">Practice Assignment · 1h</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Elements of an effective narrative</div><div class="lecture-meta">Ungraded Plugin · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Sundas: How to manage imposter syndrome</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m3-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on sharing data stories</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 3 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l21"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 3</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m3-l22"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 3 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-header-text"><span class="module-number cds-subtitle-sm">Module 4</span><span class="module-name cds-subtitle-md">Develop presentations and slideshows</span></span>
+          <span class="module-chevron"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="module-content collapsed">
+          <div class="lesson-header cds-subtitle-sm">The art and science of presentations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l1"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Pull it all together</div><div class="lecture-meta">Video · 57 sec</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l2"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Present with a framework</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l3"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Weave data into your presentation</div><div class="lecture-meta">Video · 7 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l4"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Review a slide presentation</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l5"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Brittany: Presentation skills for new data analysts</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l6"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Step-by-Step: Critique of a presentation</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l7"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connor: Messy example of a data presentation</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l8"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connor: Good example of a data presentation</div><div class="lecture-meta">Video · 15 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Presentation skills and practices</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l9"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Proven presentation tips</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l10"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Examples of great presentations</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l11"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Guide: Share data findings in presentations</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l12"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Evaluate your presentation</div><div class="lecture-meta">Reading · 8 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l13"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Present like a pro</div><div class="lecture-meta">Video · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l14"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on presentation skills and practices</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Data caveats and limitations</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l15"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Prepare for the Q&A</div><div class="lecture-meta">Reading · 10 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l16"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Anticipate the question</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l17"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Handle objections</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l18"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Self-Reflection: Practice handling objections</div><div class="lecture-meta">Practice Assignment · 20 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l19"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on caveats and limitations to data</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Listen, respond, and include</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l20"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Q&A best practices</div><div class="lecture-meta">Video · 5 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l21"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Connor: Becoming an expert data translator</div><div class="lecture-meta">Video · 3 min</div></div></a>
+          <a href="#" class="lecture-item" data-practice-item="true" data-lesson-id="m4-l22"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Test your knowledge on listening, responding, and including</div><div class="lecture-meta">Practice Assignment · 8 min</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Module 4 challenge</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l23"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Glossary terms from module 4</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l24"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Module 4 challenge</div><div class="lecture-meta">Graded Assignment</div></div></a>
+          <div class="lesson-header cds-subtitle-sm">Course wrap-up</div>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l25"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Reflect and connect with peers</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l26"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Course 6 glossary</div><div class="lecture-meta">Reading · 2 min</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l27"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Congratulations! Course wrap-up</div><div class="lecture-meta">Video · 30 sec</div></div></a>
+          <a href="#" class="lecture-item" data-lesson-id="m4-l28"><span class="lecture-status pending"><svg viewBox="0 0 20 20"><rect width="20" height="20" rx="10" fill="currentColor"/></svg></span><div class="lecture-info"><div class="lecture-title">Coming up next...</div><div class="lecture-meta">Reading · 4 min</div></div></a>
+        </div>
+      </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content-area content-type-video">
+      <section class="video-section">
+        <div class="video-container" id="video-container">
+          <div class="video-bg-layer"></div>
+          <video class="video-player" id="video-player" preload="metadata" playsinline controls aria-label="Video content"
+            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4">
+          </video>
+          <!-- Video End Modal - shown when video ends -->
+          <div class="video-end-modal" id="video-end-modal" role="dialog" aria-labelledby="video-end-modal-title" aria-hidden="true">
+            <div class="video-end-modal-backdrop"></div>
+            <div class="video-end-modal-content">
+              <section class="feedback-skill-progress-section video-end-skill-section">
+                <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="video-end-skill-title">Skill progress from this item</h3>
+                <div class="feedback-skill-progress-grid" id="video-end-skills-grid">
+                  <div class="feedback-skill-card feedback-skill-card-1" id="video-end-skill-card">
+                    <h4 class="feedback-skill-card-name cds-action-primary" id="video-end-skill-name">Skill Progress</h4>
+                    <div class="feedback-skill-tags-row">
+                      <span class="feedback-skill-xp-tag" id="video-end-xp-tag">+1 XP</span>
+                    </div>
+                    <div class="feedback-skill-progress-row">
+                      <div class="feedback-skill-progress-bar">
+                        <div class="feedback-skill-progress-fill" id="video-end-progress-fill" data-progress="4" data-start="0" style="width: 0%"></div>
+                      </div>
+                      <span class="feedback-skill-progress-value" id="video-end-progress-label">0/25 XP</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div class="video-end-modal-actions">
+                <button type="button" class="btn-primary video-end-btn-next" id="video-end-btn-next">Next item</button>
+                <button type="button" class="video-end-btn-pause" id="video-end-btn-pause">Pause</button>
+              </div>
+              <div class="video-end-next-preview" id="video-end-next-preview">
+                <div class="video-end-next-type-row">
+                  <span class="video-end-next-icon material-symbols-rounded" id="video-end-item-icon" aria-hidden="true">play_circle</span>
+                  <span class="video-end-next-type-text" id="video-end-item-type-text">Video</span>
+                </div>
+                <p class="video-end-next-name" id="video-end-next-title">Next item starts in 5s</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="content-header">
+        <div class="content-header-main">
+          <h1 class="video-title">Choosing the right chart for your data</h1>
+          <div class="skill-tags" id="content-skill-tags"></div>
+          <a href="#" class="learning-objectives-link">Review Learning Objectives</a>
+        </div>
+        <button class="save-note-btn content-header-save" type="button">
+          <svg class="save-note-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9.29905 18.0004H14.693C14.9477 18.0004 15.1625 17.9146 15.3375 17.7431C15.5125 17.5716 15.6 17.3591 15.6 17.1056C15.6 16.8521 15.5139 16.6379 15.3415 16.4629C15.1692 16.2879 14.9557 16.2004 14.701 16.2004H9.30705C9.05238 16.2004 8.83755 16.2861 8.66255 16.4576C8.48755 16.6291 8.40005 16.8416 8.40005 17.0951C8.40005 17.3486 8.48622 17.5629 8.65855 17.7379C8.83088 17.9129 9.04438 18.0004 9.29905 18.0004ZM9.29905 14.4004H14.693C14.9477 14.4004 15.1625 14.3146 15.3375 14.1431C15.5125 13.9716 15.6 13.7591 15.6 13.5056C15.6 13.2521 15.5139 13.0379 15.3415 12.8629C15.1692 12.6879 14.9557 12.6004 14.701 12.6004H9.30705C9.05238 12.6004 8.83755 12.6861 8.66255 12.8576C8.48755 13.0291 8.40005 13.2416 8.40005 13.4951C8.40005 13.7486 8.48622 13.9629 8.65855 14.1379C8.83088 14.3129 9.04438 14.4004 9.29905 14.4004ZM6.59305 21.6004C6.09772 21.6004 5.67505 21.4241 5.32505 21.0716C4.97505 20.7191 4.80005 20.2954 4.80005 19.8004V4.20039C4.80005 3.70539 4.9763 3.28164 5.3288 2.92914C5.6813 2.57664 6.10505 2.40039 6.60005 2.40039H13.65C13.887 2.40039 14.113 2.44206 14.3278 2.52539C14.5426 2.60872 14.7417 2.74206 14.925 2.92539L18.675 6.67539C18.8584 6.85872 18.9917 7.05781 19.075 7.27264C19.1584 7.48747 19.2 7.71339 19.2 7.95039V19.8004C19.2 20.2954 19.0237 20.7191 18.671 21.0716C18.3184 21.4241 17.8944 21.6004 17.399 21.6004H6.59305ZM13.2 7.50039V4.20039H6.60005V19.8004H17.4V8.40039H14.1C13.845 8.40039 13.6313 8.31414 13.4588 8.14164C13.2863 7.96914 13.2 7.75539 13.2 7.50039Z" fill="currentColor"/>
+          </svg>
+          Save note
+        </button>
+      </div>
+
+      <div class="reading-content-block">
+        <div class="reading-header-row">
+          <div>
+            <h1 class="reading-content-title">Formatting data for effective reporting</h1>
+            <div class="skill-tags" id="reading-skill-tags"></div>
+          </div>
+          <button class="save-note-btn reading-save-note" type="button">
+            <svg class="save-note-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M9.29905 18.0004H14.693C14.9477 18.0004 15.1625 17.9146 15.3375 17.7431C15.5125 17.5716 15.6 17.3591 15.6 17.1056C15.6 16.8521 15.5139 16.6379 15.3415 16.4629C15.1692 16.2879 14.9557 16.2004 14.701 16.2004H9.30705C9.05238 16.2004 8.83755 16.2861 8.66255 16.4576C8.48755 16.6291 8.40005 16.8416 8.40005 17.0951C8.40005 17.3486 8.48622 17.5629 8.65855 17.7379C8.83088 17.9129 9.04438 18.0004 9.29905 18.0004ZM9.29905 14.4004H14.693C14.9477 14.4004 15.1625 14.3146 15.3375 14.1431C15.5125 13.9716 15.6 13.7591 15.6 13.5056C15.6 13.2521 15.5139 13.0379 15.3415 12.8629C15.1692 12.6879 14.9557 12.6004 14.701 12.6004H9.30705C9.05238 12.6004 8.83755 12.6861 8.66255 12.8576C8.48755 13.0291 8.40005 13.2416 8.40005 13.4951C8.40005 13.7486 8.48622 13.9629 8.65855 14.1379C8.83088 14.3129 9.04438 14.4004 9.29905 14.4004ZM6.59305 21.6004C6.09772 21.6004 5.67505 21.4241 5.32505 21.0716C4.97505 20.7191 4.80005 20.2954 4.80005 19.8004V4.20039C4.80005 3.70539 4.9763 3.28164 5.3288 2.92914C5.6813 2.57664 6.10505 2.40039 6.60005 2.40039H13.65C13.887 2.40039 14.113 2.44206 14.3278 2.52539C14.5426 2.60872 14.7417 2.74206 14.925 2.92539L18.675 6.67539C18.8584 6.85872 18.9917 7.05781 19.075 7.27264C19.1584 7.48747 19.2 7.71339 19.2 7.95039V19.8004C19.2 20.2954 19.0237 20.7191 18.671 21.0716C18.3184 21.4241 17.8944 21.6004 17.399 21.6004H6.59305ZM13.2 7.50039V4.20039H6.60005V19.8004H17.4V8.40039H14.1C13.845 8.40039 13.6313 8.31414 13.4588 8.14164C13.2863 7.96914 13.2 7.75539 13.2 7.50039Z" fill="currentColor"/>
+            </svg>
+            Save note
+          </button>
+        </div>
+        <div class="reading-meta-row">
+          <svg class="reading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 7H16M8 11H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="reading-meta">4 min read</span>
+        </div>
+        <div class="reading-prose">
+          <p>Effective data reporting starts with clean, well-formatted data. When your data is properly structured, it becomes easier to analyze, visualize, and communicate insights to stakeholders.</p>
+          <p>Key principles for formatting data include using consistent date formats, removing duplicates, handling null values appropriately, and ensuring column headers are clear and descriptive.</p>
+          <p>Tools like spreadsheets and databases offer built-in formatting options, but understanding the underlying principles helps you make better decisions about how to organize your data.</p>
+        </div>
+        <section class="reading-key-takeaways">
+          <h3>Key Takeaways</h3>
+          <ul>
+            <li>Use consistent formatting across your dataset to avoid errors in analysis</li>
+            <li>Clean null values before analysis—either remove them or replace with appropriate defaults</li>
+            <li>Document your formatting decisions so others can understand your process</li>
+          </ul>
+        </section>
+        <div class="reading-complete-section">
+          <div class="reading-complete-state reading-complete-default" id="reading-complete-default">
+            <button type="button" class="btn-primary reading-mark-complete-btn" id="reading-mark-complete-btn">Mark as complete</button>
+          </div>
+          <div class="reading-complete-state reading-complete-done" id="reading-complete-done" style="display:none">
+            <div class="reading-complete-done-row">
+              <button type="button" class="btn-primary reading-next-btn" id="reading-next-btn">Go to next item</button>
+              <span class="reading-completed-label">
+                <svg class="reading-completed-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg>
+                Completed
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-box">
+        <div class="coach-box-header">
+          <h3 class="coach-box-title">Coach</h3>
+          <span class="coach-box-beta">Beta</span>
+        </div>
+        <p class="coach-box-message">Ready to review what you've learned before starting the assignment? I'm here to help.</p>
+        <div class="coach-box-buttons">
+          <button type="button" class="coach-prompt-btn coach-btn-assignment">
+            <svg class="coach-prompt-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.925 3.174a.28.28 0 00-.517 0l-.403.987a.93.93 0 01-.51.51l-.988.404a.28.28 0 000 .517l.988.403a.93.93 0 01.51.51l.403.988a.28.28 0 00.517 0l.403-.988a.931.931 0 01.51-.51l.988-.403a.28.28 0 000-.517l-.988-.404a.931.931 0 01-.51-.51l-.403-.987z" fill="url(#sparkle-grad)"/><path d="M9.654 4.845a.466.466 0 00-.863 0L7.936 6.94a4.66 4.66 0 01-2.552 2.553l-2.094.854a.466.466 0 000 .863l2.094.855a4.66 4.66 0 012.552 2.552l.855 2.094a.466.466 0 00.863 0l.854-2.094a4.66 4.66 0 012.553-2.552l2.094-.855a.466.466 0 000-.863l-2.094-.854a4.66 4.66 0 01-2.553-2.553l-.854-2.094z" fill="url(#sparkle-grad)"/></svg>
+            Help me practice
+          </button>
+          <button type="button" class="coach-prompt-btn coach-btn-assignment">
+            <svg class="coach-prompt-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.925 3.174a.28.28 0 00-.517 0l-.403.987a.93.93 0 01-.51.51l-.988.404a.28.28 0 000 .517l.988.403a.93.93 0 01.51.51l.403.988a.28.28 0 00.517 0l.403-.988a.931.931 0 01.51-.51l.988-.403a.28.28 0 000-.517l-.988-.404a.931.931 0 01-.51-.51l-.403-.987z" fill="url(#sparkle-grad)"/><path d="M9.654 4.845a.466.466 0 00-.863 0L7.936 6.94a4.66 4.66 0 01-2.552 2.553l-2.094.854a.466.466 0 000 .863l2.094.855a4.66 4.66 0 012.552 2.552l.855 2.094a.466.466 0 00.863 0l.854-2.094a4.66 4.66 0 012.553-2.552l2.094-.855a.466.466 0 000-.863l-2.094-.854a4.66 4.66 0 01-2.553-2.553l-.854-2.094z" fill="url(#sparkle-grad)"/></svg>
+            Let's chat
+          </button>
+          <button type="button" class="coach-prompt-btn coach-btn-video">
+            <svg class="coach-prompt-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.925 3.174a.28.28 0 00-.517 0l-.403.987a.93.93 0 01-.51.51l-.988.404a.28.28 0 000 .517l.988.403a.93.93 0 01.51.51l.403.988a.28.28 0 00.517 0l.403-.988a.931.931 0 01.51-.51l.988-.403a.28.28 0 000-.517l-.988-.404a.931.931 0 01-.51-.51l-.403-.987z" fill="url(#sparkle-grad)"/><path d="M9.654 4.845a.466.466 0 00-.863 0L7.936 6.94a4.66 4.66 0 01-2.552 2.553l-2.094.854a.466.466 0 000 .863l2.094.855a4.66 4.66 0 012.552 2.552l.855 2.094a.466.466 0 00.863 0l.854-2.094a4.66 4.66 0 012.553-2.552l2.094-.855a.466.466 0 000-.863l-2.094-.854a4.66 4.66 0 01-2.553-2.553l-.854-2.094z" fill="url(#sparkle-grad)"/></svg>
+            Give me a summary
+          </button>
+          <button type="button" class="coach-prompt-btn coach-btn-video">
+            <svg class="coach-prompt-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.925 3.174a.28.28 0 00-.517 0l-.403.987a.93.93 0 01-.51.51l-.988.404a.28.28 0 000 .517l.988.403a.93.93 0 01.51.51l.403.988a.28.28 0 00.517 0l.403-.988a.931.931 0 01.51-.51l.988-.403a.28.28 0 000-.517l-.988-.404a.931.931 0 01-.51-.51l-.403-.987z" fill="url(#sparkle-grad)"/><path d="M9.654 4.845a.466.466 0 00-.863 0L7.936 6.94a4.66 4.66 0 01-2.552 2.553l-2.094.854a.466.466 0 000 .863l2.094.855a4.66 4.66 0 012.552 2.552l.855 2.094a.466.466 0 00.863 0l.854-2.094a4.66 4.66 0 012.553-2.552l2.094-.855a.466.466 0 000-.863l-2.094-.854a4.66 4.66 0 01-2.553-2.553l-.854-2.094z" fill="url(#sparkle-grad)"/></svg>
+            Give me real-life examples
+          </button>
+          <button type="button" class="coach-prompt-btn coach-btn-video">
+            <svg class="coach-prompt-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.925 3.174a.28.28 0 00-.517 0l-.403.987a.93.93 0 01-.51.51l-.988.404a.28.28 0 000 .517l.988.403a.93.93 0 01.51.51l.403.988a.28.28 0 00.517 0l.403-.988a.931.931 0 01.51-.51l.988-.403a.28.28 0 000-.517l-.988-.404a.931.931 0 01-.51-.51l-.403-.987z" fill="url(#sparkle-grad)"/><path d="M9.654 4.845a.466.466 0 00-.863 0L7.936 6.94a4.66 4.66 0 01-2.552 2.553l-2.094.854a.466.466 0 000 .863l2.094.855a4.66 4.66 0 012.552 2.552l.855 2.094a.466.466 0 00.863 0l.854-2.094a4.66 4.66 0 012.553-2.552l2.094-.855a.466.466 0 000-.863l-2.094-.854a4.66 4.66 0 01-2.553-2.553l-.854-2.094z" fill="url(#sparkle-grad)"/></svg>
+            Explain this topic in simple terms
+          </button>
+        </div>
+      </div>
+
+      <div class="assignment-box">
+        <h3 class="assignment-box-title cds-action-primary">Assignment details.</h3>
+        <p class="assignment-box-attempts cds-body-secondary">Attempts: Unlimited.</p>
+        <button type="button" class="btn-primary assignment-start-btn cds-action-primary">Start</button>
+      </div>
+
+      <div class="grade-box">
+        <h3 class="grade-box-title cds-action-primary">Your grade.</h3>
+        <p class="grade-box-text cds-body-secondary">You haven't submitted this yet. We keep your highest score. These grades will not affect your overall skill progress.</p>
+        <div class="grade-box-value">--</div>
+      </div>
+
+      <div class="content-footer-feedback">
+        <button type="button" class="footer-feedback-btn" aria-label="Like">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 11H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Like
+        </button>
+        <button type="button" class="footer-feedback-btn" aria-label="Dislike">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Dislike
+        </button>
+        <button type="button" class="footer-feedback-btn" aria-label="Report an issue">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Report an issue
+        </button>
+      </div>
+
+      <div class="video-tabs content-tabs">
+        <button class="tab active" onclick="switchTab('transcript')" id="tab-transcript">Transcript</button>
+        <button class="tab" onclick="switchTab('notes')" id="tab-notes">Notes</button>
+        <button class="tab" onclick="switchTab('downloads')" id="tab-downloads">Downloads</button>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-panel active" id="panel-transcript">
+          <div class="transcript-item">
+            <button class="transcript-timestamp">0:10</button>
+            <p class="transcript-text">So, Go language is object-oriented, but let's say, weakly object-oriented. So, what I mean by that is that it implements objects but maybe they have fewer features than you would see in another object-oriented language like Python or Java or C++ or something like that.</p>
+          </div>
+          <div class="transcript-item">
+            <button class="transcript-timestamp">1:01</button>
+            <p class="transcript-text">So, I'm just going to summarize what object-oriented languages are, what object-oriented programming is very briefly just so I can highlight some of the differences in Go's implementation. So, object-oriented programming, it's really for code organization, in my mind is for code organization.</p>
+          </div>
+          <div class="transcript-item">
+            <button class="transcript-timestamp">1:28</button>
+            <p class="transcript-text">So, you organize your code by encapsulating your code. You group together data and functions that are related to each other. So, this is essentially what a type is. So, what object-oriented programming and lets you do is essentially create a user-defined type, one that's specific for whatever application it is that you're building.</p>
+          </div>
+          <div class="transcript-item">
+            <button class="transcript-timestamp">2:08</button>
+            <p class="transcript-text">So, typical types, you have integers, floats, that sort of thing. Those are generic. You can use those in any kind of program. But when you're making a specific application, you might like to have a type that is specific to that application domain. You can create that. Object-oriented programming allows you to create that.</p>
+          </div>
+          <div class="transcript-item">
+            <button class="transcript-timestamp">2:41</button>
+            <p class="transcript-text">So, if you think about a type, your standard type, like an integer, each integer it has data, the number, the value of the number, and then it has functions, the functions that you can apply to the data. So, you can apply addition, subtraction, multiplication, that sort of thing. So, a type has data and has set of functions that you can apply to the data.</p>
+          </div>
+          <div class="transcript-item">
+            <button class="transcript-timestamp">3:13</button>
+            <p class="transcript-text">So, object-oriented programming is the same idea. You're creating types. But they are more complicated, they can be more complicated, and they are specific to your application. As an example, let's say you're making an application and it's going to do geometry, some kind of geometric operations in three dimensions.</p>
+          </div>
+          <div class="transcript-item">
+            <button class="transcript-timestamp">3:46</button>
+            <p class="transcript-text">So, many of the functions that you're going to write are going to operate on points. You're going to have this idea of points because you're doing 3D geometry. Each point is going to have some data associated with it, specifically x, y, and z coordinates.</p>
+          </div>
+        </div>
+        <div class="tab-panel" id="panel-notes">
+          <div class="about-content">
+            <p>Your notes for this lecture will appear here.</p>
+          </div>
+        </div>
+        <div class="tab-panel" id="panel-downloads">
+          <div class="about-content">
+            <p>Downloads for this lecture will appear here.</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav">
+        <button class="btn-secondary next-item-btn" type="button" onclick="goToNextItem()">
+          Go to next item
+          <svg class="next-item-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M13.124 10.7503H4.74861C4.53625 10.7503 4.35819 10.6789 4.21444 10.536C4.07083 10.393 3.99902 10.216 3.99902 10.0047C3.99902 9.79345 4.07083 9.61491 4.21444 9.46908C4.35819 9.32324 4.53625 9.25033 4.74861 9.25033H13.124L9.45298 5.57928C9.30312 5.42942 9.22819 5.2538 9.22819 5.05241C9.22819 4.85102 9.30458 4.6706 9.45736 4.51116C9.61013 4.36505 9.78722 4.29199 9.98861 4.29199C10.19 4.29199 10.3658 4.36713 10.5159 4.51741L15.4699 9.47762C15.5449 9.55276 15.5997 9.63415 15.6344 9.72178C15.6692 9.80942 15.6865 9.90338 15.6865 10.0037C15.6865 10.1038 15.6692 10.1978 15.6344 10.2855C15.5997 10.3732 15.5476 10.4517 15.4782 10.5212L10.5199 15.4795C10.3671 15.6323 10.1935 15.7052 9.99902 15.6982C9.80458 15.6913 9.63097 15.6148 9.47819 15.4687C9.32541 15.3092 9.24902 15.1276 9.24902 14.9239C9.24902 14.7203 9.32541 14.5444 9.47819 14.3962L13.124 10.7503Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </nav>
+    </main>
+  </div>
+
+  <div id="course-intro-modal" class="course-intro-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="course-intro-title" aria-hidden="true">
+  <div class="course-intro-backdrop">
+    <div class="course-intro-blob course-intro-blob-blue"></div>
+    <div class="course-intro-blob course-intro-blob-purple"></div>
+    <div class="course-intro-blob course-intro-blob-cyan"></div>
+  </div>
+  <div class="course-intro-content">
+    <button type="button" class="dialog-close-btn" onclick="hideCourseIntroModal()" aria-label="Close">
+      <img src="assets/icon-button-close.svg" alt="">
+    </button>
+    <h1 id="course-intro-title" class="course-intro-title cds-title-md">Welcome to Share Data Through the Art of Visualization!</h1>
+    <div class="course-intro-subheader">
+      <h2 class="course-intro-subtitle cds-subtitle-md">Here are the 4 skill goals covered in this course</h2>
+    </div>
+    <div class="course-intro-skills">
+      <div class="course-intro-skill course-intro-skill-1">
+        <span class="course-intro-skill-name cds-action-primary">Prepare Datasets in Power BI</span>
+        <span class="course-intro-skill-xp cds-body-secondary">0 xp</span>
+      </div>
+      <div class="course-intro-skill course-intro-skill-2">
+        <span class="course-intro-skill-name cds-action-primary">Connecting and Importing Data</span>
+        <span class="course-intro-skill-xp cds-body-secondary">0 xp</span>
+      </div>
+      <div class="course-intro-skill course-intro-skill-3">
+        <span class="course-intro-skill-name cds-action-primary">Preparing and Cleaning Data</span>
+        <span class="course-intro-skill-xp cds-body-secondary">0 xp</span>
+      </div>
+      <div class="course-intro-skill course-intro-skill-4">
+        <span class="course-intro-skill-name cds-action-primary">Visualizing and Reporting Clean Data</span>
+        <span class="course-intro-skill-xp cds-body-secondary">0 xp</span>
+      </div>
+    </div>
+    <button type="button" class="course-intro-btn cds-action-primary" onclick="hideCourseIntroModal()">Let's get started</button>
+  </div>
+</div>
+
+  <div id="assignment-feedback-modal" class="assignment-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="feedback-modal-title" aria-hidden="true">
+    <div class="feedback-modal-inner">
+      <button type="button" class="dialog-close-btn" onclick="hideAssignmentFeedback()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <header class="feedback-modal-header">
+        <button type="button" class="feedback-back-btn" onclick="hideAssignmentFeedback()">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="feedback-header-title">
+          <h1 id="feedback-modal-title" class="feedback-modal-title cds-subtitle-md">Module 1 challenge</h1>
+          <p class="feedback-modal-subtitle cds-body-secondary">Assignment · 40 min</p>
+        </div>
+      </header>
+
+      <section class="feedback-grade-banner">
+        <div class="feedback-grade-banner-illustration-wrap" aria-hidden="true">
+          <img src="assets/feedback-banner-illustration.svg" alt="" class="feedback-grade-banner-illustration">
+        </div>
+        <div class="feedback-grade-banner-inner">
+          <div class="feedback-grade-banner-content">
+            <h2 class="feedback-grade-heading">You passed!<br>Great job on this.</h2>
+            <p class="feedback-grade-received">Grade received <span class="feedback-grade-value">100%</span></p>
+            <button type="button" class="btn-primary feedback-next-btn cds-action-primary" onclick="feedbackNextItem()">Next item <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M13.124 10.7503H4.74861C4.53625 10.7503 4.35819 10.6789 4.21444 10.536C4.07083 10.393 3.99902 10.216 3.99902 10.0047C3.99902 9.79345 4.07083 9.61491 4.21444 9.46908C4.35819 9.32324 4.53625 9.25033 4.74861 9.25033H13.124L9.45298 5.57928C9.30312 5.42942 9.22819 5.2538 9.22819 5.05241C9.22819 4.85102 9.30458 4.6706 9.45736 4.51116C9.61013 4.36505 9.78722 4.29199 9.98861 4.29199C10.19 4.29199 10.3658 4.36713 10.5159 4.51741L15.4699 9.47762C15.5449 9.55276 15.5997 9.63415 15.6344 9.72178C15.6692 9.80942 15.6865 9.90338 15.6865 10.0037C15.6865 10.1038 15.6692 10.1978 15.6344 10.2855C15.5997 10.3732 15.5476 10.4517 15.4782 10.5212L10.5199 15.4795C10.3671 15.6323 10.1935 15.7052 9.99902 15.6982C9.80458 15.6913 9.63097 15.6148 9.47819 15.4687C9.32541 15.3092 9.24902 15.1276 9.24902 14.9239C9.24902 14.7203 9.32541 14.5444 9.47819 14.3962L13.124 10.7503Z" fill="currentColor"/></svg></button>
+          </div>
+          <div class="feedback-skill-progress-banner-wrap">
+            <section class="feedback-skill-progress-section feedback-skill-progress-banner">
+            <h3 class="feedback-skill-progress-title cds-subtitle-sm" id="feedback-skill-progress-title">Skill progress from this assignment</h3>
+            <div class="feedback-skill-progress-grid">
+              <div class="feedback-skill-card feedback-skill-card-1">
+                <h4 class="feedback-skill-card-name cds-action-primary">Visualizing and Reporting Clean Data</h4>
+                <div class="feedback-skill-tags-row">
+                  <span class="feedback-skill-xp-tag">+5 XP</span>
+                </div>
+                <div class="feedback-skill-progress-row">
+                  <div class="feedback-skill-progress-bar">
+                    <div class="feedback-skill-progress-fill" data-progress="17" data-start="14" style="width: 14%"></div>
+                  </div>
+                  <span class="feedback-skill-progress-value">17/100 XP</span>
+                </div>
+              </div>
+              <div class="feedback-skill-card feedback-skill-card-2">
+                <h4 class="feedback-skill-card-name cds-action-primary">Preparing and Cleaning Data</h4>
+                <div class="feedback-skill-tags-row">
+                  <span class="feedback-skill-xp-tag">+2 XP</span>
+                </div>
+                <div class="feedback-skill-progress-row">
+                  <div class="feedback-skill-progress-bar">
+                    <div class="feedback-skill-progress-fill" data-progress="8" data-start="5" style="width: 5%"></div>
+                  </div>
+                  <span class="feedback-skill-progress-value">8/100 XP</span>
+                </div>
+              </div>
+            </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <div class="feedback-modal-content">
+        <section class="feedback-questions">
+          <div class="feedback-question">
+            <div class="feedback-question-header">
+              <p class="feedback-question-text cds-body-primary">1. Which chart type is best suited for showing proportions of a whole?</p>
+              <span class="feedback-question-points cds-body-secondary">1/1 point</span>
+            </div>
+            <div class="feedback-options">
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q1" disabled> Bar chart</label>
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q1" disabled> Line chart</label>
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q1" checked disabled> Pie chart</label>
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q1" disabled> Scatter plot</label>
+            </div>
+            <div class="feedback-correct-box">
+              <span class="feedback-correct-label">Correct</span>
+              <p class="cds-body-secondary">Pie charts are ideal for showing proportions or percentages of a whole, making it easy to compare parts to the total.</p>
+            </div>
+          </div>
+
+          <div class="feedback-question">
+            <div class="feedback-question-header">
+              <p class="feedback-question-text cds-body-primary">2. What is a key principle for creating clear data visualizations?</p>
+              <span class="feedback-question-points cds-body-secondary">1/1 point</span>
+            </div>
+            <div class="feedback-options">
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q2" disabled> Use as many colors as possible</label>
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q2" disabled> Include all available data points</label>
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q2" checked disabled> Keep the design simple and focused</label>
+              <label class="feedback-option cds-body-primary"><input type="radio" name="q2" disabled> Use 3D effects for depth</label>
+            </div>
+            <div class="feedback-correct-box">
+              <span class="feedback-correct-label">Correct</span>
+              <p class="cds-body-secondary">Keeping visualizations simple and focused helps viewers quickly understand the main message without distraction.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="module-complete-modal" class="module-complete-modal" role="dialog" aria-modal="true" aria-labelledby="module-complete-title" aria-hidden="true">
+    <div class="module-complete-backdrop" onclick="hideModuleCompleteDialog()"></div>
+    <div class="module-complete-dialog">
+      <button type="button" class="dialog-close-btn" onclick="hideModuleCompleteDialog()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="module-complete-inner">
+        <div class="module-complete-illustration">
+          <img src="assets/module-complete-illustration.svg" alt="" class="module-complete-svg" width="340" height="207" aria-hidden="true">
+        </div>
+        <div class="module-complete-content">
+          <h2 id="module-complete-title" class="module-complete-title cds-title-xs">Module Complete!</h2>
+          <p class="module-complete-subtext cds-body-primary">Great work in completing the module. Here are some highlights:</p>
+          <div class="module-complete-stats">
+            <div class="module-complete-stat">
+              <div class="module-complete-stat-icon module-complete-stat-icon-modules">
+                <img src="assets/Certificate.svg" alt="" width="24" height="24" aria-hidden="true">
+              </div>
+              <span class="module-complete-stat-value cds-subtitle-md">1/4</span>
+              <span class="module-complete-stat-label cds-body-tertiary">Modules</span>
+            </div>
+            <div class="module-complete-stat-divider"></div>
+            <div class="module-complete-stat">
+              <div class="module-complete-stat-icon module-complete-stat-icon-xp">
+                <img src="assets/xp-coin.svg" alt="" width="24" height="24" aria-hidden="true">
+              </div>
+              <span class="module-complete-stat-value cds-subtitle-md">19 <span class="module-complete-stat-unit cds-subtitle-md">XP</span></span>
+              <span class="module-complete-stat-label cds-body-tertiary">Earned</span>
+            </div>
+          </div>
+          <div class="module-complete-skills-header">
+            <h3 class="module-complete-skills-title cds-subtitle-md">2 Skills Developed</h3>
+            <div class="module-complete-skills-nav">
+              <button type="button" class="module-complete-nav-btn" onclick="moduleCompletePrevSkill()" aria-label="Previous skill">
+                <span class="material-symbols-rounded">chevron_left</span>
+              </button>
+              <button type="button" class="module-complete-nav-btn" onclick="moduleCompleteNextSkill()" aria-label="Next skill">
+                <span class="material-symbols-rounded">chevron_right</span>
+              </button>
+            </div>
+          </div>
+          <div class="module-complete-skill-cards">
+            <div class="feedback-skill-card module-complete-skill-card active" id="module-skill-card-0">
+              <h4 class="feedback-skill-card-name cds-action-primary">Visualizing and Reporting Clean Data</h4>
+              <div class="feedback-skill-progress-row">
+                <div class="feedback-skill-progress-bar">
+                  <div class="feedback-skill-progress-fill" style="width: 17%"></div>
+                </div>
+                <span class="feedback-skill-progress-value">17/100 XP</span>
+              </div>
+            </div>
+            <div class="feedback-skill-card module-complete-skill-card" id="module-skill-card-1">
+              <h4 class="feedback-skill-card-name cds-action-primary">Preparing and Cleaning Data</h4>
+              <div class="feedback-skill-progress-row">
+                <div class="feedback-skill-progress-bar">
+                  <div class="feedback-skill-progress-fill" style="width: 8%"></div>
+                </div>
+                <span class="feedback-skill-progress-value">8/100 XP</span>
+              </div>
+            </div>
+          </div>
+          <div class="module-complete-carousel-dots">
+            <button type="button" class="module-complete-dot active" onclick="moduleCompleteGoToSkill(0)" aria-label="Skill 1"></button>
+            <button type="button" class="module-complete-dot" onclick="moduleCompleteGoToSkill(1)" aria-label="Skill 2"></button>
+          </div>
+          <div class="module-complete-actions">
+            <button type="button" class="module-complete-btn-primary" onclick="hideModuleCompleteDialog(); goToNextItem();">Continue Learning</button>
+            <button type="button" class="module-complete-btn-secondary" onclick="hideModuleCompleteDialog(); window.location.href='my-learning.html#skills';">See skill progress</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="goals-complete-modal" class="goals-complete-modal" role="dialog" aria-modal="true" aria-labelledby="goals-complete-title" aria-hidden="true">
+    <div class="goals-complete-backdrop" onclick="hideGoalsCompleteDialog()"></div>
+    <div class="goals-complete-dialog">
+      <button type="button" class="dialog-close-btn" onclick="hideGoalsCompleteDialog()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <!-- New learner variant -->
+      <div id="goals-complete-new" class="goals-complete-inner goals-complete-variant">
+        <div class="goals-complete-illustration">
+          <svg class="goals-complete-day1-svg" width="302" height="191" viewBox="0 0 302 191" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M195.401 54.5957L195.401 68.2786L260.557 105.526L278.041 95.4271L278.041 82.1785L195.401 54.5957Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m0" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="195" y="54" width="84" height="52"><path d="M195.401 54.5957L195.401 68.2786L260.557 105.526L278.041 95.4271L278.041 82.1785L195.401 54.5957Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m0)"><path d="M260.665 187.442L437.891 212.78L370.924 20.2433L260.665 -41.6914L260.665 187.442Z" fill="#076144"/></g>
+            <path d="M195.399 54.5953L212.883 44.5684L278.039 82.1781L260.555 92.2413L195.399 54.5953Z" fill="#DBE2B0"/>
+            <path d="M162.814 73.4199L162.778 87.0666L227.971 124.351L245.418 114.215L245.418 100.967L162.814 73.4199Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m1" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="162" y="73" width="84" height="52"><path d="M162.814 73.4199L162.778 87.0666L227.971 124.351L245.418 114.215L245.418 100.967L162.814 73.4199Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m1)"><path d="M228.087 206.231L405.312 231.606L338.346 39.0321L228.087 -22.9024L228.087 206.231Z" fill="#076144"/></g>
+            <path d="M162.814 73.4191L180.262 63.3564L245.418 100.966L227.971 111.029L162.814 73.4191Z" fill="#DBE2B0"/>
+            <path d="M130.243 92.2412L130.243 105.888L195.399 143.135L212.883 133.036L212.883 119.788L130.243 92.2412Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m2" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="130" y="92" width="83" height="52"><path d="M130.243 92.2412L130.243 105.888L195.399 143.135L212.883 133.036L212.883 119.788L130.243 92.2412Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m2)"><path d="M195.509 225.051L372.734 250.426L305.768 57.8529L195.509 -4.08205L195.509 225.051Z" fill="#076144"/></g>
+            <path d="M130.243 92.2418L147.726 82.1787L212.883 119.788L195.399 129.852L130.243 92.2418Z" fill="#DBE2B0"/>
+            <path d="M97.7048 110.992L97.6686 124.639L162.861 161.923L180.309 151.787L180.309 138.539L97.7048 110.992Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m3" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="97" y="110" width="84" height="52"><path d="M97.7068 110.992L97.6706 124.639L162.863 161.923L180.311 151.787L180.311 138.539L97.7068 110.992Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m3)"><path d="M162.978 243.802L340.203 269.177L273.237 76.6035L162.978 14.7051L162.978 243.802Z" fill="#076144"/></g>
+            <path d="M97.7029 110.992L115.15 100.93L180.307 138.539L162.859 148.602L97.7029 110.992Z" fill="#DBE2B0"/>
+            <path d="M65.1549 129.779L65.1549 143.462L130.311 180.71L147.795 170.611L147.795 157.362L65.1549 129.779Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m4" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="65" y="129" width="83" height="52"><path d="M65.153 129.779L65.153 143.462L130.309 180.71L147.793 170.611L147.793 157.362L65.153 129.779Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m4)"><path d="M130.419 262.625L307.645 287.964L240.678 95.4269L130.419 33.4922L130.419 262.625Z" fill="#076144"/></g>
+            <path d="M65.1569 129.779L82.6406 119.716L147.797 157.362L130.313 167.389L65.1569 129.779Z" fill="#DBE2B0"/>
+            <path d="M32.4021 148.638L32.3659 162.321L97.5585 199.569L115.006 189.469L115.006 176.221L32.4021 148.638Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m5" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="32" y="148" width="84" height="52"><path d="M32.4001 148.638L32.3639 162.321L97.5565 199.569L115.004 189.469L115.004 176.221L32.4001 148.638Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m5)"><path d="M97.6751 281.485L274.9 306.824L207.934 114.286L97.6751 52.3515L97.6751 281.485Z" fill="#076144"/></g>
+            <path d="M32.4041 148.637L49.8515 138.574L115.008 176.22L97.5604 186.247L32.4041 148.637Z" fill="#DBE2B0"/>
+            <path d="M123.674 143.467C119.751 141.511 113.428 141.511 109.535 143.467C105.643 145.423 105.658 148.589 109.58 150.533C113.502 152.489 119.826 152.489 123.719 150.533C127.611 148.577 127.596 145.411 123.674 143.467Z" fill="#0F1114"/>
+            <path d="M116.627 147.235C127.126 147.235 135.627 138.682 135.627 128.118C135.627 117.553 127.126 109 116.627 109C106.128 109 97.627 117.553 97.627 128.118C97.627 138.682 106.128 147.235 116.627 147.235Z" fill="#FFC936"/>
+            <path d="M116.607 135.471C120.627 135.471 123.934 132.19 123.934 128.118C123.934 124.045 120.665 120.765 116.607 120.765C112.55 120.765 109.318 124.045 109.318 128.118C109.318 132.19 112.587 135.471 116.607 135.471Z" fill="#FFEF9F"/>
+            <path d="M0.00252533 167.39L0.00252413 181.073L65.1589 218.32L82.6426 208.221L82.6426 194.972L0.00252533 167.39Z" fill="#B7CD76"/>
+            <mask id="goals-day1-m6" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="167" width="83" height="52"><path d="M0.00447845 167.39L0.00447726 181.073L65.1608 218.32L82.6445 208.221L82.6445 194.972L0.00447845 167.39Z" fill="white"/></mask>
+            <g mask="url(#goals-day1-m6)"><path d="M65.3138 300.236L242.539 325.575L175.573 133.038L65.3138 71.1035L65.3138 300.236Z" fill="#076144"/></g>
+            <path d="M0.000571325 167.389L17.4843 157.326L82.6406 194.972L65.1569 204.999L0.000571325 167.389Z" fill="#DBE2B0"/>
+            <path d="M11.7299 167.751L8.29102 167.751L8.29102 132.82L11.7299 132.82L11.7299 167.751Z" fill="#0F1114"/>
+            <path d="M9.85202 135.463C7.01322 135.463 4.71197 133.162 4.71197 130.323C4.71197 127.484 7.01322 125.183 9.85203 125.183C12.6908 125.183 14.9922 127.484 14.9922 130.323C14.9922 133.162 12.6908 135.463 9.85202 135.463Z" fill="#076144"/>
+            <path d="M213.281 55.1387L209.842 55.1387L209.842 20.2075L213.281 20.2075L213.281 55.1387Z" fill="#0F1114"/>
+            <path d="M8.28996 132.855C24.1447 144.728 161.533 88.3093 210.545 20.1123" stroke="#076144" stroke-miterlimit="10"/>
+            <path d="M66.058 197.724L62.6191 197.724L62.6191 162.792L66.058 162.792L66.058 197.724Z" fill="#0F1114"/>
+            <path d="M64.1822 165.434C61.3434 165.434 59.0421 163.133 59.0421 160.294C59.0421 157.455 61.3434 155.154 64.1822 155.154C67.021 155.154 69.3223 157.455 69.3223 160.294C69.3223 163.133 67.021 165.434 64.1822 165.434Z" fill="#076144"/>
+            <path d="M267.611 85.1113L264.172 85.1113L264.172 50.1802L267.611 50.1802L267.611 85.1113Z" fill="#0F1114"/>
+            <path d="M62.6184 162.829C78.4731 174.702 217.474 119.106 266.486 50.9092" stroke="#076144" stroke-miterlimit="10"/>
+            <path d="M213.691 2.72363L246.339 7.34408L213.691 26.4086V2.72363Z" fill="#C29FFC"/>
+            <path d="M213.691 3.14254L209.92 0L242.567 4.62045L247.201 7.34277L213.691 3.14254Z" fill="#5B15CF"/>
+            <path d="M213.691 26.3973L209.92 23.6811V0L213.691 2.71231V26.3973Z" fill="#8040ED"/>
+            <path d="M267.744 32.8916L300.392 37.5121L267.744 56.5766V32.8916Z" fill="#C29FFC"/>
+            <path d="M267.744 33.3105L263.973 30.168L296.62 34.7884L301.253 37.5107L267.744 33.3105Z" fill="#5B15CF"/>
+            <path d="M267.744 56.5653L263.973 53.849V30.168L267.744 32.8803V56.5653Z" fill="#8040ED"/>
+            <path d="M46.3728 150.97C43.0069 146.502 41.3894 141.799 43.4993 136.395C43.7162 135.839 44.4662 135.736 44.8141 136.223C48.6635 141.6 51.1077 146.832 46.3683 150.975L46.3728 150.97Z" fill="#1F7C4D"/>
+            <path d="M45.9501 150.564C44.545 145.152 44.8387 140.182 48.8552 135.993C49.2709 135.56 49.9983 135.754 50.1383 136.337C51.6474 142.775 51.9094 148.545 45.9546 150.564H45.9501Z" fill="#93B73B"/>
+            <path d="M46.1613 152.019C45.321 148.738 45.7141 145.68 48.8134 142.96C49.1342 142.68 49.6628 142.77 49.7441 143.127C50.6251 147.031 50.6161 150.568 46.1613 152.019Z" fill="#93B73B"/>
+            <path d="M45.9496 152.005C41.165 149.19 37.8804 145.504 37.7132 139.779C37.6952 139.124 38.4135 138.704 38.9738 139.052C44.5355 142.526 48.7236 146.403 45.9541 152.005H45.9496Z" fill="#93B73B"/>
+            <path d="M45.9492 152.005C46.008 146.457 47.4944 141.808 52.3784 138.808C52.9386 138.465 53.6615 138.88 53.6344 139.535C53.3904 146.086 52.1886 151.612 45.9492 152.001V152.005Z" fill="#1F7C4D"/>
+            <path d="M223.611 101.946C220.245 97.4775 218.628 92.7743 220.738 87.3707C220.954 86.815 221.704 86.7111 222.052 87.199C225.902 92.5755 228.346 97.8074 223.607 101.95L223.611 101.946Z" fill="#1F7C4D"/>
+            <path d="M223.188 101.54C221.783 96.1271 222.077 91.1573 226.094 86.9691C226.509 86.5353 227.237 86.7296 227.377 87.3124C228.886 93.7506 229.148 99.5201 223.193 101.54H223.188Z" fill="#93B73B"/>
+            <path d="M223.4 102.994C222.559 99.714 222.952 96.6553 226.052 93.9355C226.372 93.6554 226.901 93.7457 226.982 94.1026C227.863 98.0062 227.854 101.544 223.4 102.994Z" fill="#93B73B"/>
+            <path d="M223.188 102.981C218.403 100.166 215.119 96.4793 214.952 90.755C214.933 90.0999 215.652 89.6797 216.212 90.0276C221.774 93.5019 225.962 97.3784 223.192 102.981H223.188Z" fill="#93B73B"/>
+            <path d="M223.188 102.981C223.246 97.4325 224.733 92.7835 229.617 89.7835C230.177 89.4401 230.9 89.8558 230.873 90.5109C230.629 97.062 229.427 102.588 223.188 102.976V102.981Z" fill="#1F7C4D"/>
+          </svg>
+        </div>
+        <div class="goals-complete-content">
+          <h2 id="goals-complete-title" class="goals-complete-title">Great job! You're off to a strong start</h2>
+          <p class="goals-complete-subtext cds-body-primary">We're impressed—you just completed your first set of daily goals. Tomorrow, there'll be a new personalized set to help you keep up momentum. Taking small steps daily can lead to big achievements!</p>
+          <button type="button" class="goals-complete-btn" onclick="hideGoalsCompleteDialog()">Continue learning</button>
+        </div>
+      </div>
+
+      <!-- Active learner variant -->
+      <div id="goals-complete-active" class="goals-complete-inner goals-complete-variant" style="display:none;">
+        <div class="goals-complete-illustration goals-complete-illustration-active">
+          <svg class="goals-complete-all-goals-svg" width="234" height="191" viewBox="0 0 234 191" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="93.3794" height="93.3794" transform="matrix(0.865375 0.501125 -0.865375 0.501125 153.191 129.056)" fill="#B7CD76"/>
+            <rect width="93.3794" height="28.0768" transform="matrix(0.865375 0.501125 0 1 72.3809 175.694)" fill="#DBE2B0"/>
+            <rect width="93.3794" height="28.0768" transform="matrix(0.865375 -0.501125 0 1 153.189 222.49)" fill="#076144"/>
+            <rect width="93.3794" height="93.3794" transform="matrix(0.865375 0.501125 -0.865375 0.501125 121.893 84.0615)" fill="#B7CD76"/>
+            <rect width="93.3794" height="28.0768" transform="matrix(0.865375 0.501125 0 1 41.082 130.701)" fill="#DBE2B0"/>
+            <rect width="93.3794" height="28.0768" transform="matrix(0.865375 -0.501125 0 1 121.891 177.496)" fill="#076144"/>
+            <rect width="93.3794" height="93.3794" transform="matrix(0.865375 0.501125 -0.865375 0.501125 80.8105 37.1113)" fill="#B7CD76"/>
+            <rect width="93.3794" height="28.0768" transform="matrix(0.865375 0.501125 0 1 0 83.9062)" fill="#DBE2B0"/>
+            <rect width="93.3794" height="28.0768" transform="matrix(0.865375 -0.501125 0 1 80.8105 130.701)" fill="#076144"/>
+            <path d="M40.6996 34.6719V81.8181C40.6996 82.2911 40.3464 82.7958 39.6518 83.1532C38.239 83.8891 35.9432 83.8891 34.5187 83.1532C33.8005 82.7853 33.4473 82.3017 33.4473 81.8181V34.6719C33.4473 35.1555 33.8593 35.6181 34.5775 35.986C35.9902 36.7219 38.2978 36.7219 39.7106 35.986C40.4052 35.6181 40.6996 35.145 40.6996 34.6719Z" fill="#0F1114"/>
+            <path d="M40.6582 4.23828L91.4664 11.429L40.6582 41.0986V4.23828Z" fill="#C29FFC"/>
+            <path d="M40.6581 4.23667L33.4473 0L84.2554 7.19067L91.4663 11.4273L40.6581 4.23667Z" fill="#5B15CF"/>
+            <path d="M40.6997 41.0969L33.4473 36.8542V0L40.6997 4.23667V41.0969Z" fill="#8040ED"/>
+            <path d="M132.167 149.884C131.468 149.481 130.935 148.972 130.663 148.38C129.834 146.603 131.658 144.768 134.737 144.294C136.798 143.974 138.894 144.353 140.304 145.158C141.002 145.561 141.523 146.07 141.796 146.663C142.625 148.451 140.801 150.275 137.734 150.748C135.673 151.068 133.576 150.701 132.155 149.884M153 139.45C150.122 137.792 145.503 137.543 142.139 138.976C140.635 139.616 138.942 140.776 137.639 142.079C137.047 140.611 136.004 139.201 134.903 138.337C134.642 138.135 134.37 137.946 134.074 137.78C131.184 136.11 126.577 135.873 123.213 137.306C119.495 138.893 118.713 141.925 121.461 144.081C121.78 144.329 122.171 144.59 122.621 144.85C123.746 145.502 125.227 146.153 126.838 146.698C124.303 147.041 121.887 147.634 120.383 148.273C116.676 149.86 115.894 152.892 118.642 155.036C118.902 155.237 119.187 155.427 119.483 155.604C122.361 157.274 126.98 157.511 130.343 156.078C131.835 155.438 133.529 154.278 134.844 152.975C135.436 154.444 136.466 155.841 137.58 156.718C137.84 156.919 138.113 157.108 138.42 157.286C141.298 158.944 145.917 159.193 149.269 157.748C152.988 156.173 153.758 153.129 151.022 150.974C150.702 150.725 150.311 150.464 149.861 150.216C148.736 149.564 147.256 148.913 145.657 148.368C148.191 148.024 150.607 147.432 152.088 146.793C155.807 145.206 156.588 142.174 153.841 140.018C153.58 139.817 153.308 139.627 153.012 139.462" fill="#F05BD5"/>
+            <path d="M140.307 145.158C138.898 144.341 136.802 143.974 134.741 144.294C131.662 144.767 129.838 146.603 130.667 148.379C130.939 148.972 131.472 149.481 132.171 149.884C133.58 150.701 135.688 151.068 137.749 150.748C140.817 150.274 142.641 148.451 141.812 146.662C141.539 146.07 141.006 145.561 140.319 145.158" fill="#FFC936"/>
+            <path d="M120.425 68.1954C112.815 64.3997 100.545 64.3997 92.9925 68.1954C85.4398 71.991 85.4688 78.1339 93.0793 81.9045C100.69 85.7002 112.959 85.7002 120.512 81.9045C128.065 78.1089 128.036 71.966 120.425 68.1954Z" fill="#0F1114"/>
+            <path d="M106.753 71.5259C120.691 71.5259 131.976 60.1992 131.976 46.2097C131.976 32.2202 120.691 20.8936 106.753 20.8936C92.8144 20.8936 81.5293 32.2202 81.5293 46.2097C81.5293 60.1992 92.8144 71.5259 106.753 71.5259Z" fill="#FFC936"/>
+            <path d="M106.727 55.9466C112.064 55.9466 116.453 51.6024 116.453 46.2096C116.453 40.8169 112.114 36.4727 106.727 36.4727C101.34 36.4727 97.0508 40.8169 97.0508 46.2096C97.0508 51.6024 101.39 55.9466 106.727 55.9466Z" fill="#FFEF9F"/>
+          </svg>
+        </div>
+        <div class="goals-complete-content">
+          <h2 id="goals-complete-title-active" class="goals-complete-title">You've completed today's goals!</h2>
+          <div class="goals-complete-subtext-row">
+            <p class="goals-complete-subtext cds-body-primary">Here's how your skill progress is looking</p>
+            <div class="goals-complete-pagination" id="goals-complete-pagination" style="display:none;">
+              <button type="button" class="goals-complete-nav-btn" id="goals-complete-prev" aria-label="Previous skill" onclick="goalsCompletePrevSkill()">
+                <span class="material-symbols-rounded">chevron_left</span>
+              </button>
+              <span class="goals-complete-page-indicator" id="goals-complete-page-indicator">1 / 1</span>
+              <button type="button" class="goals-complete-nav-btn" id="goals-complete-next" aria-label="Next skill" onclick="goalsCompleteNextSkill()">
+                <span class="material-symbols-rounded">chevron_right</span>
+              </button>
+            </div>
+          </div>
+          <div class="goals-complete-skills-wrap" id="goals-complete-skills-wrap">
+            <div class="feedback-skill-progress-grid goals-complete-skills-grid" id="goals-complete-skills-grid"></div>
+          </div>
+          <button type="button" class="goals-complete-btn" onclick="hideGoalsCompleteDialog()">Continue learning</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- First-time XP Introduction Modal (big modal, shown once on first completion) -->
+  <div id="xp-intro-modal" class="xp-intro-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+    <div class="xp-intro-backdrop" onclick="hideXpIntroModal()"></div>
+    <div class="xp-intro-content">
+      <button type="button" class="dialog-close-btn" onclick="hideXpIntroModal()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="xp-intro-hero">
+        <svg class="xp-intro-illustration" viewBox="0 0 210 301" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g class="xp-intro-portal">
+            <path d="M72.9313 283.407C71.8909 282.8 71.38 280.788 70.9639 279.175C70.5099 277.391 69.9992 275.361 68.6183 273.463C67.2185 271.489 65.062 269.8 63.1704 268.32C61.6192 267.105 59.4818 265.416 59.4818 264.695C59.4818 263.955 61.5816 262.285 63.1327 261.07C65.0054 259.571 67.143 257.882 68.5428 255.908C69.8858 254.01 70.3776 251.979 70.8126 250.195C71.2099 248.582 71.7017 246.552 72.7232 245.963C73.7447 245.375 77.2063 245.071 79.987 244.844C83.0704 244.578 86.5511 244.293 89.8237 243.496C93.2097 242.68 96.1038 241.446 98.6575 240.346C100.757 239.435 103.633 238.201 104.9 238.201C106.167 238.201 109.061 239.435 111.161 240.327C113.734 241.428 116.628 242.68 120.033 243.477C123.324 244.274 126.805 244.559 129.869 244.825C132.65 245.052 136.131 245.356 137.171 245.944C138.212 246.533 138.703 248.563 139.12 250.177C139.574 251.96 140.103 253.991 141.465 255.889C142.865 257.863 145.021 259.552 146.932 261.032C148.483 262.247 150.64 263.936 150.64 264.676C150.64 265.416 148.521 267.086 146.97 268.32C145.078 269.8 142.96 271.489 141.56 273.463C140.217 275.361 139.725 277.391 139.271 279.175C138.874 280.788 138.401 282.8 137.379 283.407C136.358 284.015 132.877 284.299 130.096 284.527C127.032 284.793 123.551 285.077 120.279 285.874C116.893 286.69 113.999 287.943 111.445 289.044C109.345 289.936 106.47 291.169 105.203 291.169C103.935 291.169 101.041 289.936 98.9223 289.025C96.3497 287.924 93.4367 286.69 90.0507 285.874C86.7592 285.096 83.2784 284.793 80.1951 284.527C77.4144 284.299 73.9338 283.996 72.9123 283.407M149.089 238.998C144.076 236.095 137.531 235.544 132.272 235.089C130.078 234.918 127.789 234.709 126.465 234.406C124.97 234.045 123.135 233.248 121.168 232.413C116.95 230.61 111.691 228.352 104.862 228.352C98.0522 228.352 92.8124 230.591 88.613 232.413C86.6646 233.248 84.8297 234.045 83.3353 234.406C82.0111 234.728 79.7413 234.918 77.547 235.108C72.2882 235.544 65.7432 236.095 60.7682 238.998C55.7743 241.902 54.8473 245.698 54.1285 248.772C53.8069 250.044 53.4853 251.372 52.9368 252.15C52.3314 253.004 50.9883 254.086 49.5507 255.225C47.3942 256.933 43.9514 254.466 42.6272 256.876C42.0597 257.92 42.6272 263.499 42.6272 264.695C42.6461 268.661 46.5431 271.717 49.6453 274.165C51.1019 275.304 52.4638 276.385 53.088 277.239C53.6555 278.018 53.9961 279.327 54.3176 280.617C55.0932 283.673 56.0578 287.469 61.0707 290.391C66.0835 293.314 72.6286 293.845 77.8873 294.282C80.0816 294.472 82.3706 294.661 83.6948 294.965C85.1892 295.326 87.0239 296.123 88.9912 296.958C93.2285 298.761 98.4872 301 105.297 301C112.107 301 117.347 298.761 121.546 296.939C123.495 296.104 125.33 295.307 126.824 294.965C128.167 294.642 130.418 294.453 132.631 294.263C137.89 293.826 144.416 293.276 149.41 290.353C154.404 287.431 155.331 283.654 156.069 280.599C156.371 279.308 156.693 277.999 157.242 277.22C157.847 276.347 159.209 275.285 160.646 274.146C163.73 271.698 167.589 268.642 167.57 264.695C167.57 264.201 167.683 256.8 167.57 256.344C166.775 253.08 163.276 257.388 160.533 255.244C159.095 254.105 157.714 253.023 157.09 252.169C156.542 251.391 156.201 250.082 155.879 248.791C155.104 245.736 154.12 241.94 149.107 239.036" fill="#3587FC"/>
+            <mask id="xp-intro-mask" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="42" y="228" width="126" height="73">
+              <path d="M72.9332 283.407C71.8928 282.8 71.382 280.788 70.9658 279.175C70.5118 277.391 70.0011 275.361 68.6202 273.463C67.2204 271.489 65.0639 269.8 63.1723 268.32C61.6212 267.105 59.4837 265.416 59.4837 264.695C59.4837 263.955 61.5835 262.285 63.1347 261.07C65.0074 259.571 67.1449 257.882 68.5447 255.908C69.8878 254.01 70.3795 251.979 70.8146 250.195C71.2118 248.582 71.7037 246.552 72.7252 245.963C73.7466 245.375 77.2083 245.071 79.989 244.844C83.0723 244.578 86.5531 244.293 89.8256 243.496C93.2117 242.68 96.1057 241.446 98.6594 240.346C100.759 239.435 103.635 238.201 104.902 238.201C106.169 238.201 109.063 239.435 111.163 240.327C113.736 241.428 116.63 242.68 120.035 243.477C123.326 244.274 126.807 244.559 129.871 244.825C132.652 245.052 136.133 245.356 137.173 245.944C138.213 246.533 138.705 248.563 139.122 250.177C139.576 251.96 140.105 253.991 141.467 255.889C142.867 257.863 145.023 259.552 146.934 261.032C148.485 262.247 150.642 263.936 150.642 264.676C150.642 265.416 148.523 267.086 146.972 268.32C145.08 269.8 142.962 271.489 141.562 273.463C140.219 275.361 139.727 277.391 139.273 279.175C138.876 280.788 138.403 282.8 137.381 283.407C136.36 284.015 132.879 284.299 130.098 284.527C127.034 284.793 123.553 285.077 120.281 285.874C116.895 286.69 114.001 287.943 111.447 289.044C109.347 289.936 106.472 291.169 105.205 291.169C103.937 291.169 101.043 289.936 98.9243 289.025C96.3516 287.924 93.4386 286.69 90.0526 285.874C86.7612 285.096 83.2804 284.793 80.197 284.527C77.4163 284.299 73.9358 283.996 72.9143 283.407M149.09 238.998C144.078 236.095 137.533 235.544 132.274 235.089C130.08 234.918 127.791 234.709 126.467 234.406C124.972 234.045 123.137 233.248 121.17 232.413C116.952 230.61 111.693 228.352 104.864 228.352C98.0541 228.352 92.8144 230.591 88.6149 232.413C86.6666 233.248 84.8316 234.045 83.3372 234.406C82.0131 234.728 79.7432 234.918 77.5489 235.108C72.2902 235.544 65.7451 236.095 60.7701 238.998C55.7762 241.902 54.8493 245.698 54.1305 248.772C53.8089 250.044 53.4873 251.372 52.9387 252.15C52.3334 253.004 50.9903 254.086 49.5526 255.225C47.3962 256.933 43.9533 254.466 42.6292 256.876C42.0617 257.92 42.6292 263.499 42.6292 264.695C42.6481 268.661 46.545 271.717 49.6473 274.165C51.1039 275.304 52.4657 276.385 53.09 277.239C53.6575 278.018 53.998 279.327 54.3196 280.617C55.0952 283.673 56.0598 287.469 61.0726 290.391C66.0855 293.314 72.6305 293.845 77.8893 294.282C80.0836 294.472 82.3726 294.661 83.6967 294.965C85.1911 295.326 87.0259 296.123 88.9932 296.958C93.2304 298.761 98.4892 301 105.299 301C112.109 301 117.349 298.761 121.548 296.939C123.497 296.104 125.332 295.307 126.826 294.965C128.169 294.642 130.42 294.453 132.633 294.263C137.892 293.826 144.418 293.276 149.412 290.353C154.406 287.431 155.333 283.654 156.071 280.599C156.373 279.308 156.695 277.999 157.244 277.22C157.849 276.347 159.211 275.285 160.648 274.146C163.732 271.698 167.591 268.642 167.572 264.695C167.572 264.201 167.685 256.8 167.572 256.344C166.777 253.08 163.278 257.388 160.535 255.244C159.097 254.105 157.716 253.023 157.092 252.169C156.544 251.391 156.203 250.082 155.881 248.791C155.106 245.736 154.122 241.94 149.109 239.036" fill="white"/>
+            </mask>
+            <g mask="url(#xp-intro-mask)">
+              <path d="M186.733 229.625H124.574V328.065H186.733V229.625Z" fill="#003B8F"/>
+            </g>
+            <path d="M72.9291 275.056C71.8887 274.449 71.3779 272.437 70.9617 270.824C70.5077 269.04 69.997 267.009 68.6161 265.111C67.2163 263.138 65.0598 261.448 63.1682 259.968C61.6171 258.754 59.4796 257.065 59.4796 256.343C59.4796 255.603 61.5794 253.933 63.1306 252.718C65.0033 251.219 67.1408 249.53 68.5406 247.556C69.8837 245.659 70.3754 243.628 70.8105 241.844C71.2077 240.231 71.6996 238.2 72.7211 237.612C73.7425 237.024 77.2042 236.72 79.9849 236.492C83.0682 236.226 86.549 235.942 89.8215 235.145C93.2076 234.329 96.1016 233.095 98.6553 231.994C100.755 231.083 103.63 229.85 104.898 229.85C106.165 229.85 109.059 231.083 111.159 231.975C113.732 233.076 116.626 234.328 120.031 235.126C123.322 235.923 126.803 236.207 129.867 236.473C132.648 236.701 136.129 237.005 137.169 237.593C138.209 238.181 138.701 240.212 139.117 241.825C139.571 243.609 140.101 245.64 141.463 247.537C142.863 249.511 145.019 251.2 146.93 252.68C148.481 253.895 150.637 255.584 150.637 256.324C150.637 257.064 148.519 258.735 146.968 259.968C145.076 261.448 142.958 263.138 141.558 265.111C140.215 267.009 139.723 269.04 139.269 270.824C138.872 272.437 138.399 274.449 137.377 275.056C136.356 275.663 132.875 275.948 130.094 276.175C127.03 276.441 123.549 276.726 120.277 277.523C116.891 278.339 113.997 279.592 111.443 280.692C109.343 281.584 106.468 282.818 105.201 282.818C103.933 282.818 101.039 281.584 98.9202 280.673C96.3476 279.573 93.4345 278.339 90.0485 277.523C86.7571 276.745 83.2763 276.441 80.1929 276.175C77.4122 275.948 73.9317 275.644 72.9102 275.056M149.086 230.647C144.074 227.743 137.528 227.193 132.27 226.737C130.075 226.566 127.787 226.358 126.463 226.054C124.968 225.693 123.133 224.896 121.166 224.061C116.947 222.258 111.689 220 104.86 220C98.0501 220 92.8103 222.239 88.6109 224.061C86.6625 224.896 84.8275 225.693 83.3331 226.054C82.009 226.377 79.7391 226.566 77.5448 226.756C72.2861 227.193 65.741 227.743 60.766 230.647C55.7721 233.55 54.8452 237.346 54.1264 240.421C53.8048 241.692 53.4832 243.021 52.9346 243.799C52.3293 244.653 50.9862 245.734 49.5485 246.873C46.4652 249.321 42.6062 252.377 42.6251 256.324C42.644 260.291 46.5409 263.346 49.6432 265.794C51.0998 266.933 52.4616 268.015 53.0859 268.869C53.6534 269.647 53.9939 270.957 54.3155 272.247C55.0911 275.303 56.0557 279.098 61.0685 282.021C66.0814 284.925 72.6264 285.475 77.8852 285.911C80.0795 286.101 82.3685 286.291 83.6926 286.595C85.187 286.955 87.0218 287.752 88.9891 288.587C93.2264 290.39 98.4851 292.63 105.295 292.63C112.105 292.63 117.345 290.39 121.544 288.568C123.493 287.733 125.327 286.936 126.822 286.595C128.165 286.272 130.416 286.082 132.629 285.892C137.888 285.456 144.414 284.906 149.408 281.983C154.383 279.079 155.329 275.284 156.067 272.228C156.369 270.938 156.691 269.628 157.239 268.85C157.845 267.977 159.207 266.914 160.644 265.775C163.728 263.327 167.587 260.272 167.568 256.324C167.549 252.358 163.671 249.321 160.531 246.873C159.093 245.734 157.712 244.653 157.088 243.799C156.539 243.021 156.199 241.711 155.877 240.421C155.102 237.365 154.118 233.569 149.105 230.666" fill="#ADCFFF"/>
+            <path d="M139.253 236.377C138.156 235.731 134.448 235.428 131.497 235.181C128.224 234.896 124.517 234.593 121.017 233.758C117.404 232.885 114.302 231.575 111.578 230.398C109.346 229.43 106.263 228.121 104.919 228.121C103.576 228.121 100.493 229.43 98.2609 230.398C95.5369 231.556 92.4536 232.885 88.8405 233.758C85.3599 234.593 81.6523 234.896 78.3797 235.181C75.4099 235.428 71.7212 235.731 70.643 236.377C69.5648 237.022 69.035 239.166 68.5999 240.893C68.127 242.791 67.6164 244.955 66.1788 246.966C64.6844 249.073 62.4333 250.857 60.4281 252.451C58.7824 253.742 56.5312 255.526 56.5312 256.323C56.5312 257.101 58.8014 258.885 60.466 260.194C62.4901 261.788 64.7599 263.572 66.2732 265.679C67.7487 267.71 68.2974 269.854 68.7703 271.771C69.2054 273.498 69.7539 275.643 70.8511 276.288C71.9482 276.933 75.6369 277.237 78.6067 277.483C81.8793 277.749 85.6059 278.072 89.1054 278.907C92.6995 279.78 95.8018 281.108 98.5446 282.266C100.777 283.234 103.879 284.543 105.222 284.543C106.565 284.543 109.629 283.234 111.862 282.266C114.586 281.089 117.669 279.761 121.282 278.907C124.763 278.072 128.47 277.749 131.743 277.483C134.713 277.237 138.401 276.914 139.499 276.288C140.596 275.662 141.106 273.517 141.523 271.79C141.995 269.892 142.525 267.729 143.944 265.698C145.419 263.61 147.689 261.807 149.694 260.232C151.321 258.923 153.591 257.139 153.591 256.361C153.591 255.582 151.302 253.78 149.657 252.489C147.633 250.914 145.344 249.111 143.849 247.023C142.393 244.993 141.844 242.829 141.352 240.931C140.917 239.204 140.369 237.06 139.272 236.433" fill="#0F1114"/>
+          </g>
+          <path class="xp-intro-light" d="M147.827 253.242L210 0.660704L0 0L64.8141 253.242C64.8141 253.242 67.1966 277 106.32 277C145.444 277 147.827 253.242 147.827 253.242Z" fill="url(#xp-intro-gradient)"/>
+          <g class="xp-intro-coin">
+            <path d="M178.5 130.504L158.028 148.779L141.871 160.859L162.344 142.584L178.5 130.504Z" fill="black"/>
+            <path d="M88.8416 67.3026L68.3691 85.5781L80.3833 69.2755L100.856 51L88.8416 67.3026Z" fill="black"/>
+            <path d="M163.174 164.564L142.701 182.839L121.193 181.662L141.631 163.387L163.174 164.564Z" fill="black"/>
+            <path d="M68.1311 88.1392L47.6586 106.415L46.8301 84.4356L67.3025 66.1602L68.1311 88.1392Z" fill="#FFC22F"/>
+            <path d="M129.618 179.723L109.145 197.999L90.4336 184.119L110.906 165.844L129.618 179.723Z" fill="#FFC22F"/>
+            <path d="M65.4366 119.36L44.9642 137.635L31.5 118.494L51.9724 100.219L65.4366 119.36Z" fill="black"/>
+            <path d="M90.5695 170.38L70.1316 188.69L61.3281 167.334L81.8005 149.059L90.5695 170.38Z" fill="#FFC22F"/>
+            <path d="M110.905 165.844L90.4326 184.119L70.1328 188.688L90.5707 170.378L110.905 165.844Z" fill="black"/>
+            <path d="M60.8793 140.058L40.4414 158.333L44.964 137.635L65.4364 119.359L60.8793 140.058Z" fill="#FFC22F"/>
+            <path d="M81.8005 149.058L61.3281 167.333L40.4414 158.334L60.8793 140.059L81.8005 149.058Z" fill="black"/>
+            <path d="M139.869 60.3454L148.673 81.6322L169.525 90.6661L165.037 111.33L178.501 130.505L162.344 142.585L163.173 164.564L141.63 163.387L129.616 179.725L110.904 165.845L90.5699 170.379L81.8009 149.058L60.8797 140.058L65.4368 119.36L51.9727 100.219L68.1296 88.1394L67.3011 66.1603L88.8437 67.3026L100.858 51L119.57 64.9143L139.869 60.3454Z" fill="#F07600"/>
+          </g>
+          <defs>
+            <linearGradient id="xp-intro-gradient" x1="105" y1="21" x2="105" y2="417" gradientUnits="userSpaceOnUse">
+              <stop offset="0.15" stop-color="#F28100" stop-opacity="0"/>
+              <stop offset="1" stop-color="#FFC936"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="xp-intro-header">
+        <span class="beta-pill cds-subtitle-sm">Beta</span>
+        <h2 class="xp-intro-title cds-title-xs" id="xp-intro-title">Introducing Skill Points!</h2>
+        <p class="xp-intro-earned cds-body-primary" id="xp-intro-earned"></p>
+      </div>
+
+      <div class="xp-intro-body">
+        <div class="xp-intro-skills" id="xp-intro-skills">
+          <div class="xp-intro-skill-row" data-xp-skill="visualizing">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Visualizing and Reporting Clean Data</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+          <div class="xp-intro-skill-row" data-xp-skill="preparing">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Preparing and Cleaning Data</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+          <div class="xp-intro-skill-row" data-xp-skill="connecting">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Connecting and Importing Data</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+          <div class="xp-intro-skill-row" data-xp-skill="powerbi">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Prepare Datasets in Power BI</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-intro-actions">
+        <button type="button" class="xp-intro-cta cds-action-primary" onclick="hideXpIntroModal()">Continue learning</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills intro modal (copy for sidebar click - design can be changed separately) -->
+  <div id="skills-intro-modal" class="xp-intro-modal" role="dialog" aria-modal="true" aria-labelledby="skills-intro-title" aria-hidden="true" style="display:none;">
+    <div class="xp-intro-backdrop" onclick="hideSkillsIntroModal()"></div>
+    <div class="xp-intro-content">
+      <button type="button" class="dialog-close-btn" onclick="hideSkillsIntroModal()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="xp-intro-hero">
+        <svg class="xp-intro-illustration" viewBox="0 0 210 301" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="skills-intro-gradient" x1="105" y1="21" x2="105" y2="417" gradientUnits="userSpaceOnUse">
+              <stop offset="0.15" stop-color="#F28100" stop-opacity="0"/>
+              <stop offset="1" stop-color="#FFC936"/>
+            </linearGradient>
+          </defs>
+          <g class="xp-intro-portal">
+            <path d="M72.9313 283.407C71.8909 282.8 71.38 280.788 70.9639 279.175C70.5099 277.391 69.9992 275.361 68.6183 273.463C67.2185 271.489 65.062 269.8 63.1704 268.32C61.6192 267.105 59.4818 265.416 59.4818 264.695C59.4818 263.955 61.5816 262.285 63.1327 261.07C65.0054 259.571 67.143 257.882 68.5428 255.908C69.8858 254.01 70.3776 251.979 70.8126 250.195C71.2099 248.582 71.7017 246.552 72.7232 245.963C73.7447 245.375 77.2063 245.071 79.987 244.844C83.0704 244.578 86.5511 244.293 89.8237 243.496C93.2097 242.68 96.1038 241.446 98.6575 240.346C100.757 239.435 103.633 238.201 104.9 238.201C106.167 238.201 109.061 239.435 111.161 240.327C113.734 241.428 116.628 242.68 120.033 243.477C123.324 244.274 126.805 244.559 129.869 244.825C132.65 245.052 136.131 245.356 137.171 245.944C138.212 246.533 138.703 248.563 139.12 250.177C139.574 251.96 140.103 253.991 141.465 255.889C142.865 257.863 145.021 259.552 146.932 261.032C148.483 262.247 150.64 263.936 150.64 264.676C150.64 265.416 148.521 267.086 146.97 268.32C145.078 269.8 142.96 271.489 141.56 273.463C140.217 275.361 139.725 277.391 139.271 279.175C138.874 280.788 138.401 282.8 137.379 283.407C136.358 284.015 132.877 284.299 130.096 284.527C127.032 284.793 123.551 285.077 120.279 285.874C116.893 286.69 113.999 287.943 111.445 289.044C109.345 289.936 106.47 291.169 105.203 291.169C103.935 291.169 101.041 289.936 98.9223 289.025C96.3497 287.924 93.4367 286.69 90.0507 285.874C86.7592 285.096 83.2784 284.793 80.1951 284.527C77.4144 284.299 73.9338 283.996 72.9123 283.407M149.089 238.998C144.076 236.095 137.531 235.544 132.272 235.089C130.078 234.918 127.789 234.709 126.465 234.406C124.97 234.045 123.135 233.248 121.168 232.413C116.95 230.61 111.691 228.352 104.862 228.352C98.0522 228.352 92.8124 230.591 88.613 232.413C86.6646 233.248 84.8297 234.045 83.3353 234.406C82.0111 234.728 79.7413 234.918 77.547 235.108C72.2882 235.544 65.7432 236.095 60.7682 238.998C55.7743 241.902 54.8473 245.698 54.1285 248.772C53.8069 250.044 53.4853 251.372 52.9368 252.15C52.3314 253.004 50.9883 254.086 49.5507 255.225C47.3942 256.933 43.9514 254.466 42.6272 256.876C42.0597 257.92 42.6272 263.499 42.6272 264.695C42.6461 268.661 46.5431 271.717 49.6453 274.165C51.1019 275.304 52.4638 276.385 53.088 277.239C53.6555 278.018 53.9961 279.327 54.3176 280.617C55.0932 283.673 56.0578 287.469 61.0707 290.391C66.0835 293.314 72.6286 293.845 77.8873 294.282C80.0816 294.472 82.3706 294.661 83.6948 294.965C85.1892 295.326 87.0239 296.123 88.9912 296.958C93.2285 298.761 98.4872 301 105.297 301C112.107 301 117.347 298.761 121.546 296.939C123.495 296.104 125.33 295.307 126.824 294.965C128.167 294.642 130.418 294.453 132.631 294.263C137.89 293.826 144.416 293.276 149.41 290.353C154.404 287.431 155.331 283.654 156.069 280.599C156.371 279.308 156.693 277.999 157.242 277.22C157.847 276.347 159.209 275.285 160.646 274.146C163.73 271.698 167.589 268.642 167.57 264.695C167.57 264.201 167.683 256.8 167.57 256.344C166.775 253.08 163.276 257.388 160.533 255.244C159.095 254.105 157.714 253.023 157.09 252.169C156.542 251.391 156.201 250.082 155.879 248.791C155.104 245.736 154.12 241.94 149.107 239.036" fill="#3587FC"/>
+            <mask id="skills-intro-mask" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="42" y="228" width="126" height="73">
+              <path d="M72.9332 283.407C71.8928 282.8 71.382 280.788 70.9658 279.175C70.5118 277.391 70.0011 275.361 68.6202 273.463C67.2204 271.489 65.0639 269.8 63.1723 268.32C61.6212 267.105 59.4837 265.416 59.4837 264.695C59.4837 263.955 61.5835 262.285 63.1347 261.07C65.0074 259.571 67.1449 257.882 68.5447 255.908C69.8878 254.01 70.3795 251.979 70.8146 250.195C71.2118 248.582 71.7037 246.552 72.7252 245.963C73.7466 245.375 77.2083 245.071 79.989 244.844C83.0723 244.578 86.5531 244.293 89.8256 243.496C93.2117 242.68 96.1057 241.446 98.6594 240.346C100.759 239.435 103.635 238.201 104.902 238.201C106.169 238.201 109.063 239.435 111.163 240.327C113.736 241.428 116.63 242.68 120.035 243.477C123.326 244.274 126.807 244.559 129.871 244.825C132.652 245.052 136.133 245.356 137.173 245.944C138.213 246.533 138.705 248.563 139.122 250.177C139.576 251.96 140.105 253.991 141.467 255.889C142.867 257.863 145.023 259.552 146.934 261.032C148.485 262.247 150.642 263.936 150.642 264.676C150.642 265.416 148.523 267.086 146.972 268.32C145.08 269.8 142.962 271.489 141.562 273.463C140.219 275.361 139.727 277.391 139.273 279.175C138.876 280.788 138.403 282.8 137.381 283.407C136.36 284.015 132.879 284.299 130.098 284.527C127.034 284.793 123.553 285.077 120.281 285.874C116.895 286.69 114.001 287.943 111.447 289.044C109.347 289.936 106.472 291.169 105.205 291.169C103.937 291.169 101.043 289.936 98.9243 289.025C96.3516 287.924 93.4386 286.69 90.0526 285.874C86.7612 285.096 83.2804 284.793 80.197 284.527C77.4163 284.299 73.9358 283.996 72.9143 283.407M149.09 238.998C144.078 236.095 137.533 235.544 132.274 235.089C130.08 234.918 127.791 234.709 126.467 234.406C124.972 234.045 123.137 233.248 121.17 232.413C116.952 230.61 111.693 228.352 104.864 228.352C98.0541 228.352 92.8144 230.591 88.6149 232.413C86.6666 233.248 84.8316 234.045 83.3372 234.406C82.0131 234.728 79.7432 234.918 77.5489 235.108C72.2902 235.544 65.7451 236.095 60.7701 238.998C55.7762 241.902 54.8493 245.698 54.1305 248.772C53.8089 250.044 53.4873 251.372 52.9387 252.15C52.3334 253.004 50.9903 254.086 49.5526 255.225C47.3962 256.933 43.9533 254.466 42.6292 256.876C42.0617 257.92 42.6292 263.499 42.6292 264.695C42.6481 268.661 46.545 271.717 49.6473 274.165C51.1039 275.304 52.4657 276.385 53.09 277.239C53.6575 278.018 53.998 279.327 54.3196 280.617C55.0952 283.673 56.0598 287.469 61.0726 290.391C66.0855 293.314 72.6305 293.845 77.8893 294.282C80.0836 294.472 82.3726 294.661 83.6967 294.965C85.1911 295.326 87.0259 296.123 88.9932 296.958C93.2304 298.761 98.4892 301 105.299 301C112.109 301 117.349 298.761 121.548 296.939C123.497 296.104 125.332 295.307 126.826 294.965C128.169 294.642 130.42 294.453 132.633 294.263C137.892 293.826 144.418 293.276 149.412 290.353C154.406 287.431 155.333 283.654 156.071 280.599C156.373 279.308 156.695 277.999 157.244 277.22C157.849 276.347 159.211 275.285 160.648 274.146C163.732 271.698 167.591 268.642 167.572 264.695C167.572 264.201 167.685 256.8 167.572 256.344C166.777 253.08 163.278 257.388 160.535 255.244C159.097 254.105 157.716 253.023 157.092 252.169C156.544 251.391 156.203 250.082 155.881 248.791C155.106 245.736 154.122 241.94 149.109 239.036" fill="white"/>
+            </mask>
+            <g mask="url(#skills-intro-mask)">
+              <path d="M186.733 229.625H124.574V328.065H186.733V229.625Z" fill="#003B8F"/>
+            </g>
+            <path d="M72.9291 275.056C71.8887 274.449 71.3779 272.437 70.9617 270.824C70.5077 269.04 69.997 267.009 68.6161 265.111C67.2163 263.138 65.0598 261.448 63.1682 259.968C61.6171 258.754 59.4796 257.065 59.4796 256.343C59.4796 255.603 61.5794 253.933 63.1306 252.718C65.0033 251.219 67.1408 249.53 68.5406 247.556C69.8837 245.659 70.3754 243.628 70.8105 241.844C71.2077 240.231 71.6996 238.2 72.7211 237.612C73.7425 237.024 77.2042 236.72 79.9849 236.492C83.0682 236.226 86.549 235.942 89.8215 235.145C93.2076 234.329 96.1016 233.095 98.6553 231.994C100.755 231.083 103.63 229.85 104.898 229.85C106.165 229.85 109.059 231.083 111.159 231.975C113.732 233.076 116.626 234.328 120.031 235.126C123.322 235.923 126.803 236.207 129.867 236.473C132.648 236.701 136.129 237.005 137.169 237.593C138.209 238.181 138.701 240.212 139.117 241.825C139.571 243.609 140.101 245.64 141.463 247.537C142.863 249.511 145.019 251.2 146.93 252.68C148.481 253.895 150.637 255.584 150.637 256.324C150.637 257.064 148.519 258.735 146.968 259.968C145.076 261.448 142.958 263.138 141.558 265.111C140.215 267.009 139.723 269.04 139.269 270.824C138.872 272.437 138.399 274.449 137.377 275.056C136.356 275.663 132.875 275.948 130.094 276.175C127.03 276.441 123.549 276.726 120.277 277.523C116.891 278.339 113.997 279.592 111.443 280.692C109.343 281.584 106.468 282.818 105.201 282.818C103.933 282.818 101.039 281.584 98.9202 280.673C96.3476 279.573 93.4345 278.339 90.0485 277.523C86.7571 276.745 83.2763 276.441 80.1929 276.175C77.4122 275.948 73.9317 275.644 72.9102 275.056M149.086 230.647C144.074 227.743 137.528 227.193 132.27 226.737C130.075 226.566 127.787 226.358 126.463 226.054C124.968 225.693 123.133 224.896 121.166 224.061C116.947 222.258 111.689 220 104.86 220C98.0501 220 92.8103 222.239 88.6109 224.061C86.6625 224.896 84.8275 225.693 83.3331 226.054C82.009 226.377 79.7391 226.566 77.5448 226.756C72.2861 227.193 65.741 227.743 60.766 230.647C55.7721 233.55 54.8452 237.346 54.1264 240.421C53.8048 241.692 53.4832 243.021 52.9346 243.799C52.3293 244.653 50.9862 245.734 49.5485 246.873C46.4652 249.321 42.6062 252.377 42.6251 256.324C42.644 260.291 46.5409 263.346 49.6432 265.794C51.0998 266.933 52.4616 268.015 53.0859 268.869C53.6534 269.647 53.9939 270.957 54.3155 272.247C55.0911 275.303 56.0557 279.098 61.0685 282.021C66.0814 284.925 72.6264 285.475 77.8852 285.911C80.0795 286.101 82.3685 286.291 83.6926 286.595C85.187 286.955 87.0218 287.752 88.9891 288.587C93.2264 290.39 98.4851 292.63 105.295 292.63C112.105 292.63 117.345 290.39 121.544 288.568C123.493 287.733 125.327 286.936 126.822 286.595C128.165 286.272 130.416 286.082 132.629 285.892C137.888 285.456 144.414 284.906 149.408 281.983C154.383 279.079 155.329 275.284 156.067 272.228C156.369 270.938 156.691 269.628 157.239 268.85C157.845 267.977 159.207 266.914 160.644 265.775C163.728 263.327 167.587 260.272 167.568 256.324C167.549 252.358 163.671 249.321 160.531 246.873C159.093 245.734 157.712 244.653 157.088 243.799C156.539 243.021 156.199 241.711 155.877 240.421C155.102 237.365 154.118 233.569 149.105 230.666" fill="#ADCFFF"/>
+            <path d="M139.253 236.377C138.156 235.731 134.448 235.428 131.497 235.181C128.224 234.896 124.517 234.593 121.017 233.758C117.404 232.885 114.302 231.575 111.578 230.398C109.346 229.43 106.263 228.121 104.919 228.121C103.576 228.121 100.493 229.43 98.2609 230.398C95.5369 231.556 92.4536 232.885 88.8405 233.758C85.3599 234.593 81.6523 234.896 78.3797 235.181C75.4099 235.428 71.7212 235.731 70.643 236.377C69.5648 237.022 69.035 239.166 68.5999 240.893C68.127 242.791 67.6164 244.955 66.1788 246.966C64.6844 249.073 62.4333 250.857 60.4281 252.451C58.7824 253.742 56.5312 255.526 56.5312 256.323C56.5312 257.101 58.8014 258.885 60.466 260.194C62.4901 261.788 64.7599 263.572 66.2732 265.679C67.7487 267.71 68.2974 269.854 68.7703 271.771C69.2054 273.498 69.7539 275.643 70.8511 276.288C71.9482 276.933 75.6369 277.237 78.6067 277.483C81.8793 277.749 85.6059 278.072 89.1054 278.907C92.6995 279.78 95.8018 281.108 98.5446 282.266C100.777 283.234 103.879 284.543 105.222 284.543C106.565 284.543 109.629 283.234 111.862 282.266C114.586 281.089 117.669 279.761 121.282 278.907C124.763 278.072 128.47 277.749 131.743 277.483C134.713 277.237 138.401 276.914 139.499 276.288C140.596 275.662 141.106 273.517 141.523 271.79C141.995 269.892 142.525 267.729 143.944 265.698C145.419 263.61 147.689 261.807 149.694 260.232C151.321 258.923 153.591 257.139 153.591 256.361C153.591 255.582 151.302 253.78 149.657 252.489C147.633 250.914 145.344 249.111 143.849 247.023C142.393 244.993 141.844 242.829 141.352 240.931C140.917 239.204 140.369 237.06 139.272 236.433" fill="#0F1114"/>
+          </g>
+          <path class="xp-intro-light" d="M147.827 253.242L210 0.660704L0 0L64.8141 253.242C64.8141 253.242 67.1966 277 106.32 277C145.444 277 147.827 253.242 147.827 253.242Z" fill="url(#skills-intro-gradient)"/>
+          <g class="xp-intro-coin">
+            <path d="M178.5 130.504L158.028 148.779L141.871 160.859L162.344 142.584L178.5 130.504Z" fill="black"/>
+            <path d="M88.8416 67.3026L68.3691 85.5781L80.3833 69.2755L100.856 51L88.8416 67.3026Z" fill="black"/>
+            <path d="M163.174 164.564L142.701 182.839L121.193 181.662L141.631 163.387L163.174 164.564Z" fill="black"/>
+            <path d="M68.1311 88.1392L47.6586 106.415L46.8301 84.4356L67.3025 66.1602L68.1311 88.1392Z" fill="#FFC22F"/>
+            <path d="M129.618 179.723L109.145 197.999L90.4336 184.119L110.906 165.844L129.618 179.723Z" fill="#FFC22F"/>
+            <path d="M65.4366 119.36L44.9642 137.635L31.5 118.494L51.9724 100.219L65.4366 119.36Z" fill="black"/>
+            <path d="M90.5695 170.38L70.1316 188.69L61.3281 167.334L81.8005 149.059L90.5695 170.38Z" fill="#FFC22F"/>
+            <path d="M110.905 165.844L90.4326 184.119L70.1328 188.688L90.5707 170.378L110.905 165.844Z" fill="black"/>
+            <path d="M60.8793 140.058L40.4414 158.333L44.964 137.635L65.4364 119.359L60.8793 140.058Z" fill="#FFC22F"/>
+            <path d="M81.8005 149.058L61.3281 167.333L40.4414 158.334L60.8793 140.059L81.8005 149.058Z" fill="black"/>
+            <path d="M139.869 60.3454L148.673 81.6322L169.525 90.6661L165.037 111.33L178.501 130.505L162.344 142.585L163.173 164.564L141.63 163.387L129.616 179.725L110.904 165.845L90.5699 170.379L81.8009 149.058L60.8797 140.058L65.4368 119.36L51.9727 100.219L68.1296 88.1394L67.3011 66.1603L88.8437 67.3026L100.858 51L119.57 64.9143L139.869 60.3454Z" fill="#F07600"/>
+          </g>
+          <defs>
+            <linearGradient id="skills-intro-gradient" x1="105" y1="21" x2="105" y2="417" gradientUnits="userSpaceOnUse">
+              <stop offset="0.15" stop-color="#F28100" stop-opacity="0"/>
+              <stop offset="1" stop-color="#FFC936"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="xp-intro-header">
+        <span class="beta-pill cds-subtitle-sm">Beta</span>
+        <h2 class="xp-intro-title cds-title-xs" id="skills-intro-title">Introducing Skill Points!</h2>
+        <p class="xp-intro-earned cds-body-primary" id="skills-intro-earned"></p>
+      </div>
+      <div class="xp-intro-body">
+        <div class="xp-intro-skills" id="skills-intro-skills">
+          <div class="xp-intro-skill-row" data-xp-skill="visualizing">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Visualizing and Reporting Clean Data</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+          <div class="xp-intro-skill-row" data-xp-skill="preparing">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Preparing and Cleaning Data</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+          <div class="xp-intro-skill-row" data-xp-skill="connecting">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Connecting and Importing Data</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+          <div class="xp-intro-skill-row" data-xp-skill="powerbi">
+            <div class="xp-intro-skill-info">
+              <span class="xp-intro-skill-name cds-body-primary">Prepare Datasets in Power BI</span>
+              <div class="xp-intro-skill-meta">
+                <span class="xp-intro-skill-xp cds-body-secondary" data-xp-value>0/2000 XP</span>
+              </div>
+            </div>
+            <div class="xp-intro-skill-bar"><div class="xp-intro-skill-bar-fill" data-xp-bar style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="xp-intro-actions">
+        <button type="button" class="xp-intro-cta cds-action-primary" onclick="hideSkillsIntroModal()">Continue learning</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Commitment screen for new learners -->
+  <div id="commitment-screen" class="commitment-screen" style="display:none;" role="dialog" aria-modal="true">
+    <div class="commitment-inner">
+      <button type="button" class="dialog-close-btn" onclick="dismissCommitment()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="commitment-logo">
+        <svg width="114" height="16" viewBox="0 0 114 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M37.2119 9.23926C37.2121 11.1935 38.303 12.3476 40.1973 12.3477C42.3165 12.3477 43.5352 11.0646 43.5352 8.59668V0.392578H47.4844V15.6162H43.5381V13.8525C42.6076 15.2947 41.0975 16 39.0107 16C35.479 16.001 33.2637 13.4368 33.2637 9.71875V0.392578H37.2119V9.23926ZM79.6289 0.104492C84.1244 0.11331 87.2958 3.7081 87.2852 7.94238C87.2859 8.36088 87.2535 8.77911 87.1875 9.19238L75.5645 9.1709C76.0101 10.9981 77.5168 12.3154 79.7969 12.3203C81.177 12.3203 82.6556 11.8123 83.5566 10.6602L86.25 12.8154C84.865 14.768 82.4215 15.918 79.8223 15.9131C75.2337 15.8973 71.7082 12.4614 71.7158 8.00684C71.7247 3.74409 74.7811 0.0958069 79.6289 0.104492ZM104.69 0.104492C107.098 0.104492 108.48 0.841292 109.41 2.25195L109.78 0.390625H113.392V15.6162H109.78L109.313 14.0488C108.254 15.2027 106.937 15.9102 104.69 15.9102C101.223 15.9051 97.2725 12.8599 97.2725 8.11719C97.2725 3.34205 101.158 0.104614 104.69 0.104492ZM23.7715 0.104492C28.2983 0.104492 31.8953 3.6316 31.8955 7.98828C31.8955 12.3148 28.2985 15.9053 23.7715 15.9053C19.276 15.9051 15.6807 12.3108 15.6807 7.98828C15.6809 3.62973 19.2762 0.10463 23.7715 0.104492ZM64.3838 0.0078125C66.93 0.0078125 69.1861 1.13385 70.4111 3.22461L66.9326 5.06152C66.4173 4.03193 65.4504 3.45227 64.2256 3.45215C63.034 3.45215 62.4522 3.87085 62.4521 4.57812C62.4521 6.95888 70.7676 5.44738 70.7676 11.1426C70.7675 14.1023 68.3508 15.9033 64.4512 15.9033C61.1315 15.9004 58.8106 14.8069 57.6514 12.2979L61.1621 10.4639C61.7422 11.7186 62.9021 12.4579 64.5459 12.458C66.0605 12.458 66.6406 11.9758 66.6406 11.2998C66.6396 8.85113 58.3265 10.3348 58.3262 4.73633C58.3262 1.64834 61.0329 0.00795633 64.3838 0.0078125ZM8.09082 0.0732422C9.44253 0.0637857 10.7759 0.389636 11.9697 1.02246C13.1635 1.65528 14.1806 2.57522 14.9297 3.69824L11.5586 5.64941C11.1686 5.09327 10.6497 4.63965 10.0459 4.32715C9.44201 4.01459 8.77107 3.85214 8.09082 3.85449C5.77935 3.85465 3.88477 5.77809 3.88477 7.98926C3.88481 10.2004 5.77938 12.1239 8.09082 12.124C8.80314 12.1286 9.50496 11.9505 10.1289 11.6074C10.7529 11.2644 11.2785 10.7675 11.6553 10.1641L14.9922 12.1514C14.2522 13.3071 13.2314 14.2574 12.0244 14.9131C10.8173 15.5689 9.46317 15.9086 8.08887 15.9014C3.59538 15.9051 4.75605e-05 12.3117 0 7.98926C0 3.59916 3.59535 0.0733919 8.09082 0.0732422ZM56.8994 3.67871C56.7652 3.66412 56.6301 3.65664 56.4951 3.65625C54.377 3.66124 53.1591 4.9462 53.165 7.41309L53.1865 15.6152L49.2373 15.624L49.2041 0.401367L53.1533 0.392578V2.15625C54.073 0.724053 55.5668 0.0166892 57.6279 0L56.8994 3.67871ZM96.5771 3.68555C96.4467 3.67282 96.3131 3.6631 96.1729 3.66309C94.0566 3.66309 92.835 4.94513 92.835 7.41309V15.6162H88.8867V0.391602H92.835V2.15527C93.7586 0.725841 95.2512 0.0215193 97.3096 0.0107422L96.5771 3.68555ZM23.7715 3.88672C21.4602 3.88686 19.5657 5.80962 19.5654 7.98828C19.5654 10.1995 21.46 12.1229 23.7715 12.123C26.1194 12.123 28.0098 10.1995 28.0098 7.98828C28.0095 5.80953 26.1153 3.88672 23.7715 3.88672ZM105.365 3.8877C104.246 3.89204 103.174 4.34075 102.386 5.13379C101.597 5.92687 101.157 6.99995 101.161 8.11719C101.161 10.2324 103.056 12.123 105.368 12.123C107.709 12.1229 109.602 10.2324 109.603 8.08496C109.598 6.96764 109.149 5.89738 108.354 5.11035C107.56 4.32345 106.485 3.88341 105.365 3.8877ZM79.5908 3.69434C77.7603 3.69436 76.2823 4.7781 75.7012 6.41113L83.3105 6.4248C83.0886 4.88672 81.4852 3.69728 79.5908 3.69434Z" fill="#0056D2"/>
+        </svg>
+      </div>
+      <div class="commitment-card">
+        <h1 class="commitment-title cds-title-xs">My commitment</h1>
+        <p class="commitment-body cds-body-primary">I'm beginning my learning in <strong>Share Data Through the Art of Visualization</strong>.</p>
+        <p class="commitment-body cds-body-primary">As I complete items, I'll build real skills — tracked with <strong>Skill Points</strong> — that I can show to employers.</p>
+        <p class="commitment-body cds-body-primary">I know learning can be hard, but I have the patience, determination, and discipline to reach my goals.</p>
+        <p class="commitment-body cds-body-primary">When I'm stuck, I'll find a solution, like...</p>
+        <div class="commitment-strategies">
+          <div class="commitment-strategies-col">
+            <span class="cds-body-primary">&#8226; Take a breath</span>
+            <span class="cds-body-primary">&#8226; Break it down</span>
+            <span class="cds-body-primary">&#8226; Ask for help</span>
+          </div>
+          <div class="commitment-strategies-col">
+            <span class="cds-body-primary">&#8226; Research</span>
+            <span class="cds-body-primary">&#8226; Stay positive</span>
+            <span class="cds-body-primary">&#8226; Talk through it</span>
+          </div>
+        </div>
+        <label class="commitment-checkbox cds-body-primary">
+          <input type="checkbox" id="commitment-check">
+          <span>I commit to completing this course.</span>
+        </label>
+        <button type="button" class="commitment-cta cds-action-primary" id="commitment-cta" onclick="dismissCommitment()">Go to first item</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Commitment loading screen (80% of learners) - shown after "Go to first item" -->
+  <div id="commitment-loading-screen" class="commitment-loading-screen" style="display:none;" role="status" aria-live="polite" aria-label="Loading">
+    <div class="commitment-loading-inner">
+      <p class="commitment-loading-text cds-subtitle-lg">
+        Learners who spend <span class="commitment-loading-highlight-blue">one hour</span> learning on day 1 have an <span class="commitment-loading-highlight-yellow">80%</span> higher success rate for course completion...
+      </p>
+      <svg class="commitment-loading-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Proto control strip: sound toggle + segments -->
+  <div class="proto-control-strip">
+    <button type="button" class="proto-sound-toggle" id="proto-sound-toggle" aria-pressed="true" aria-label="Toggle sound and haptics">
+      <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
+    </button>
+    <button type="button" class="proto-net-new-toggle" id="proto-net-new-toggle" aria-pressed="false" aria-label="Show differences">
+      <span class="material-symbols-rounded">highlight</span>
+      <span class="proto-net-new-label">Show differences</span>
+    </button>
+    <a href="index.html" class="home-segment-back cds-body-tertiary" style="background:var(--cds-color-grey-975);color:var(--cds-color-white);padding:8px 16px;border-radius:var(--cds-border-radius-100);text-decoration:none;display:flex;align-items:center;gap:6px;box-shadow:var(--cds-elevation-level2);">
+      <span class="material-symbols-rounded" style="font-size:16px;">arrow_back</span>
+      Segments
+    </a>
+  </div>
+
+  <script src="js/goals-store.js"></script>
+  <script src="js/sounds.js"></script>
+  <script>
+    function getSegment() {
+      return sessionStorage.getItem('m1-skills-segment') || 'active';
+    }
+
+    function dismissCommitment() {
+      var commitEl = document.getElementById('commitment-screen');
+      var loadingEl = document.getElementById('commitment-loading-screen');
+      if (commitEl) commitEl.style.display = 'none';
+      if (loadingEl) loadingEl.style.display = 'flex';
+      setTimeout(function() {
+        if (loadingEl) loadingEl.style.display = 'none';
+        sessionStorage.setItem('m1-skills-commitment-done', 'true');
+      }, 2500);
+    }
+
+    (function() {
+      var segment = getSegment();
+      var introModal = document.getElementById('course-intro-modal');
+
+      if (segment === 'active') {
+        if (introModal) {
+          introModal.classList.add('is-hidden');
+          introModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      if (segment === 'new') {
+        if (introModal) {
+          introModal.classList.add('is-hidden');
+          introModal.setAttribute('aria-hidden', 'true');
+        }
+        if (!sessionStorage.getItem('m1-skills-commitment-done')) {
+          var commitScreen = document.getElementById('commitment-screen');
+          if (commitScreen) commitScreen.style.display = 'flex';
+        }
+      }
+    })();
+
+    (function initSoundToggle() {
+      var btn = document.getElementById('proto-sound-toggle');
+      var icon = btn && btn.querySelector('.proto-sound-icon');
+      function updateUI() {
+        var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
+        if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (icon) icon.textContent = on ? 'volume_up' : 'volume_off';
+      }
+      if (btn) {
+        updateUI();
+        btn.addEventListener('click', function() {
+          var on = typeof isSoundEnabled === 'function' && isSoundEnabled();
+          if (typeof setSoundEnabled === 'function') setSoundEnabled(!on);
+          updateUI();
+        });
+      }
+    })();
+
+    (function initNetNewToggle() {
+      var btn = document.getElementById('proto-net-new-toggle');
+      var body = document.body;
+      if (btn && body) {
+        var on = sessionStorage.getItem('proto-highlight-net-new') === 'true';
+        if (on) body.classList.add('proto-highlight-net-new');
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.addEventListener('click', function() {
+          on = !on;
+          sessionStorage.setItem('proto-highlight-net-new', on ? 'true' : 'false');
+          body.classList.toggle('proto-highlight-net-new', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+    })();
+
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
