@@ -3423,6 +3423,83 @@ input, button, textarea, select {
   color: var(--cds-color-blue-700);
 }
 
+/* Trigger event — nested submenu inside flyout */
+.proto-trigger-event-wrap {
+  position: relative;
+}
+
+.proto-trigger-event-wrap .proto-tools-row {
+  justify-content: space-between;
+}
+
+.proto-trigger-event-chevron {
+  font-size: 18px !important;
+  color: var(--cds-color-grey-400);
+  margin-left: auto;
+}
+
+.proto-trigger-submenu {
+  display: none;
+  position: absolute;
+  left: calc(100% + 4px);
+  bottom: 0;
+  min-width: 220px;
+  background: var(--cds-color-white);
+  border-radius: var(--cds-border-radius-200);
+  box-shadow: var(--cds-elevation-level2);
+  padding: 8px 0;
+  z-index: 10001;
+  flex-direction: column;
+}
+
+.proto-trigger-event-wrap:hover > .proto-trigger-submenu,
+.proto-trigger-event-wrap.is-submenu-open > .proto-trigger-submenu {
+  display: flex;
+}
+
+.proto-trigger-submenu-item {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  color: var(--cds-color-grey-975);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+  text-align: left;
+}
+
+.proto-trigger-submenu-item:hover {
+  background: var(--cds-color-blue-25);
+  color: var(--cds-color-blue-800);
+}
+
+.proto-trigger-submenu-item .material-symbols-rounded {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Disabled state for non-learning pages */
+.proto-trigger-event-wrap.is-disabled .proto-tools-row {
+  color: var(--cds-color-grey-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.proto-trigger-event-wrap.is-disabled .proto-trigger-submenu {
+  display: none !important;
+}
+
+.proto-trigger-event-wrap.is-disabled .proto-trigger-event-chevron {
+  color: var(--cds-color-grey-300);
+}
+
 .proto-net-new-toggle .proto-net-new-label {
   white-space: nowrap;
 }

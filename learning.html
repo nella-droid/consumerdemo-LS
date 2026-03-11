@@ -1385,6 +1385,23 @@
           <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
           <span class="proto-sound-label">Sound</span>
         </button>
+        <div class="proto-trigger-event-wrap" id="proto-trigger-event-wrap">
+          <button type="button" class="proto-tools-row" aria-label="Trigger event">
+            <span class="material-symbols-rounded">bolt</span>
+            <span>Trigger event</span>
+            <span class="material-symbols-rounded proto-trigger-event-chevron">chevron_right</span>
+          </button>
+          <div class="proto-trigger-submenu">
+            <button type="button" class="proto-trigger-submenu-item" id="proto-trigger-goals-complete">
+              <span class="material-symbols-rounded">emoji_events</span>
+              All daily goals complete
+            </button>
+            <button type="button" class="proto-trigger-submenu-item" id="proto-trigger-module-complete">
+              <span class="material-symbols-rounded">school</span>
+              Module complete
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1479,6 +1496,29 @@
           wrapper.classList.remove('is-open');
         }
       });
+    })();
+
+    (function initTriggerEvents() {
+      var goalsBtn = document.getElementById('proto-trigger-goals-complete');
+      var moduleBtn = document.getElementById('proto-trigger-module-complete');
+
+      if (goalsBtn) {
+        goalsBtn.addEventListener('click', function() {
+          goalsCompleteDialogShown = false;
+          showGoalsCompleteDialog();
+          var wrapper = document.querySelector('.proto-tools-wrapper');
+          if (wrapper) wrapper.classList.remove('is-open');
+        });
+      }
+
+      if (moduleBtn) {
+        moduleBtn.addEventListener('click', function() {
+          moduleCompleteDialogShown = false;
+          showModuleCompleteDialog();
+          var wrapper = document.querySelector('.proto-tools-wrapper');
+          if (wrapper) wrapper.classList.remove('is-open');
+        });
+      }
     })();
 
     (function initExperimentDropdown() {
