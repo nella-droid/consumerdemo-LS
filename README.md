@@ -1,4 +1,4 @@
-# Skill Points Prototype V1.3
+# Skill Points Prototype V1.4
 
 A Coursera-style learning experience prototype that explores **Skill Points (XP)** — a gamification system for learner engagement and progress visualization.
 
@@ -37,6 +37,7 @@ A Coursera-style learning experience prototype that explores **Skill Points (XP)
 
 ### Proto Controls (Engineers)
 - **Show differences** — Toggle (bottom-left) highlights net-new elements with a red outline. Available on homepage, learning, and My Learning. State persists via sessionStorage across navigation.
+- **Show differences across experiments** — Compare variations across experiments within M1 to surface what changed between treatments.
 
 ### Email Templates
 - **Active learner** — Announcement email (active-email.html)
@@ -86,4 +87,20 @@ vercel --prod
 
 ---
 
-*For internal review only — Skill Points Prototype V1.3*
+## Changelog
+
+### V1.4
+- Added feature to show differences across experiments within M1
+
+### V1.3
+- Show differences toggle, dialog improvements, net-new highlights
+
+### V1.2
+- Share Data Through the Art of Visualization course structure, Vercel deployment
+
+### V1.1
+- Initial prototype
+
+---
+
+*For internal review only — Skill Points Prototype V1.4*
