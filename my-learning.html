@@ -286,6 +286,7 @@
         <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="1">Experiment 1</li>
         <li class="proto-experiment-option" role="option" aria-selected="false" data-value="2">Experiment 2</li>
         <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment 3</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="4">Experiment 4+</li>
       </ul>
     </div>
     <div class="proto-tools-wrapper">
@@ -457,7 +458,7 @@
       var combinedCard = gridWrapper.querySelector('.mylearning-combined-card');
       var certCard = gridWrapper.querySelector('.mylearning-certificate-card');
       if (!combinedCard || !certCard) return;
-      if (exp === '3') {
+      if (exp === '3' || exp === '4') {
         combinedCard.style.display = '';
         gridWrapper.insertBefore(combinedCard, certCard);
       } else {

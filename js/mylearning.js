@@ -66,7 +66,7 @@
   function renderSkillsTab(container) {
     if (!container) return;
     var exp = getActiveExperiment();
-    if (exp === '2' || exp === '3') {
+    if (exp === '2' || exp === '3' || exp === '4') {
       renderSkillAccordions(container);
     } else {
       renderSkillsEmpty(container);
@@ -250,7 +250,7 @@
 
     if (seeLink) seeLink.addEventListener('click', function(e) {
       e.preventDefault();
-      if (getActiveExperiment() === '3' && typeof window._openYourProgressModal === 'function') {
+      if ((getActiveExperiment() === '3' || getActiveExperiment() === '4') && typeof window._openYourProgressModal === 'function') {
         window._openYourProgressModal();
       } else {
         openModal();

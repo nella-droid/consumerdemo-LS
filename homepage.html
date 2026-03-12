@@ -323,6 +323,7 @@
         <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="1">Experiment 1</li>
         <li class="proto-experiment-option" role="option" aria-selected="false" data-value="2">Experiment 2</li>
         <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment 3</li>
+        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="4">Experiment 4+</li>
       </ul>
     </div>
     <div class="proto-tools-wrapper">
@@ -418,15 +419,27 @@
         var d = window.GoalsStore.get();
         var goal = window.GoalsStore.getLearningItemsGoal ? window.GoalsStore.getLearningItemsGoal() : 5;
         var seg = window.GoalsStore.getSegment ? window.GoalsStore.getSegment() : 'active';
+        var exp = '1';
+        try { exp = sessionStorage.getItem('proto-experiment') || '1'; } catch (e) {}
+        var isExp4 = exp === '4';
+        var EXP4_XP_GOAL = 100;
         var completedStar = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="12" fill="#EDE9FE"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#7C3AED"/></svg>';
-        var t1 = document.getElementById('goal-1-target');
-        var c1 = document.getElementById('goal-1-count');
-        var m1 = document.getElementById('goal-1-max');
+        var defaultStar = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="12" fill="#F2F5FA"/><path d="M12.0005 16.8754L7.90047 19.3254C7.71714 19.4254 7.53797 19.4671 7.36297 19.4504C7.18797 19.4337 7.0338 19.3754 6.90047 19.2754C6.76714 19.1754 6.66714 19.0379 6.60047 18.8629C6.5338 18.6879 6.52547 18.5087 6.57547 18.3254L7.65047 13.7504L4.02547 10.6754C3.87547 10.5421 3.7838 10.3879 3.75047 10.2129C3.71714 10.0379 3.72547 9.86706 3.77547 9.70039C3.82547 9.53372 3.91714 9.39622 4.05047 9.28789C4.1838 9.17956 4.35047 9.11706 4.55047 9.10039L9.30047 8.67539L11.1755 4.32539C11.2588 4.14206 11.3755 4.00456 11.5255 3.91289C11.6755 3.82122 11.8338 3.77539 12.0005 3.77539C12.1671 3.77539 12.3255 3.82122 12.4755 3.91289C12.6255 4.00456 12.7421 4.14206 12.8255 4.32539L14.7005 8.70039L19.4505 9.10039C19.6505 9.11706 19.8171 9.18372 19.9505 9.30039C20.0838 9.41706 20.1755 9.55872 20.2255 9.72539C20.2755 9.89206 20.2796 10.0587 20.238 10.2254C20.1963 10.3921 20.1005 10.5421 19.9505 10.6754L16.3505 13.7504L17.4255 18.3254C17.4755 18.5087 17.4671 18.6879 17.4005 18.8629C17.3338 19.0379 17.2338 19.1754 17.1005 19.2754C16.9671 19.3754 16.813 19.4337 16.638 19.4504C16.463 19.4671 16.2838 19.4254 16.1005 19.3254L12.0005 16.8754Z" fill="#C1CAD9"/></svg>';
         var s1 = document.getElementById('goal-star-1');
-        if (t1) t1.textContent = goal;
-        if (m1) m1.textContent = goal;
-        if (d.learningItemsCompleted >= goal && s1) s1.innerHTML = completedStar;
-        if (c1) c1.textContent = Math.min(d.learningItemsCompleted, goal);
+        if (s1) s1.innerHTML = defaultStar;
+
+        var goalTextEl = document.querySelector('#home-todays-goals .home-goal-item:first-child .goal-text');
+        if (isExp4) {
+          var currentXp = 0;
+          try { var xpRaw = sessionStorage.getItem('m1-skills-session-xp'); if (xpRaw) currentXp = parseInt(xpRaw, 10) || 0; } catch (e) {}
+          if (goalTextEl) goalTextEl.innerHTML = 'Earn <strong>' + EXP4_XP_GOAL + ' XP</strong> · ' + Math.min(currentXp, EXP4_XP_GOAL) + '/' + EXP4_XP_GOAL;
+          if (currentXp >= EXP4_XP_GOAL && s1) s1.innerHTML = completedStar;
+        } else {
+          var completed = Math.min(d.learningItemsCompleted, goal);
+          if (goalTextEl) goalTextEl.innerHTML = 'Complete any <strong><span id="goal-1-target">' + goal + '</span> learning items</strong> · <span id="goal-1-count">' + completed + '</span>/<span id="goal-1-max">' + goal + '</span>';
+          if (d.learningItemsCompleted >= goal && s1) s1.innerHTML = completedStar;
+        }
+
         if (seg !== 'new') {
           var s2 = document.getElementById('goal-star-2');
           var s3 = document.getElementById('goal-star-3');
@@ -438,6 +451,7 @@
           if (g3) g3.textContent = d.coachComplete ? 'Use Coach - ✓' : 'Use Coach';
         }
       }
+      window._renderHomeGoals = renderGoals;
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', renderGoals);
       } else {
@@ -542,6 +556,7 @@
         applyExperimentClass(val);
         dropdown.classList.remove('is-open');
         trigger.setAttribute('aria-expanded', 'false');
+        if (typeof window._renderHomeGoals === 'function') window._renderHomeGoals();
       });
 
       document.addEventListener('click', function(e) {

@@ -414,7 +414,7 @@ input, button, textarea, select {
   flex-direction: column;
   gap: 0px;
   padding: 12px 16px;
-  background: linear-gradient(to right, #FFF4E8, #FFFFFF);
+  background: var(--cds-color-white);
   border-bottom: 1px solid var(--cds-color-grey-100);
 }
 
@@ -450,6 +450,9 @@ input, button, textarea, select {
   padding: 10px 8px;
   gap: 4px;
   align-items: center;
+  background: var(--cds-color-white);
+  border-top: 1px solid var(--cds-color-grey-100);
+  border-bottom: 1px solid var(--cds-color-grey-100);
 }
 
 .sidebar.collapsed .sidebar-xp-tracker-top {
@@ -465,13 +468,14 @@ input, button, textarea, select {
 
 .sidebar.collapsed .sidebar-xp-tracker-value {
   flex-direction: column;
+  align-items: center;
   gap: 2px;
-  font-size: 10px;
+  text-align: center;
 }
 
 .sidebar.collapsed .sidebar-xp-tracker-value .sidebar-xp-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .sidebar-xp-tracker-label-row {
@@ -486,7 +490,6 @@ input, button, textarea, select {
 
 .sidebar-xp-tracker-label {
   color: var(--cds-color-grey-975);
-  font-weight: 600;
 }
 
 .sidebar-xp-tracker-value {
@@ -494,9 +497,7 @@ input, button, textarea, select {
   align-items: center;
   gap: 6px;
   color: var(--cds-color-yellow-600);
-  font-weight: 600;
   font-family: var(--cds-font-family);
-  font-size: 1rem;
   background: none;
   border: none;
   padding: 0;
@@ -812,7 +813,7 @@ input, button, textarea, select {
 }
 
 .lecture-status.pending {
-  color: #E8EEF7;
+  color: var(--cds-color-grey-200);
 }
 
 .lecture-info {
@@ -1089,14 +1090,15 @@ input, button, textarea, select {
 }
 
 .content-header .video-title {
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .skill-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
 }
 
 .skill-tag {
@@ -1109,7 +1111,7 @@ input, button, textarea, select {
   font-weight: 400;
   line-height: 1.25rem;
   color: var(--cds-color-neutral-primary);
-  background: var(--cds-color-neutral-stroke-primary-weak);
+  background: var(--cds-color-emphasis-tertiary-bg-xweak);
   border-radius: 9999px;
   box-sizing: border-box;
 }
@@ -1122,7 +1124,7 @@ input, button, textarea, select {
 }
 
 .skill-tag-sep {
-  margin: 0 2px;
+  margin: 0 4px;
 }
 
 .reading-header-row .skill-tags {
@@ -2070,7 +2072,7 @@ input, button, textarea, select {
 }
 
 .feedback-grade-banner.illustration-faded .feedback-grade-banner-illustration-wrap {
-  opacity: 0.2;
+  opacity: 1;
 }
 
 .feedback-grade-banner-illustration {
@@ -2095,9 +2097,8 @@ input, button, textarea, select {
   display: flex;
   flex-direction: column;
   gap: var(--cds-spacing-100);
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
-  background: #eff8ee;
 }
 
 .feedback-grade-banner-content .feedback-next-btn {
@@ -2129,6 +2130,7 @@ input, button, textarea, select {
 }
 
 .feedback-skill-progress-banner-wrap {
+  display: none;
   position: relative;
   flex: 0 1 45%;
   min-width: 280px;
@@ -2300,6 +2302,16 @@ input, button, textarea, select {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--cds-spacing-200);
+}
+
+.feedback-skill-progress-grid-inline {
+  grid-template-columns: 1fr 1fr;
+}
+
+.feedback-skill-progress-content-section {
+  margin-bottom: var(--cds-spacing-400);
+  padding-bottom: var(--cds-spacing-400);
+  border-bottom: 1px solid var(--cds-color-grey-100);
 }
 
 .feedback-skill-card {
@@ -3038,13 +3050,33 @@ input, button, textarea, select {
 
 .module-complete-title {
   color: var(--color-text-primary);
-  margin: 16px 0 4px 0;
+  margin: 16px 0 8px 0;
   text-align: left;
 }
 
-.module-complete-subtext {
+.module-complete-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.module-complete-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
   color: var(--cds-color-grey-975);
-  margin: 0 0 16px 0;
+  white-space: nowrap;
+}
+
+.module-complete-tag--modules {
+  background: var(--cds-color-emphasis-primary-bg-weak);
+}
+
+.module-complete-tag--xp {
+  background: var(--cds-color-emphasis-tertiary-bg-xweak);
 }
 
 .module-complete-stats {
@@ -3153,16 +3185,32 @@ input, button, textarea, select {
 }
 
 .module-complete-skill-cards {
-  position: relative;
-  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cds-spacing-150);
+  margin-bottom: 16px;
 }
 
 .module-complete-skill-card {
-  display: none;
+  display: block;
 }
 
-.module-complete-skill-card.active {
-  display: block;
+.module-complete-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.module-complete-card-row .feedback-skill-card-name {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.module-complete-card-row .feedback-skill-progress-value {
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .module-complete-skill-cards .feedback-skill-card {
@@ -3441,15 +3489,24 @@ input, button, textarea, select {
 .proto-trigger-submenu {
   display: none;
   position: absolute;
-  left: calc(100% + 4px);
+  left: 100%;
   bottom: 0;
-  min-width: 220px;
+  min-width: 260px;
   background: var(--cds-color-white);
   border-radius: var(--cds-border-radius-200);
   box-shadow: var(--cds-elevation-level2);
   padding: 8px 0;
   z-index: 10001;
   flex-direction: column;
+}
+
+.proto-trigger-submenu::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  width: 16px;
 }
 
 .proto-trigger-event-wrap:hover > .proto-trigger-submenu,
@@ -3483,6 +3540,22 @@ input, button, textarea, select {
 .proto-trigger-submenu-item .material-symbols-rounded {
   font-size: 20px;
   flex-shrink: 0;
+}
+
+.proto-trigger-submenu-sep {
+  height: 1px;
+  background: var(--cds-color-grey-100);
+  margin: 4px 0;
+}
+
+.proto-trigger-submenu-item.proto-trigger-placeholder {
+  color: var(--cds-color-grey-400);
+  cursor: default;
+}
+
+.proto-trigger-submenu-item.proto-trigger-placeholder:hover {
+  background: none;
+  color: var(--cds-color-grey-400);
 }
 
 /* Disabled state for non-learning pages */
@@ -3532,12 +3605,23 @@ body.proto-highlight-net-new.proto-experiment-2 #panel-skills {
   box-shadow: 0 0 0 2px var(--cds-color-white);
 }
 
-/* Net new element highlights - Experiment 3 */
+/* Net new element highlights - Experiment 3 & 4 */
 body.proto-highlight-net-new.proto-experiment-3 #see-skill-progress-link,
 body.proto-highlight-net-new.proto-experiment-3 .mylearning-tab[data-tab="skills"],
-body.proto-highlight-net-new.proto-experiment-3 .skill-verified-tag {
+body.proto-highlight-net-new.proto-experiment-3 .skill-verified-tag,
+body.proto-highlight-net-new.proto-experiment-4 #see-skill-progress-link,
+body.proto-highlight-net-new.proto-experiment-4 .mylearning-tab[data-tab="skills"],
+body.proto-highlight-net-new.proto-experiment-4 .skill-verified-tag,
+body.proto-highlight-net-new.proto-experiment-4 #sidebar-xp-tracker,
+body.proto-highlight-net-new.proto-experiment-4 #home-todays-goals .home-goal-item:first-child {
   outline: 2px solid var(--cds-color-red-700);
   outline-offset: 2px;
+}
+
+/* Experiment 4: hide header progress tracker */
+body.proto-experiment-4 .progress-tracker-wrapper {
+  display: none;
+}
   box-shadow: 0 0 0 2px var(--cds-color-white);
 }
 
