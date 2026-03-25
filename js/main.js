@@ -61,7 +61,8 @@ var SESSION_XP_KEY = 'm1-skills-session-xp';
 var EXP4_XP_GOAL = 100;
 
 function isExperiment4() {
-  return (sessionStorage.getItem('proto-experiment') || '1') === '4';
+  var exp = sessionStorage.getItem('proto-experiment') || '1';
+  return exp === '3' || exp === '4';
 }
 
 /* XP tracker always visible in sidebar */
@@ -90,16 +91,17 @@ function addSessionXp(amount) {
 function updateSessionXpDisplay() {
   var el = document.getElementById('sidebar-xp-value');
   var currentXp = getSessionXp();
+  var isStrictExp4 = (sessionStorage.getItem('proto-experiment') || '1') === '4';
   if (el) {
-    if (isExperiment4()) {
+    if (isStrictExp4) {
       el.textContent = currentXp + '/' + EXP4_XP_GOAL;
     } else {
       el.textContent = currentXp;
     }
   }
-  if (isExperiment4()) {
+  if (isStrictExp4) {
     var labelEl = document.querySelector('.sidebar-xp-tracker-label');
-    if (labelEl) labelEl.textContent = "Today's goal";
+    if (labelEl) labelEl.textContent = "Today's Goal";
   }
 }
 
