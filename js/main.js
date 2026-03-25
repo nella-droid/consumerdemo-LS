@@ -150,7 +150,7 @@ function triggerVideoEndModal() {
   var targetPct = (newSkillXP / 1500) * 100;
 
   document.getElementById('video-end-skill-name').textContent = skillName;
-  document.getElementById('video-end-xp-tag').textContent = '+' + xp + ' XP';
+  document.getElementById('video-end-xp-tag').textContent = '+' + xp;
   document.getElementById('video-end-progress-label').textContent = newSkillXP + '/1500 XP';
 
   var progressFill = document.getElementById('video-end-progress-fill');
@@ -516,8 +516,8 @@ function updateSkillTags(item, contentTagsEl, readingTagsEl) {
   var tags = lessonId ? getLessonSkillTags(lessonId) : ['Visualizing and Reporting Clean Data'];
   var xp = getSkillPointsFromItem(item);
   var html = tags.map(function(t) {
-    return '<span class="skill-tag">' +
-      '<span class="skill-tag-xp">+' + xp + ' XP</span>' +
+    return '<span class="cds-tag cds-tag--emphasis-tertiary-xweak skill-tag">' +
+      '<span class="skill-tag-xp">' + xp + ' XP</span>' +
       '<span class="skill-tag-sep"> • </span>' +
       '<span class="skill-tag-name">' + t + '</span>' +
       '</span>';
@@ -715,7 +715,9 @@ function populateAndAnimateGoalsCompleteSkills() {
     var pct = Math.min((s.xp / 1500) * 100, 100);
     var card = document.createElement('div');
     card.className = 'feedback-skill-card feedback-skill-card-' + (i + 1) + (i === 0 ? ' goals-skill-active' : '');
-    card.innerHTML = '<h4 class="feedback-skill-card-name cds-action-primary">' + escapeHtml(s.name) + '</h4>' +
+    card.innerHTML = '<div class="feedback-skill-card-header">' +
+      '<h4 class="feedback-skill-card-name cds-body-primary">' + escapeHtml(s.name) + '</h4>' +
+      '</div>' +
       '<div class="feedback-skill-progress-row">' +
       '<div class="feedback-skill-progress-bar">' +
       '<div class="feedback-skill-progress-fill" data-progress="' + pct + '" data-start="0" style="width: 0%"></div>' +
@@ -1260,16 +1262,12 @@ function showXpIntroModal() {
     if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here\u2019s what you\u2019ve built so far in this course:';
   } else {
     if (titleEl) titleEl.textContent = 'You just earned Skill Points!';
-    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here are the skills you can expect to build in this course:';
+    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here is the skill you just made progress towards:';
   }
 
   var skillsContainer = document.getElementById('xp-intro-skills');
   if (skillsContainer) {
-    if (seg === 'new') {
-      skillsContainer.classList.add('names-only');
-    } else {
-      skillsContainer.classList.remove('names-only');
-    }
+    skillsContainer.classList.remove('names-only');
   }
 
   Object.keys(SKILL_KEY_TO_NAME).forEach(function(key) {
@@ -1279,23 +1277,15 @@ function showXpIntroModal() {
     var xp = (typeof skillProgress !== 'undefined' && skillProgress[fullName]) ? skillProgress[fullName] : 0;
     var valEl = row.querySelector('[data-xp-value]');
     var barEl = row.querySelector('[data-xp-bar]');
-    var barWrap = row.querySelector('.xp-intro-skill-bar');
-    var metaEl = row.querySelector('.xp-intro-skill-meta');
+    var barRow = row.querySelector('.xp-intro-skill-bar-row');
 
-    if (seg === 'active') {
-      if (xp > 0) {
-        row.style.display = '';
-        if (valEl) valEl.textContent = xp + '/' + SKILL_XP_MAX + ' XP';
-        if (barEl) barEl.style.width = (xp / SKILL_XP_MAX * 100) + '%';
-        if (barWrap) barWrap.style.display = '';
-        if (metaEl) metaEl.style.display = '';
-      } else {
-        row.style.display = 'none';
-      }
-    } else {
+    if (xp > 0) {
       row.style.display = '';
-      if (metaEl) metaEl.style.display = 'none';
-      if (barWrap) barWrap.style.display = 'none';
+      if (valEl) valEl.textContent = xp + '/' + SKILL_XP_MAX + ' XP';
+      if (barEl) barEl.style.width = (xp / SKILL_XP_MAX * 100) + '%';
+      if (barRow) barRow.style.display = '';
+    } else {
+      row.style.display = 'none';
     }
   });
 

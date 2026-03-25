@@ -976,7 +976,7 @@ input, button, textarea, select {
 }
 
 .video-end-modal-content .video-end-skill-section {
-  padding: 20px 20px 12px;
+  padding: 16px 16px 12px;
   margin-bottom: 0;
 }
 
@@ -1101,30 +1101,122 @@ input, button, textarea, select {
   margin-bottom: 16px;
 }
 
+/* CDS Tag component (CSS replica of @coursera/cds-core Tag)
+   Spec: 22px height, 14px label, pill radius, 1px border, 0 8px padding */
+.cds-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  padding: 0 8px;
+  font-family: var(--cds-font-family);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 22px;
+  border: 1px solid;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* Category variants */
+.cds-tag--category-primary {
+  color: var(--cds-color-grey-975);
+  background: var(--cds-color-grey-50);
+  border-color: var(--cds-color-grey-50);
+}
+.cds-tag--category-secondary {
+  color: var(--cds-color-grey-975);
+  background: transparent;
+  border-color: var(--cds-color-grey-100);
+}
+
+/* Status variants — primary */
+.cds-tag--status-success-primary {
+  color: var(--cds-color-white);
+  background: var(--cds-color-green-700);
+  border-color: var(--cds-color-green-700);
+}
+.cds-tag--status-warning-primary {
+  color: var(--cds-color-grey-975);
+  background: var(--cds-color-yellow-200);
+  border-color: var(--cds-color-yellow-200);
+}
+.cds-tag--status-error-primary {
+  color: var(--cds-color-white);
+  background: var(--cds-color-red-700);
+  border-color: var(--cds-color-red-700);
+}
+.cds-tag--status-info-primary {
+  color: var(--cds-color-white);
+  background: var(--cds-color-blue-950);
+  border-color: var(--cds-color-blue-950);
+}
+
+/* Status variants — secondary */
+.cds-tag--status-success-secondary {
+  color: var(--cds-color-green-700);
+  background: var(--cds-color-green-25);
+  border-color: var(--cds-color-green-25);
+}
+.cds-tag--status-warning-secondary {
+  color: var(--cds-color-yellow-700);
+  background: var(--cds-color-yellow-25);
+  border-color: var(--cds-color-yellow-25);
+}
+.cds-tag--status-error-secondary {
+  color: var(--cds-color-red-700);
+  background: var(--cds-color-red-25);
+  border-color: var(--cds-color-red-25);
+}
+.cds-tag--status-info-secondary {
+  color: var(--cds-color-blue-800);
+  background: var(--cds-color-blue-25);
+  border-color: var(--cds-color-blue-25);
+}
+
+/* Emphasis variants (semantic token-based) */
+.cds-tag--emphasis-tertiary-xweak {
+  color: var(--cds-color-emphasis-tertiary-content);
+  background: var(--cds-color-emphasis-tertiary-bg-xweak);
+  border-color: var(--cds-color-emphasis-tertiary-bg-xweak);
+}
+
+/* CDS Tag icon support */
+.cds-tag .cds-tag-icon {
+  font-size: 14px;
+  margin-right: 4px;
+  line-height: 1;
+}
+
+/* Skill-tag aliases (maps to CDS Tag) */
 .skill-tag {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  height: 22px;
   padding: 0 8px;
-  max-height: 22px;
   font-family: var(--cds-font-family);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 400;
-  line-height: 1.25rem;
-  color: var(--cds-color-neutral-primary);
+  line-height: 22px;
+  color: var(--cds-color-emphasis-tertiary-content);
   background: var(--cds-color-emphasis-tertiary-bg-xweak);
+  border: 1px solid var(--cds-color-emphasis-tertiary-bg-xweak);
   border-radius: 9999px;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .skill-tag-xp,
 .skill-tag-sep,
 .skill-tag-name {
-  color: var(--cds-color-neutral-primary);
+  color: var(--cds-color-emphasis-tertiary-content);
   font-weight: 400;
 }
 
 .skill-tag-sep {
-  margin: 0 4px;
+  margin: 0 2px;
 }
 
 .reading-header-row .skill-tags {
@@ -2318,11 +2410,24 @@ input, button, textarea, select {
   background: var(--cds-color-grey-25);
   border-radius: 16px;
   padding: var(--cds-spacing-200);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feedback-skill-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 0;
 }
 
 .feedback-skill-card-name {
   color: var(--cds-color-neutral-primary);
-  margin: 0 0 var(--cds-spacing-100) 0;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .feedback-skill-tags-row {
@@ -2333,25 +2438,16 @@ input, button, textarea, select {
   margin-bottom: var(--cds-spacing-50);
 }
 
+/* feedback XP/level tags — now extend .cds-tag base via HTML class */
 .feedback-skill-xp-tag,
 .feedback-skill-level-tag {
-  display: inline-flex;
-  align-items: center;
-  max-height: 22px;
-  padding: 0 8px;
-  font-family: var(--cds-font-family);
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.25rem;
-  color: var(--cds-color-neutral-primary);
-  background: var(--cds-color-neutral-stroke-primary-weak);
-  border-radius: 9999px;
-  box-sizing: border-box;
+  /* override: no extra styles needed when .cds-tag is on the element */
 }
 
 .feedback-skill-xp-tag {
   opacity: 0;
   transition: opacity 0.3s ease-out;
+  font-weight: 600;
 }
 
 .feedback-skill-xp-tag.xp-tag-visible {
@@ -2365,28 +2461,28 @@ input, button, textarea, select {
 .feedback-skill-progress-row {
   display: flex;
   align-items: center;
-  gap: var(--cds-spacing-300);
+  gap: 8px;
 }
 
 .feedback-skill-progress-bar {
   flex: 1;
   height: 8px;
-  background: var(--cds-color-grey-100);
-  border-radius: var(--cds-border-radius-max);
+  background: var(--cds-color-grey-200);
+  border-radius: 50px;
   overflow: hidden;
 }
 
 .feedback-skill-progress-fill {
   height: 100%;
-  background: var(--cds-color-interactive-primary);
-  border-radius: var(--cds-border-radius-max);
+  background: #2d8e24;
+  border-radius: 50px;
   transition: width 1s ease-out;
 }
 
 .feedback-skill-progress-value {
   font-family: var(--cds-font-family);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--cds-color-grey-600);
   white-space: nowrap;
 }
@@ -3195,31 +3291,9 @@ input, button, textarea, select {
   display: block;
 }
 
-.module-complete-card-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.module-complete-card-row .feedback-skill-card-name {
-  margin: 0;
-  flex: 1;
-  min-width: 0;
-}
-
-.module-complete-card-row .feedback-skill-progress-value {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
 .module-complete-skill-cards .feedback-skill-card {
   margin-bottom: 0;
-  padding: var(--cds-spacing-150);
 }
-
-.module-complete-skill-cards .feedback-skill-card-name {
-  margin-bottom: var(--cds-spacing-50);
 }
 
 .module-complete-carousel-dots {
