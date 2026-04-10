@@ -2153,7 +2153,8 @@ input, button, textarea, select {
   top: 0;
   right: 0;
   bottom: 0;
-  left: 45%;
+  left: auto;
+  width: 55%;
   z-index: 0;
   display: flex;
   align-items: center;
@@ -2170,9 +2171,7 @@ input, button, textarea, select {
 .feedback-grade-banner-illustration {
   height: 100%;
   width: auto;
-  min-width: 100%;
-  object-fit: cover;
-  object-position: right center;
+  margin-right: -40px;
 }
 
 .feedback-grade-banner-inner {
@@ -3695,6 +3694,44 @@ body.proto-highlight-net-new.proto-experiment-4 #home-todays-goals .home-goal-it
   outline-offset: 2px;
 }
 
+/* Experiment A-C: hide goals-complete toolbar trigger and video end skill card */
+body.proto-experiment-1 #proto-trigger-goals-complete,
+body.proto-experiment-2 #proto-trigger-goals-complete,
+body.proto-experiment-3 #proto-trigger-goals-complete,
+body.proto-experiment-1 #video-end-skills-grid,
+body.proto-experiment-2 #video-end-skills-grid,
+body.proto-experiment-3 #video-end-skills-grid {
+  display: none;
+}
+
+/* Experiment C: black logo and enterprise banner */
+body.proto-experiment-3 .coursera-logo svg path,
+body.proto-experiment-3 .logo .logo-icon path {
+  fill: var(--cds-color-grey-975);
+}
+
+body.proto-experiment-3 .exp-c-enterprise-banner {
+  display: flex;
+}
+
+.exp-c-enterprise-banner {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 16px;
+  background: var(--cds-color-green-700);
+  color: var(--cds-color-white);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+}
+
 /* Experiment 4: hide header progress tracker */
 body.proto-experiment-4 .progress-tracker-wrapper {
   display: none;
@@ -3842,4 +3879,173 @@ body.proto-experiment-4 .progress-tracker-wrapper {
 
 .proto-control-strip .home-segment-back .material-symbols-rounded {
   font-size: 20px;
+}
+
+/* ─── Features List Overlay ───────────────────────────────── */
+.proto-features-overlay {
+  display: none;
+  position: fixed;
+  bottom: 72px;
+  left: 16px;
+  width: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--cds-color-white);
+  border-radius: var(--cds-border-radius-200);
+  box-shadow: var(--cds-elevation-level3);
+  z-index: 10002;
+  flex-direction: column;
+  padding: 0;
+}
+
+.proto-features-overlay.is-open {
+  display: flex;
+}
+
+.proto-features-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  position: sticky;
+  top: 0;
+  background: var(--cds-color-white);
+  z-index: 1;
+  border-bottom: 1px solid var(--cds-color-grey-100);
+}
+
+.proto-features-title {
+  font-family: var(--cds-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--cds-color-grey-975);
+}
+
+.proto-features-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  border-radius: var(--cds-border-radius-50);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cds-color-grey-600);
+  transition: background 0.15s;
+}
+
+.proto-features-close:hover {
+  background: var(--cds-color-grey-50);
+}
+
+.proto-features-close .material-symbols-rounded {
+  font-size: 20px;
+}
+
+.proto-features-section-title {
+  padding: 12px 20px 4px;
+  font-family: var(--cds-font-family);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cds-color-grey-600);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.proto-features-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 4px;
+}
+
+.proto-features-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.proto-features-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--cds-border-radius-100);
+  cursor: default;
+  transition: background 0.15s, color 0.15s;
+  font-family: var(--cds-font-family);
+  font-size: 13px;
+  color: var(--cds-color-grey-975);
+  line-height: 1.45;
+}
+
+.proto-features-bullet {
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--cds-color-grey-400);
+  margin-top: 7px;
+}
+
+.proto-features-item-clickable {
+  cursor: pointer;
+}
+
+.proto-features-item-clickable:hover {
+  background: var(--cds-color-blue-25);
+  color: var(--cds-color-blue-800);
+}
+
+.proto-features-item-clickable:hover .proto-features-bullet {
+  background: var(--cds-color-blue-700);
+}
+
+.proto-features-item-active {
+  background: var(--cds-color-blue-50) !important;
+  color: var(--cds-color-blue-800) !important;
+}
+
+.proto-features-item-active .proto-features-bullet {
+  background: var(--cds-color-blue-700) !important;
+  width: 7px;
+  height: 7px;
+  min-width: 7px;
+  margin-top: 6px;
+}
+
+/* Highlight ring applied to DOM elements when a feature is selected */
+.proto-feature-hl {
+  outline: 3px solid var(--cds-color-red-700) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 3px var(--cds-color-white), 0 0 12px rgba(239, 68, 68, 0.25) !important;
+  transition: outline 0.2s, box-shadow 0.2s !important;
+}
+
+.proto-features-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  background: var(--cds-color-blue-700);
+  color: var(--cds-color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--cds-elevation-level2);
+  transition: background 0.2s;
+}
+
+.proto-features-btn:hover {
+  background: var(--cds-color-blue-800);
+}
+
+.proto-features-btn .material-symbols-rounded {
+  font-size: 20px;
+}
+
+.proto-features-btn[aria-pressed="true"] {
+  background: var(--cds-color-blue-800);
 }

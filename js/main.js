@@ -62,7 +62,7 @@ var EXP4_XP_GOAL = 100;
 
 function isExperiment4() {
   var exp = sessionStorage.getItem('proto-experiment') || '1';
-  return exp === '3' || exp === '4';
+  return exp === '4';
 }
 
 /* XP tracker always visible in sidebar */
@@ -141,19 +141,19 @@ function triggerVideoEndModal() {
   var skillName = tags[0] || 'Skill Progress';
   var xp = getSkillPointsFromItem(activeItem);
   var currentSkillXP = skillProgress[skillName] || 0;
-  var newSkillXP = Math.min(currentSkillXP + xp, 1500);
+  var newSkillXP = Math.min(currentSkillXP + xp, SKILL_XP_MAX);
   skillProgress[skillName] = newSkillXP;
   try {
     localStorage.setItem('m1-skills-skill-progress', JSON.stringify(skillProgress));
   } catch (e) {}
   addSessionXp(xp);
 
-  var startPct = (currentSkillXP / 1500) * 100;
-  var targetPct = (newSkillXP / 1500) * 100;
+  var startPct = (currentSkillXP / SKILL_XP_MAX) * 100;
+  var targetPct = (newSkillXP / SKILL_XP_MAX) * 100;
 
   document.getElementById('video-end-skill-name').textContent = skillName;
   document.getElementById('video-end-xp-tag').textContent = '+' + xp;
-  document.getElementById('video-end-progress-label').textContent = newSkillXP + '/1500 XP';
+  document.getElementById('video-end-progress-label').textContent = newSkillXP + '/' + SKILL_XP_MAX + ' XP';
 
   var progressFill = document.getElementById('video-end-progress-fill');
   progressFill.setAttribute('data-progress', targetPct);
@@ -625,6 +625,8 @@ function updateGradeBox(item) {
 }
 
 function showGoalsCompleteDialog() {
+  var _exp = sessionStorage.getItem('proto-experiment') || '1';
+  if (_exp === '1' || _exp === '2' || _exp === '3') return;
   if (goalsCompleteDialogShown) return;
   goalsCompleteDialogShown = true;
 
@@ -714,7 +716,7 @@ function populateAndAnimateGoalsCompleteSkills() {
   if (skillsWrap) skillsWrap.style.display = '';
 
   skills.forEach(function(s, i) {
-    var pct = Math.min((s.xp / 1500) * 100, 100);
+    var pct = Math.min((s.xp / SKILL_XP_MAX) * 100, 100);
     var card = document.createElement('div');
     card.className = 'feedback-skill-card feedback-skill-card-' + (i + 1) + (i === 0 ? ' goals-skill-active' : '');
     card.innerHTML = '<div class="feedback-skill-card-header">' +
@@ -724,7 +726,7 @@ function populateAndAnimateGoalsCompleteSkills() {
       '<div class="feedback-skill-progress-bar">' +
       '<div class="feedback-skill-progress-fill" data-progress="' + pct + '" data-start="0" style="width: 0%"></div>' +
       '</div>' +
-      '<span class="feedback-skill-progress-value">' + s.xp + '/1500 XP</span>' +
+      '<span class="feedback-skill-progress-value">' + s.xp + '/' + SKILL_XP_MAX + ' XP</span>' +
       '</div>';
     grid.appendChild(card);
   });
@@ -812,7 +814,7 @@ function showAssignmentFeedback() {
     var tags = getLessonSkillTags(lessonId);
     tags.forEach(function(skillName) {
       var current = skillProgress[skillName] || 0;
-      skillProgress[skillName] = Math.min(current + xp, 1500);
+      skillProgress[skillName] = Math.min(current + xp, SKILL_XP_MAX);
     });
     try { localStorage.setItem('m1-skills-skill-progress', JSON.stringify(skillProgress)); } catch (e) {}
   }
@@ -842,8 +844,8 @@ function showAssignmentFeedback() {
     f.style.width = start + '%';
   });
 
-  // Show skill cards immediately (they are now in the content area)
-  setTimeout(function() {
+  // Wait for Lottie animation to complete before showing skill cards
+  function startSkillCardSequence() {
     if (titleEl) titleEl.classList.add('title-visible');
     cards.forEach(function(c) { c.classList.add('card-visible'); });
     setTimeout(function() {
@@ -860,7 +862,28 @@ function showAssignmentFeedback() {
         }
       }, 500);
     }, 900);
-  }, 400);
+  }
+
+  var lottieEl = document.getElementById('assessment-lottie');
+  if (lottieEl) {
+    // Restart the animation on each open
+    if (lottieEl.dotLottie) {
+      lottieEl.dotLottie.stop();
+      lottieEl.dotLottie.play();
+    }
+    var handled = false;
+    function onLottieComplete() {
+      if (handled) return;
+      handled = true;
+      lottieEl.removeEventListener('complete', onLottieComplete);
+      startSkillCardSequence();
+    }
+    lottieEl.addEventListener('complete', onLottieComplete);
+    // Fallback in case the event doesn't fire (269 frames @ 60fps ≈ 4.5s)
+    setTimeout(function() { onLottieComplete(); }, 5000);
+  } else {
+    setTimeout(startSkillCardSequence, 400);
+  }
 }
 
 function hideAssignmentFeedback() {
@@ -986,7 +1009,7 @@ function handleReadingMarkComplete() {
     var tags = getLessonSkillTags(lessonId);
     tags.forEach(function(skillName) {
       var current = skillProgress[skillName] || 0;
-      skillProgress[skillName] = Math.min(current + xp, 1500);
+      skillProgress[skillName] = Math.min(current + xp, SKILL_XP_MAX);
     });
     try { localStorage.setItem('m1-skills-skill-progress', JSON.stringify(skillProgress)); } catch (e) {}
 
@@ -1327,7 +1350,11 @@ var SKILL_KEY_TO_NAME = {
   connecting: 'Connecting and Importing Data',
   powerbi: 'Prepare Datasets in Power BI'
 };
-var SKILL_XP_MAX = 1500;
+function getSkillXpMax() {
+  var exp = sessionStorage.getItem('proto-experiment') || '1';
+  return exp === '1' ? 300 : 1500;
+}
+var SKILL_XP_MAX = getSkillXpMax();
 
 function showSkillsIntroModal() {
   showSkillsProgressModal();
@@ -1336,6 +1363,20 @@ function showSkillsIntroModal() {
 function showSkillsProgressModal() {
   var modal = document.getElementById('skills-progress-modal');
   if (!modal) return;
+
+  /* Experiment B-D+ text overrides */
+  var _exp = sessionStorage.getItem('proto-experiment') || '1';
+  if (_exp !== '1') {
+    var titleEl = document.getElementById('skills-progress-title');
+    if (titleEl) titleEl.textContent = 'Skill Progress';
+    var subtextEl = modal.querySelector('.skills-progress-header .cds-body-primary');
+    if (subtextEl) subtextEl.textContent = "Here are the latest skills you\u2019ve been building on Coursera. Continue completing learning items to earn Skill Points!";
+    var feedbackBtn = document.getElementById('skills-progress-feedback-btn');
+    if (feedbackBtn) {
+      feedbackBtn.textContent = 'See all skills';
+      feedbackBtn.href = 'my-learning.html?exp=' + _exp + '#skills';
+    }
+  }
 
   Object.keys(SKILL_KEY_TO_NAME).forEach(function(key) {
     var row = modal.querySelector('[data-sp-skill="' + key + '"]');
@@ -1448,6 +1489,18 @@ document.addEventListener('DOMContentLoaded', function() {
   if (activeItem) updateMainContent(activeItem);
   initVideoPlayer();
   applyXpTrackerVisibility();
+
+  /* Patch static skill XP denominators for experiment A (300 vs 1500) */
+  document.querySelectorAll('.feedback-skill-progress-value').forEach(function(el) {
+    el.textContent = el.textContent.replace(/\/1500 XP/, '/' + SKILL_XP_MAX + ' XP');
+  });
+
+  /* Experiment B-D+: update sidebar entry point text */
+  var _expInit = sessionStorage.getItem('proto-experiment') || '1';
+  if (_expInit !== '1') {
+    var sidebarLink = document.getElementById('sidebar-skill-progress-link');
+    if (sidebarLink) sidebarLink.textContent = 'See skill progress';
+  }
 
   document.addEventListener('click', function(e) {
     const wrapper = document.querySelector('.progress-tracker-wrapper');

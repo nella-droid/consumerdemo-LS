@@ -3,11 +3,13 @@
  */
 (function() {
   var SKILL_PROGRESS_KEY = 'm1-skills-skill-progress';
+  var _mlExp = sessionStorage.getItem('proto-experiment') || '1';
+  var _mlXpMax = _mlExp === '1' ? 300 : 1500;
   var SUB_SKILLS = [
-    { name: 'Visualizing and Reporting Clean Data', points: 255, total: 1500 },
-    { name: 'Preparing and Cleaning Data', points: 120, total: 1500 },
-    { name: 'Connecting and Importing Data', points: 0, total: 1500 },
-    { name: 'Prepare Datasets in Power BI', points: 0, total: 1500 }
+    { name: 'Visualizing and Reporting Clean Data', points: 255, total: _mlXpMax },
+    { name: 'Preparing and Cleaning Data', points: 120, total: _mlXpMax },
+    { name: 'Connecting and Importing Data', points: 0, total: _mlXpMax },
+    { name: 'Prepare Datasets in Power BI', points: 0, total: _mlXpMax }
   ];
 
   var COURSE_TITLE = 'Foundations: Data, Data, Everywhere';
@@ -86,14 +88,15 @@
   }
 
   var EXTRA_SKILLS = [
-    { name: 'Data Integrity & Literacy', points: 1500, total: 1500 }
+    { name: 'Data Integrity & Literacy', points: _mlXpMax, total: _mlXpMax }
   ];
 
   function renderSkillAccordions(container) {
     var skills = EXTRA_SKILLS.concat(getSkillProgress());
+    var exp = getActiveExperiment();
     var html = skills.map(function(skill, idx) {
       var isVerified = skill.points >= skill.total && skill.total > 0;
-      var tagHtml = isVerified ? ' <span class="skill-verified-tag">Verified</span>' : '';
+      var tagHtml = (exp === '3' && isVerified) ? ' <span class="skill-verified-tag">Verified</span>' : '';
       return '<div class="skill-accordion" data-skill-idx="' + idx + '">' +
         '<div class="skill-accordion-trigger">' +
           '<span class="skill-accordion-name cds-subtitle-md">' + skill.name + tagHtml + '</span>' +
@@ -308,6 +311,10 @@
     if (!container) return;
     if (typeof expandIdx !== 'number') expandIdx = 1;
 
+    var expC = getActiveExperiment() === '3';
+    var educationPlaceholder = expC
+      ? '<div style="margin-top:16px;padding:24px 32px;background:var(--cds-color-red-100);border:2px dashed var(--cds-color-red-700);border-radius:8px;text-align:center;color:var(--cds-color-red-700);font-weight:600;">Additional user education here</div>'
+      : '';
     var motivational =
       '<div class="yp-motivational">' +
         '<div class="yp-motivational-text">' +
@@ -316,7 +323,7 @@
           'Already proficient in some of these skills? Just take the related assessment to verify your skills.</p>' +
         '</div>' +
         '<img class="yp-motivational-badge" src="assets/Larger Badge.svg" alt="" width="64" height="64">' +
-      '</div>';
+      '</div>' + educationPlaceholder;
 
     var areas = YP_SKILL_AREAS.map(function(area, idx) {
       var expanded = idx === expandIdx;

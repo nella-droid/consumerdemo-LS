@@ -12,8 +12,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <script src="js/figma-hash-persist.js"></script>
+  <script>
+    (function() {
+      var m = location.search.match(/[?&]exp=(\d+)/);
+      if (m) sessionStorage.setItem('proto-experiment', m[1]);
+    })();
+  </script>
 </head>
 <body class="pages-body mylearning-page">
+  <div class="exp-c-enterprise-banner">Experiment C is only for Enterprise</div>
   <!-- Header - from 1.1 M1-Skills (links, search bar, icons) -->
   <header class="coursera-header">
     <div class="coursera-header-inner">
@@ -327,6 +334,7 @@
 
   <script src="js/goals-store.js"></script>
   <script src="js/sounds.js"></script>
+  <script src="js/features-list.js"></script>
   <script src="js/mylearning.js"></script>
   <script>
     (function() {

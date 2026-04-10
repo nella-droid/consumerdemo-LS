@@ -313,6 +313,7 @@
   </style>
 </head>
 <body>
+  <div class="exp-c-enterprise-banner">Experiment C is only for Enterprise</div>
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden"><defs><linearGradient id="sparkle-grad" x1="1.941" y1="17" x2="20.891" y2="16.531" gradientUnits="userSpaceOnUse"><stop stop-color="#0048B0"/><stop offset="1" stop-color="#1E72EB"/></linearGradient></defs></svg>
   <!-- Header -->
   <header class="header">
@@ -427,7 +428,7 @@
             <span class="sidebar-xp-value-text cds-subtitle-sm"><span id="sidebar-xp-value">0</span> XP</span>
           </button>
         </div>
-        <button type="button" class="sidebar-skill-progress-link cds-body-tertiary" onclick="showSkillsIntroModal()">See course skill progress</button>
+        <button type="button" class="sidebar-skill-progress-link cds-body-tertiary" id="sidebar-skill-progress-link" onclick="showSkillsIntroModal()">See course skill progress</button>
       </div>
 
       <div class="sidebar-content" id="sidebar-content">
@@ -594,7 +595,7 @@
         <div class="video-container" id="video-container">
           <div class="video-bg-layer"></div>
           <video class="video-player" id="video-player" preload="metadata" playsinline controls aria-label="Video content"
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4">
+            src="assets/sample-video.mp4">
           </video>
           <!-- Video End Modal - shown when video ends -->
           <div class="video-end-modal" id="video-end-modal" role="dialog" aria-labelledby="video-end-modal-title" aria-hidden="true">
@@ -868,7 +869,7 @@
 
       <section class="feedback-grade-banner">
         <div class="feedback-grade-banner-illustration-wrap" aria-hidden="true">
-          <img src="assets/feedback-banner-illustration.svg" alt="" class="feedback-grade-banner-illustration">
+          <dotlottie-wc id="assessment-lottie" src="assets/assessment-completion-success.json" autoplay class="feedback-grade-banner-illustration"></dotlottie-wc>
         </div>
         <div class="feedback-grade-banner-inner">
           <div class="feedback-grade-banner-content">
@@ -1264,7 +1265,7 @@
         </div>
       </div>
       <div class="xp-intro-actions">
-        <a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="skills-progress-feedback-btn cds-action-secondary">Provide feedback</a>
+        <a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="skills-progress-feedback-btn cds-action-secondary" id="skills-progress-feedback-btn">Provide feedback</a>
       </div>
     </div>
   </div>
@@ -1562,5 +1563,6 @@
 
   </script>
   <script src="js/main.js"></script>
+  <script src="js/features-list.js"></script>
 </body>
 </html>

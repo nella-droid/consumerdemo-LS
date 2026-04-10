@@ -1022,7 +1022,7 @@
 /* My Learning Banner - full width */
 .mylearning-banner {
   width: 100%;
-  background: radial-gradient(ellipse at center, #FFFFFF 0%, #FFEAC9 100%);
+  background: #FFF8EB;
   padding: 24px 0;
   flex-shrink: 0;
   position: relative;
