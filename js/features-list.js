@@ -55,27 +55,13 @@
         {
           title: 'Learning experience',
           items: [
-            {
-              text: 'Persistent "Today\'s Skill Points" section in left nav with XP',
-              hl: '#sidebar-xp-tracker',
-              children: [
-                { text: 'See skill progress link that opens Skill Progress modal', action: 'openSkillProgressModal' },
-                { text: '"See all skills" CTA links to My Learning skills tab', hl: '#skills-progress-feedback-btn', action: 'openSkillProgressModal' }
-              ]
-            },
-            { text: 'Skill Progress modal (renamed)', action: 'openSkillProgressModal' },
-            { text: 'XP introduction modal disabled' },
-            { text: 'Skill tag on items', hl: '.skill-tag, #content-skill-tags' },
-            { text: 'Skill progress cards show on assignment completion results page', action: 'goToPracticeItem' },
-            { text: 'Updated skills oriented module completion dialog', action: 'openModuleCompleteModal' },
-            { text: 'Daily goals (learning items based)', hl: '.progress-tracker-wrapper' },
-            { text: 'Sound off by default' }
+            { text: 'Skill progress modal shows latest skills across courses (not rooted in course anymore)', action: 'openSkillProgressModal' }
           ]
         },
         {
           title: 'My Learning',
           items: [
-            { text: 'Skills tab (no verified tags)', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' }
+            { text: 'Skills tab has skill cards that are rooted across courses. Painted door button is replaced with link to My Learning skills tab', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' }
           ]
         }
       ]
@@ -84,70 +70,33 @@
       label: 'Experiment C',
       sections: [
         {
-          title: 'Platform',
-          items: [
-            { text: 'Enterprise-only banner (green, sticky)', hl: '.exp-c-enterprise-banner' },
-            { text: 'Black Coursera logo', hl: '.coursera-logo, .logo' }
-          ]
-        },
-        {
           title: 'Learning experience',
           items: [
-            {
-              text: 'Persistent "Today\'s Skill Points" section in left nav with XP',
-              hl: '#sidebar-xp-tracker',
-              children: [
-                { text: 'See skill progress link that opens Skill Progress modal', action: 'openSkillProgressModal' },
-                { text: '"See all skills" CTA links to My Learning skills tab', hl: '#skills-progress-feedback-btn', action: 'openSkillProgressModal' }
-              ]
-            },
-            { text: 'Skill Progress modal (renamed)', action: 'openSkillProgressModal' },
-            { text: 'XP introduction modal disabled' },
-            { text: 'Skill tag on items', hl: '.skill-tag, #content-skill-tags' },
-            { text: 'Skill progress cards show on assignment completion results page', action: 'goToPracticeItem' },
-            { text: 'Updated skills oriented module completion dialog', action: 'openModuleCompleteModal' },
-            { text: 'Daily goals (learning items based)', hl: '.progress-tracker-wrapper' },
-            { text: 'Sound off by default' }
+            { text: 'Remove traces of old skills experience' }
           ]
         },
         {
           title: 'My Learning',
           items: [
-            { text: 'Skills tab (with verified tags)', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' },
-            { text: '"Your progress" modal with education placeholder', action: 'openYourProgressModal', nav: 'my-learning.html' }
+            { text: 'Remove traces of old skills experience' },
+            { text: 'Add verified tags to skills tab for skills that have verified skill assessment', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' },
+            { text: 'Some user education in VSP skill progress modal', action: 'openYourProgressModal', nav: 'my-learning.html' }
           ]
         }
       ]
     },
     '4': {
       label: 'Experiment D+',
+      notice: 'This experiment and its features haven\'t been prioritized yet.',
       sections: [
         {
           title: 'Learning experience',
           items: [
-            {
-              text: 'Persistent "Today\'s Skill Points" section in left nav with XP',
-              hl: '#sidebar-xp-tracker',
-              children: [
-                { text: 'See skill progress link that opens Skill Progress modal', action: 'openSkillProgressModal' },
-                { text: '"See all skills" CTA links to My Learning skills tab', hl: '#skills-progress-feedback-btn', action: 'openSkillProgressModal' }
-              ]
-            },
-            { text: 'Skill Progress modal (renamed)', action: 'openSkillProgressModal' },
-            { text: 'XP introduction modal disabled' },
-            { text: 'Skill tag on items', hl: '.skill-tag, #content-skill-tags' },
-            { text: 'Skill progress cards show on assignment completion results page', action: 'goToPracticeItem' },
-            { text: 'Updated skills oriented module completion dialog', action: 'openModuleCompleteModal' },
-            { text: 'Daily goals (XP based, earn 100 XP)', hl: '.progress-tracker-wrapper' },
-            { text: 'All daily goals complete dialog', action: 'openGoalsCompleteModal' },
-            { text: 'Sound on by default' },
-            { text: 'XP sidebar tracker (session XP / 100)', hl: '#sidebar-xp-tracker' }
-          ]
-        },
-        {
-          title: 'My Learning',
-          items: [
-            { text: 'Skills tab (no verified tags)', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' }
+            { text: 'Sound' },
+            { text: 'XP Daily goal', hl: '.sidebar-xp-tracker-value' },
+            { text: 'Focused Left nav daily goal', hl: '#sidebar-xp-tracker' },
+            { text: 'Skill XP in end of video', action: 'forceVideoComplete' },
+            { text: 'Skill XP in all daily goals completion', action: 'openGoalsCompleteModal' }
           ]
         }
       ]
@@ -207,6 +156,15 @@
             showAssignmentFeedback();
           }
         }, 300);
+        return true;
+      }
+      return false;
+    },
+    forceVideoComplete: function() {
+      if (typeof triggerVideoEndModal === 'function') {
+        /* Reset the triggered flag so the end modal can fire */
+        window.videoEndModalTriggered = false;
+        triggerVideoEndModal();
         return true;
       }
       return false;
@@ -277,6 +235,10 @@
       '</button>' +
     '</div>';
 
+    if (data.notice) {
+      html += '<div class="proto-features-notice">' + data.notice + '</div>';
+    }
+
     var itemIdx = 0;
     data.sections.forEach(function(section) {
       html += '<div class="proto-features-section-title">' + section.title + '</div>';
@@ -345,8 +307,12 @@
         /* If not found on page, navigate */
         if (nav) {
           var exp = sessionStorage.getItem('proto-experiment') || '1';
-          var url = nav + (nav.indexOf('?') === -1 ? '?' : '&') + 'exp=' + exp;
-          window.open(url, '_blank');
+          var hashIdx = nav.indexOf('#');
+          var base = hashIdx !== -1 ? nav.substring(0, hashIdx) : nav;
+          var hash = hashIdx !== -1 ? nav.substring(hashIdx) : '';
+          var sep = base.indexOf('?') === -1 ? '?' : '&';
+          var url = base + sep + 'exp=' + exp + hash;
+          window.location.href = url;
         }
       });
     });
@@ -375,6 +341,7 @@
     btn.id = 'proto-features-btn';
     btn.setAttribute('aria-pressed', 'false');
     btn.setAttribute('aria-label', 'Show features list');
+    btn.setAttribute('data-tooltip', 'Features list');
     btn.innerHTML = '<span class="material-symbols-rounded">checklist</span>';
 
     /* Insert before the tools wrapper */

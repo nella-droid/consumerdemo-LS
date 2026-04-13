@@ -607,7 +607,7 @@
                   <div class="feedback-skill-card feedback-skill-card-1" id="video-end-skill-card">
                     <div class="feedback-skill-card-header">
                       <h4 class="feedback-skill-card-name cds-body-primary" id="video-end-skill-name">Skill Progress</h4>
-                      <span class="cds-tag cds-tag--status-warning-primary feedback-skill-xp-tag" id="video-end-xp-tag">+8</span>
+                      <span class="cds-tag cds-tag--emphasis-tertiary-xweak feedback-skill-xp-tag" id="video-end-xp-tag">+8</span>
                     </div>
                     <div class="feedback-skill-progress-row">
                       <div class="feedback-skill-progress-bar">
@@ -887,7 +887,7 @@
             <div class="feedback-skill-card feedback-skill-card-1">
               <div class="feedback-skill-card-header">
                 <h4 class="feedback-skill-card-name cds-body-primary">Visualizing and Reporting Clean Data</h4>
-                <span class="cds-tag cds-tag--status-warning-primary feedback-skill-xp-tag">+35</span>
+                <span class="cds-tag cds-tag--emphasis-tertiary-xweak feedback-skill-xp-tag">+35</span>
               </div>
               <div class="feedback-skill-progress-row">
                 <div class="feedback-skill-progress-bar">
@@ -899,7 +899,7 @@
             <div class="feedback-skill-card feedback-skill-card-2">
               <div class="feedback-skill-card-header">
                 <h4 class="feedback-skill-card-name cds-body-primary">Preparing and Cleaning Data</h4>
-                <span class="cds-tag cds-tag--status-warning-primary feedback-skill-xp-tag">+15</span>
+                <span class="cds-tag cds-tag--emphasis-tertiary-xweak feedback-skill-xp-tag">+15</span>
               </div>
               <div class="feedback-skill-progress-row">
                 <div class="feedback-skill-progress-bar">
@@ -960,11 +960,7 @@
           <img src="assets/module-complete-illustration.svg" alt="" class="module-complete-svg" width="340" height="207" aria-hidden="true">
         </div>
         <div class="module-complete-content">
-          <h2 id="module-complete-title" class="module-complete-title cds-title-xs">Module complete!</h2>
-          <div class="module-complete-tags">
-            <span class="module-complete-tag module-complete-tag--modules cds-body-secondary">1/4 Modules Completed</span>
-            <span class="module-complete-tag module-complete-tag--xp cds-body-secondary">320 XP Earned</span>
-          </div>
+          <h2 id="module-complete-title" class="module-complete-title cds-title-xs">Nice work! You earned 320 XP in this module!</h2>
           <div class="module-complete-skill-cards">
             <div class="feedback-skill-card module-complete-skill-card" id="module-skill-card-0">
               <div class="feedback-skill-card-header">
@@ -1343,7 +1339,7 @@
       </ul>
     </div>
     <div class="proto-tools-wrapper">
-      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools">
+      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools" data-tooltip="Prototype tools">
         <span class="material-symbols-rounded">build</span>
       </button>
       <div class="proto-tools-flyout">
@@ -1548,9 +1544,7 @@
         label.textContent = option.textContent;
         var val = option.getAttribute('data-value');
         sessionStorage.setItem('proto-experiment', val);
-        applyExperimentClass(val);
-        dropdown.classList.remove('is-open');
-        trigger.setAttribute('aria-expanded', 'false');
+        location.reload();
       });
 
       document.addEventListener('click', function(e) {

@@ -429,17 +429,16 @@ input, button, textarea, select {
   background: none;
   border: none;
   padding: 0;
-  color: var(--cds-color-blue-700);
-  text-decoration: none;
+  color: var(--cds-color-grey-975);
+  text-decoration: underline;
+  text-underline-offset: 2px;
   cursor: pointer;
   transition: color 0.15s;
   text-align: left;
 }
 
 .sidebar-skill-progress-link:hover {
-  color: var(--cds-color-blue-800);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  color: var(--cds-color-grey-600);
 }
 
 .sidebar.collapsed .sidebar-skill-progress-link {
@@ -3461,6 +3460,38 @@ input, button, textarea, select {
   gap: 8px;
 }
 
+/* Tooltip for control strip buttons */
+.proto-control-strip [data-tooltip] {
+  position: relative;
+}
+
+.proto-control-strip [data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  background: var(--cds-color-grey-975);
+  color: var(--cds-color-white);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  border-radius: var(--cds-border-radius-50);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.proto-control-strip [data-tooltip]:hover::after {
+  opacity: 1;
+}
+
+.proto-tools-wrapper.is-open [data-tooltip]:hover::after,
+.proto-features-btn[aria-pressed="true"]::after {
+  opacity: 0 !important;
+}
+
 /* Tools wrapper: single icon button with hover flyout */
 .proto-tools-wrapper {
   position: relative;
@@ -3504,6 +3535,14 @@ input, button, textarea, select {
   flex-direction: column;
 }
 
+.proto-tools-wrapper.is-open .proto-tools-trigger {
+  background: var(--cds-color-blue-700);
+}
+
+.proto-tools-wrapper.is-open .proto-tools-trigger:hover {
+  background: var(--cds-color-blue-800);
+}
+
 .proto-tools-wrapper.is-open .proto-tools-flyout {
   display: flex;
 }
@@ -3542,6 +3581,11 @@ input, button, textarea, select {
 }
 
 /* Show differences toggle — active state inside flyout */
+/* Hide old "Show differences" toggle — replaced by features list */
+.proto-net-new-toggle {
+  display: none !important;
+}
+
 .proto-tools-row.proto-net-new-toggle[aria-pressed="true"] {
   background: var(--cds-color-blue-50);
   color: var(--cds-color-blue-700);
@@ -3943,6 +3987,17 @@ body.proto-experiment-4 .progress-tracker-wrapper {
   font-size: 20px;
 }
 
+.proto-features-notice {
+  margin: 8px 16px 4px;
+  padding: 8px 12px;
+  font-family: var(--cds-font-family);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--cds-color-yellow-900);
+  background: var(--cds-color-yellow-50);
+  border-radius: var(--cds-border-radius-50);
+}
+
 .proto-features-section-title {
   padding: 12px 20px 4px;
   font-family: var(--cds-font-family);
@@ -4023,12 +4078,13 @@ body.proto-experiment-4 .progress-tracker-wrapper {
 }
 
 .proto-features-btn {
+  position: relative;
   width: 40px;
   height: 40px;
   padding: 0;
   border: none;
   border-radius: var(--cds-border-radius-100);
-  background: var(--cds-color-blue-700);
+  background: var(--cds-color-grey-975);
   color: var(--cds-color-white);
   cursor: pointer;
   display: flex;
@@ -4039,13 +4095,17 @@ body.proto-experiment-4 .progress-tracker-wrapper {
 }
 
 .proto-features-btn:hover {
+  background: var(--cds-color-grey-800);
+}
+
+.proto-features-btn[aria-pressed="true"] {
+  background: var(--cds-color-blue-700);
+}
+
+.proto-features-btn[aria-pressed="true"]:hover {
   background: var(--cds-color-blue-800);
 }
 
 .proto-features-btn .material-symbols-rounded {
   font-size: 20px;
-}
-
-.proto-features-btn[aria-pressed="true"] {
-  background: var(--cds-color-blue-800);
 }

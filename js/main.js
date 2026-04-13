@@ -1375,6 +1375,8 @@ function showSkillsProgressModal() {
     if (feedbackBtn) {
       feedbackBtn.textContent = 'See all skills';
       feedbackBtn.href = 'my-learning.html?exp=' + _exp + '#skills';
+      feedbackBtn.removeAttribute('target');
+      feedbackBtn.removeAttribute('rel');
     }
   }
 

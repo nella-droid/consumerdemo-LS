@@ -298,7 +298,7 @@
       </ul>
     </div>
     <div class="proto-tools-wrapper">
-      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools">
+      <button type="button" class="proto-tools-trigger" aria-label="Prototype tools" data-tooltip="Prototype tools">
         <span class="material-symbols-rounded">build</span>
       </button>
       <div class="proto-tools-flyout">
@@ -526,10 +526,7 @@
         label.textContent = option.textContent;
         var val = option.getAttribute('data-value');
         sessionStorage.setItem('proto-experiment', val);
-        applyExperimentClass(val);
-        dropdown.classList.remove('is-open');
-        trigger.setAttribute('aria-expanded', 'false');
-        window.dispatchEvent(new CustomEvent('experiment-changed', { detail: { experiment: val } }));
+        location.reload();
       });
 
       document.addEventListener('click', function(e) {
