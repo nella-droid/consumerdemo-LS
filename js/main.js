@@ -217,8 +217,8 @@ function triggerVideoEndModal() {
       setTimeout(function() {
         progressFill.style.width = targetPct + '%';
         if (typeof playFillingSound === 'function') playFillingSound(targetPct);
-      }, 500);
-    }, 400);
+      }, 200);
+    }, 200);
   }, 100);
 
   videoEndCountdownInterval = setInterval(function() {
@@ -847,21 +847,29 @@ function showAssignmentFeedback() {
   // Wait for Lottie animation to complete before showing skill cards
   function startSkillCardSequence() {
     if (titleEl) titleEl.classList.add('title-visible');
-    cards.forEach(function(c) { c.classList.add('card-visible'); });
+    cards.forEach(function(c, i) {
+      setTimeout(function() { c.classList.add('card-visible'); }, i * 80);
+    });
+    var totalCardTime = cards.length * 80 + 300;
     setTimeout(function() {
-      xpTags.forEach(function(t) { t.classList.add('xp-tag-visible'); });
+      xpTags.forEach(function(t, i) {
+        setTimeout(function() { t.classList.add('xp-tag-visible'); }, i * 60);
+      });
+      var totalTagTime = xpTags.length * 60;
       setTimeout(function() {
-        progressFills.forEach(function(f) {
-          var target = f.getAttribute('data-progress');
-          if (target) f.style.width = target + '%';
+        progressFills.forEach(function(f, i) {
+          setTimeout(function() {
+            var target = f.getAttribute('data-progress');
+            if (target) f.style.width = target + '%';
+          }, i * 60);
         });
         var first = progressFills[0];
         if (first && typeof playFillingSound === 'function') {
           var p = first.getAttribute('data-progress');
           if (p) playFillingSound(parseFloat(p));
         }
-      }, 500);
-    }, 900);
+      }, totalTagTime + 100);
+    }, totalCardTime);
   }
 
   var lottieEl = document.getElementById('assessment-lottie');

@@ -2248,11 +2248,15 @@ input, button, textarea, select {
 }
 
 .feedback-skill-card.card-visible {
-  animation: feedbackSkillCardFadeIn 0.5s ease-out forwards;
+  animation: feedbackSkillCardFadeIn 0.3s ease-out forwards;
 }
 
-.feedback-skill-card-1.card-visible { animation-delay: 0.1s; }
-.feedback-skill-card-2.card-visible { animation-delay: 0.35s; }
+.feedback-skill-card-1.card-visible { animation-delay: 0s; }
+.feedback-skill-card-2.card-visible { animation-delay: 0.08s; }
+.feedback-skill-card-3.card-visible { animation-delay: 0.16s; }
+.feedback-skill-card-4.card-visible { animation-delay: 0.24s; }
+.feedback-skill-card-5.card-visible { animation-delay: 0.32s; }
+.feedback-skill-card-6.card-visible { animation-delay: 0.40s; }
 
 @keyframes feedbackSkillCardFadeIn {
   from { opacity: 0; transform: translateY(20px); }
@@ -2873,11 +2877,11 @@ input, button, textarea, select {
 }
 
 .goals-complete-skills-grid .feedback-skill-card.card-visible {
-  animation: feedbackSkillCardFadeIn 0.5s ease-out forwards;
+  animation: feedbackSkillCardFadeIn 0.3s ease-out forwards;
 }
 
-.goals-complete-skills-grid .feedback-skill-card-1.card-visible { animation-delay: 0.1s; }
-.goals-complete-skills-grid .feedback-skill-card-2.card-visible { animation-delay: 0.35s; }
+.goals-complete-skills-grid .feedback-skill-card-1.card-visible { animation-delay: 0s; }
+.goals-complete-skills-grid .feedback-skill-card-2.card-visible { animation-delay: 0.08s; }
 
 .goals-complete-inner {
   display: flex;
