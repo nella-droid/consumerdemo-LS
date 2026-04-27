@@ -1292,10 +1292,10 @@ function showXpIntroModal() {
   var earnedEl = document.getElementById('xp-intro-earned');
   if (seg === 'active') {
     if (titleEl) titleEl.textContent = 'Introducing Skill Points!';
-    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here\u2019s what you\u2019ve built so far in this course:';
+    if (earnedEl) earnedEl.textContent = 'Earn Skill Points by completing items \u2014 especially hands-on activities like labs and assessments, which earn more and are required to fully develop a skill. Here\u2019s what you\u2019ve built so far in this course:';
   } else {
     if (titleEl) titleEl.textContent = 'You just earned Skill Points!';
-    if (earnedEl) earnedEl.textContent = 'Every item you complete earns Skill Points toward real, employer-valued skills. Here is the skill you just made progress towards:';
+    if (earnedEl) earnedEl.textContent = 'Earn Skill Points by completing items \u2014 especially hands-on activities like labs and assessments, which earn more and are required to fully develop a skill. Here is the skill you just made progress towards:';
   }
 
   var skillsContainer = document.getElementById('xp-intro-skills');
