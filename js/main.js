@@ -1385,6 +1385,19 @@ function showSkillsProgressModal() {
       feedbackBtn.href = 'my-learning.html?exp=' + _exp + '#skills';
       feedbackBtn.removeAttribute('target');
       feedbackBtn.removeAttribute('rel');
+      feedbackBtn.classList.add('skills-progress-feedback-btn--secondary');
+      var actionsRow = feedbackBtn.parentElement;
+      if (actionsRow) actionsRow.classList.add('skills-progress-actions--stacked');
+      if (!document.getElementById('skills-progress-feedback-link')) {
+        var feedbackLink = document.createElement('a');
+        feedbackLink.id = 'skills-progress-feedback-link';
+        feedbackLink.href = 'https://forms.gle/placeholder';
+        feedbackLink.target = '_blank';
+        feedbackLink.rel = 'noopener';
+        feedbackLink.className = 'skills-progress-feedback-btn cds-action-secondary';
+        feedbackLink.textContent = 'Provide feedback';
+        feedbackBtn.insertAdjacentElement('afterend', feedbackLink);
+      }
     }
   }
 

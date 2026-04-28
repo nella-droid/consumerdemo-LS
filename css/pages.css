@@ -1787,6 +1787,32 @@
   grid-column: 1 / -1;
 }
 
+.mylearning-skills-feedback-row {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.mylearning-skills-feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 32px;
+  background: transparent;
+  color: var(--cds-color-blue-700);
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.mylearning-skills-feedback-btn:hover {
+  background: var(--cds-color-blue-25);
+  color: var(--cds-color-blue-800);
+}
+
 .skill-accordion {
   background: var(--cds-color-white);
   border: 1px solid var(--cds-color-grey-100);

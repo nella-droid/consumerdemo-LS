@@ -105,7 +105,10 @@
       '</div>';
     }).join('');
 
-    container.innerHTML = '<div class="skill-accordions-list">' + html + '</div>';
+    var feedbackHtml = (exp === '2')
+      ? '<div class="mylearning-skills-feedback-row"><a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="mylearning-skills-feedback-btn cds-action-secondary">Provide feedback</a></div>'
+      : '';
+    container.innerHTML = '<div class="skill-accordions-list">' + html + '</div>' + feedbackHtml;
   }
 
   function updateTabIndicator() {

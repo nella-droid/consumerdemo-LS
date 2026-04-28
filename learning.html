@@ -308,9 +308,22 @@
       padding: 12px 32px;
       background: transparent; color: var(--cds-color-blue-700);
       border: none; border-radius: var(--cds-border-radius-100);
-      cursor: pointer; transition: background 0.2s; text-decoration: none;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s, color 0.2s; text-decoration: none;
     }
     .skills-progress-feedback-btn:hover { background: var(--cds-color-blue-25); }
+    .skills-progress-feedback-btn--secondary {
+      background: var(--cds-color-white);
+      border: 1px solid var(--cds-color-blue-700);
+    }
+    .skills-progress-feedback-btn--secondary:hover {
+      background: var(--cds-color-blue-25);
+      border-color: var(--cds-color-blue-800);
+      color: var(--cds-color-blue-800);
+    }
+    .skills-progress-actions--stacked {
+      flex-direction: column; gap: 8px; align-items: stretch;
+    }
+    .skills-progress-actions--stacked .skills-progress-feedback-btn { width: 100%; }
   </style>
 </head>
 <body>
