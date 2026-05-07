@@ -443,15 +443,24 @@
           if (d.learningItemsCompleted >= goal && s1) s1.innerHTML = completedStar;
         }
 
-        if (seg !== 'new') {
-          var s2 = document.getElementById('goal-star-2');
-          var s3 = document.getElementById('goal-star-3');
-          var g2 = document.getElementById('goal-2-text');
-          var g3 = document.getElementById('goal-3-text');
+        var s2 = document.getElementById('goal-star-2');
+        var s3 = document.getElementById('goal-star-3');
+        var g2 = document.getElementById('goal-2-text');
+        var g3 = document.getElementById('goal-3-text');
+        var g3Item = g3 ? g3.closest('.home-goal-item') : null;
+
+        if (isExp4) {
+          if (g3Item) g3Item.style.display = 'none';
+          if (g2) g2.textContent = d.practiceComplete ? 'Practice using flashcards - ✓' : 'Practice using flashcards';
+          if (d.practiceComplete && s2) s2.innerHTML = completedStar;
+        } else if (seg !== 'new') {
+          if (g3Item) g3Item.style.display = '';
           if (d.practiceComplete && s2) s2.innerHTML = completedStar;
           if (d.coachComplete && s3) s3.innerHTML = completedStar;
           if (g2) g2.textContent = d.practiceComplete ? 'Complete 1 practice item - ✓' : 'Complete 1 practice item';
           if (g3) g3.textContent = d.coachComplete ? 'Use Coach - ✓' : 'Use Coach';
+        } else {
+          if (g3Item) g3Item.style.display = '';
         }
       }
       window._renderHomeGoals = renderGoals;

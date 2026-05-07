@@ -36,6 +36,9 @@ function toggleModule(header) {
   const chevron = header.querySelector('.module-chevron');
   content.classList.toggle('collapsed');
   chevron.classList.toggle('expanded', !content.classList.contains('collapsed'));
+  if (typeof isExperiment4 === 'function' && isExperiment4()) {
+    setTimeout(applyExp4GoalFrame, 220);
+  }
 }
 
 function switchTab(tabId) {
@@ -100,10 +103,124 @@ function updateSessionXpDisplay() {
     }
   }
   if (isStrictExp4) {
-    var labelEl = document.querySelector('.sidebar-xp-tracker-label');
-    if (labelEl) labelEl.textContent = "Today's Goal";
+    applyExp4SidebarHeader(currentXp);
+    applyExp4GoalFrame();
   }
 }
+
+/* ─── Experiment D: dynamic Today's goal sidebar ───────────────── */
+function computeExp4DynamicMessage(xp) {
+  if (xp <= 0) return "Welcome back — let's get learning";
+  if (xp < 30) return "You've got this — every step counts";
+  if (xp < 70) return "You're on a roll — keep that momentum going";
+  if (xp < EXP4_XP_GOAL) return 'So close! Your daily goal is in sight';
+  if (xp === EXP4_XP_GOAL) return 'Daily goal smashed! Keep going to build your skills';
+  return "Crushing it today — you're past your goal";
+}
+
+function applyExp4SidebarHeader(currentXp) {
+  var labelEl = document.querySelector('.sidebar-xp-tracker-label');
+  if (labelEl) {
+    var firstChild = labelEl.firstChild;
+    if (firstChild && firstChild.nodeType === 3) {
+      firstChild.nodeValue = "Today's goal ";
+    } else {
+      labelEl.insertBefore(document.createTextNode("Today's goal "), labelEl.firstChild);
+    }
+    var meta = labelEl.querySelector('.sidebar-xp-d-meta');
+    if (!meta) {
+      meta = document.createElement('span');
+      meta.className = 'sidebar-xp-d-meta';
+      labelEl.appendChild(meta);
+    }
+    meta.textContent = '• 15 min';
+  }
+
+  var tracker = document.getElementById('sidebar-xp-tracker');
+  if (tracker) {
+    var msg = document.getElementById('sidebar-xp-d-message');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.id = 'sidebar-xp-d-message';
+      msg.className = 'sidebar-xp-d-message cds-body-secondary';
+      tracker.appendChild(msg);
+    }
+    msg.textContent = computeExp4DynamicMessage(currentXp != null ? currentXp : getSessionXp());
+  }
+}
+
+var _exp4GoalItemIds = null;
+
+function getExp4DailyGoalItems() {
+  /* The set of items in the daily-goal frame is locked once on init —
+     it represents the planned 100 XP "today's content" and shouldn't
+     move as the learner makes progress. Subsequent calls re-resolve the
+     same item IDs. */
+  var moduleContent = null;
+  var items = [];
+
+  if (_exp4GoalItemIds && _exp4GoalItemIds.length) {
+    var resolved = _exp4GoalItemIds
+      .map(function(id) { return document.querySelector('.lecture-item[data-lesson-id="' + id + '"]'); })
+      .filter(Boolean);
+    if (resolved.length) return resolved;
+  }
+
+  /* First-time computation: start from the first INCOMPLETE item in the
+     first module; fall back to the first item if everything is done. */
+  var firstModule = document.querySelector('.module .module-content');
+  if (!firstModule) return [];
+  moduleContent = firstModule;
+  items = Array.prototype.slice.call(moduleContent.querySelectorAll('.lecture-item'));
+  var startIdx = items.findIndex(function(it) {
+    var status = it.querySelector('.lecture-status');
+    return !status || !status.classList.contains('completed');
+  });
+  if (startIdx < 0) startIdx = 0;
+
+  var picked = [];
+  var totalXp = 0;
+  for (var i = startIdx; i < items.length; i++) {
+    picked.push(items[i]);
+    totalXp += getSkillPointsFromItem(items[i]);
+    if (totalXp >= EXP4_XP_GOAL) break;
+  }
+
+  _exp4GoalItemIds = picked.map(function(el) { return el.getAttribute('data-lesson-id'); });
+  return picked;
+}
+
+function applyExp4GoalFrame() {
+  if (!isExperiment4()) return;
+  var picked = getExp4DailyGoalItems();
+  if (!picked.length) return;
+  var moduleContent = picked[0].closest('.module-content');
+  if (!moduleContent) return;
+  if (moduleContent.classList.contains('collapsed')) return;
+
+  var frame = moduleContent.querySelector('.sidebar-d-goal-frame');
+  if (!frame) {
+    frame = document.createElement('div');
+    frame.className = 'sidebar-d-goal-frame';
+    moduleContent.insertBefore(frame, moduleContent.firstChild);
+  }
+
+  var first = picked[0];
+  var last = picked[picked.length - 1];
+  var moduleRect = moduleContent.getBoundingClientRect();
+  var firstRect = first.getBoundingClientRect();
+  var lastRect = last.getBoundingClientRect();
+
+  var topPx = (firstRect.top - moduleRect.top) - 4;
+  var heightPx = (lastRect.bottom - firstRect.top) + 8;
+  frame.style.top = topPx + 'px';
+  frame.style.height = heightPx + 'px';
+}
+
+/* Reposition frame on resize/sidebar toggle */
+window.addEventListener('resize', function() {
+  if (isExperiment4()) applyExp4GoalFrame();
+});
 
 function getNextLectureItem() {
   var all = getAllLectureItems();
@@ -653,6 +770,12 @@ function showGoalsCompleteDialog() {
     if (activeEl) activeEl.style.display = '';
     if (dialog) dialog.classList.add('goals-complete-dialog-active');
     modal.setAttribute('aria-labelledby', 'goals-complete-title-active');
+    var titleEl = document.getElementById('goals-complete-title-active');
+    if (titleEl) {
+      titleEl.textContent = isExperiment4()
+        ? "You've completed your daily goal!"
+        : "You've completed today's goals!";
+    }
     populateAndAnimateGoalsCompleteSkills();
   }
 
@@ -1180,7 +1303,7 @@ function updateProgressDisplay(completedCount, opts) {
 
   syncProgressToNextGoal();
 
-  var allGoalsComplete = isNew ? goal1Complete : (goal1Complete && goal2Complete && goal3Complete);
+  var allGoalsComplete = (isNew || isExperiment4()) ? goal1Complete : (goal1Complete && goal2Complete && goal3Complete);
   if (allGoalsComplete) {
     showGoalsCompleteDialog();
   } else if (goal1Complete && !itemsToastShown) {
@@ -1195,7 +1318,7 @@ function updateProgressDisplay(completedCount, opts) {
         toastTimeout = null;
       });
     }, 5000);
-  } else if (goal2Complete && !practiceToastShown) {
+  } else if (goal2Complete && !practiceToastShown && !isExperiment4()) {
     practiceToastShown = true;
     if (toastTimeout) clearTimeout(toastTimeout);
     showToast('Nice work!', "You've completed a daily goal by finishing a practice item.");
@@ -1457,6 +1580,12 @@ function preCompleteItemsForReturningLearners() {
 
   /* Don't update goals - pre-completed items are pre-session; daily goal starts at 0 */
   syncProgressToNextGoal();
+
+  /* Re-compute the Exp D goal frame now that completion state is set */
+  if (typeof isExperiment4 === 'function' && isExperiment4()) {
+    _exp4GoalItemIds = null;
+    applyExp4GoalFrame();
+  }
 }
 
 function completeCoachGoal() {
@@ -1512,6 +1641,15 @@ document.addEventListener('DOMContentLoaded', function() {
   if (activeItem) updateMainContent(activeItem);
   initVideoPlayer();
   applyXpTrackerVisibility();
+
+  /* Experiment D: re-position the goal frame after layout/fonts settle */
+  if (isExperiment4()) {
+    setTimeout(applyExp4GoalFrame, 50);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(applyExp4GoalFrame);
+    }
+    window.addEventListener('load', applyExp4GoalFrame);
+  }
 
   /* Patch static skill XP denominators for experiment A (300 vs 1500) */
   document.querySelectorAll('.feedback-skill-progress-value').forEach(function(el) {

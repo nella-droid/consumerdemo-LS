@@ -3784,6 +3784,82 @@ body.proto-experiment-3 .exp-c-enterprise-banner {
 body.proto-experiment-4 .progress-tracker-wrapper {
   display: none;
 }
+
+/* ─── Experiment D: redesigned Today's goal sidebar header ───────── */
+body.proto-experiment-4 .sidebar-xp-tracker {
+  gap: 4px;
+}
+
+/* Hide the legacy "See course skill progress" link in Exp D */
+body.proto-experiment-4 .sidebar-skill-progress-link {
+  display: none;
+}
+
+/* "• 15 min" appendix next to the label — hidden for now */
+.sidebar-xp-d-meta {
+  display: none;
+}
+
+/* Dynamic message text under the XP row */
+.sidebar-xp-d-message {
+  display: none;
+  margin: 2px 0 0;
+  color: var(--cds-color-grey-600);
+}
+body.proto-experiment-4 .sidebar-xp-d-message {
+  display: block;
+}
+
+/* Hide the redesigned message in collapsed sidebar */
+.sidebar.collapsed .sidebar-xp-d-message,
+.sidebar.collapsed .sidebar-xp-d-meta {
+  display: none;
+}
+
+/* Gradient outline frame behind the circle/timeline column for items that add up to 100 XP */
+.sidebar-d-goal-frame {
+  display: none;
+  position: absolute;
+  left: 2px;
+  width: 32px;
+  z-index: 0;
+  border-radius: 8px;
+  border: 1px solid var(--cds-color-grey-100);
+  background: linear-gradient(180deg, #fff4e8 0%, #f4f7fa 80%);
+  pointer-events: none;
+  transition: top 0.2s, height 0.2s;
+}
+body.proto-experiment-4 .sidebar-d-goal-frame {
+  display: block;
+}
+body.proto-experiment-4 .module-content {
+  position: relative;
+}
+body.proto-experiment-4 .module-content > .lecture-item,
+body.proto-experiment-4 .module-content > .lesson-header {
+  position: relative;
+  z-index: 1;
+}
+
+/* In Exp D, give lecture items more breathing room from the gradient frame
+   by widening the gap between the circle and the text content. */
+body.proto-experiment-4 .module-content > .lecture-item {
+  gap: 20px;
+}
+
+/* Clip the active/hover highlight so it doesn't overlap the gradient frame. */
+body.proto-experiment-4 .module-content > .lecture-item.active,
+body.proto-experiment-4 .module-content > .lecture-item:hover {
+  background: linear-gradient(to right, transparent 0, transparent 44px, #E8F0FE 44px);
+}
+
+/* Hide lesson group headers entirely in Experiment D */
+body.proto-experiment-4 .module-content > .lesson-header {
+  display: none;
+}
+.sidebar.collapsed .sidebar-d-goal-frame {
+  display: none;
+}
   box-shadow: 0 0 0 2px var(--cds-color-white);
 }
 
