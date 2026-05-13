@@ -181,6 +181,17 @@
       color: var(--cds-color-blue-800);
     }
 
+    .starter-card-email-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .starter-card-email-row .starter-card-email-link {
+      width: auto;
+    }
+
     .starter-card-actions-spacer {
       display: block;
       height: 20px;
@@ -259,7 +270,10 @@
       </ul>
       <div class="starter-card-actions">
         <button class="starter-card-cta cds-action-primary" type="button">Enter as active learner</button>
-        <a class="starter-card-email-link cds-body-tertiary" href="active-email.html" onclick="event.stopPropagation()">View announcement email</a>
+        <div class="starter-card-email-row">
+          <a class="starter-card-email-link cds-body-tertiary" href="active-email.html" onclick="event.stopPropagation()">View announcement email</a>
+          <a class="starter-card-email-link cds-body-tertiary" href="whatsapp-animation.html" onclick="event.stopPropagation()">WhatsApp animation</a>
+        </div>
       </div>
     </div>
 
