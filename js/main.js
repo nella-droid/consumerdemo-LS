@@ -2,6 +2,13 @@
  * Lecture page - main application logic
  */
 
+/* Migrate retired Experiment A → Experiment A+B */
+try {
+  if (sessionStorage.getItem('proto-experiment') === '1') {
+    sessionStorage.setItem('proto-experiment', '2');
+  }
+} catch (e) {}
+
 function hideCourseIntroModal() {
   var modal = document.getElementById('course-intro-modal');
   if (modal) {
@@ -64,7 +71,7 @@ var SESSION_XP_KEY = 'm1-skills-session-xp';
 var EXP4_XP_GOAL = 100;
 
 function isExperiment4() {
-  var exp = sessionStorage.getItem('proto-experiment') || '1';
+  var exp = sessionStorage.getItem('proto-experiment') || '2';
   return exp === '4';
 }
 
@@ -94,7 +101,7 @@ function addSessionXp(amount) {
 function updateSessionXpDisplay() {
   var el = document.getElementById('sidebar-xp-value');
   var currentXp = getSessionXp();
-  var isStrictExp4 = (sessionStorage.getItem('proto-experiment') || '1') === '4';
+  var isStrictExp4 = (sessionStorage.getItem('proto-experiment') || '2') === '4';
   if (el) {
     if (isStrictExp4) {
       el.textContent = currentXp + '/' + EXP4_XP_GOAL;
@@ -742,8 +749,8 @@ function updateGradeBox(item) {
 }
 
 function showGoalsCompleteDialog() {
-  var _exp = sessionStorage.getItem('proto-experiment') || '1';
-  if (_exp === '1' || _exp === '2' || _exp === '3') return;
+  var _exp = sessionStorage.getItem('proto-experiment') || '2';
+  if (_exp === '1' || _exp === '2' || _exp === '2a' || _exp === '3') return;
   if (goalsCompleteDialogShown) return;
   goalsCompleteDialogShown = true;
 
@@ -1405,8 +1412,8 @@ function refreshStarsFromGoals() {
 
 /* ─── First-time XP Introduction Modal ──────────────────────── */
 function showXpIntroModal() {
-  var _exp = sessionStorage.getItem('proto-experiment') || '1';
-  if (_exp === '2' || _exp === '3' || _exp === '4') return;
+  var _exp = sessionStorage.getItem('proto-experiment') || '2';
+  if (_exp === '3' || _exp === '4') return;
   var modal = document.getElementById('xp-intro-modal');
   if (!modal) return;
   var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
@@ -1415,10 +1422,10 @@ function showXpIntroModal() {
   var earnedEl = document.getElementById('xp-intro-earned');
   if (seg === 'active') {
     if (titleEl) titleEl.textContent = 'Introducing Skill Points!';
-    if (earnedEl) earnedEl.textContent = 'Earn Skill Points by completing items \u2014 especially hands-on activities like labs and assessments, which earn more and are required to fully develop a skill. Here\u2019s what you\u2019ve built so far in this course:';
+    if (earnedEl) earnedEl.textContent = 'Earn Skill Points (XP) by completing course items. Activities like labs and assessments earn more because they actively help you measure your skills progress. Here\u2019s what you\u2019ve built so far in this course:';
   } else {
     if (titleEl) titleEl.textContent = 'You just earned Skill Points!';
-    if (earnedEl) earnedEl.textContent = 'Earn Skill Points by completing items \u2014 especially hands-on activities like labs and assessments, which earn more and are required to fully develop a skill. Here is the skill you just made progress towards:';
+    if (earnedEl) earnedEl.textContent = 'Earn Skill Points (XP) by completing course items. Activities like labs and assessments earn more because they actively help you measure your skills progress. Here is the skill you just made progress towards:';
   }
 
   var skillsContainer = document.getElementById('xp-intro-skills');
@@ -1482,7 +1489,7 @@ var SKILL_KEY_TO_NAME = {
   powerbi: 'Prepare Datasets in Power BI'
 };
 function getSkillXpMax() {
-  var exp = sessionStorage.getItem('proto-experiment') || '1';
+  var exp = sessionStorage.getItem('proto-experiment') || '2';
   return exp === '1' ? 300 : 1500;
 }
 var SKILL_XP_MAX = getSkillXpMax();
@@ -1496,12 +1503,13 @@ function showSkillsProgressModal() {
   if (!modal) return;
 
   /* Experiment B-D+ text overrides */
-  var _exp = sessionStorage.getItem('proto-experiment') || '1';
+  var _exp = sessionStorage.getItem('proto-experiment') || '2';
   if (_exp !== '1') {
     var titleEl = document.getElementById('skills-progress-title');
-    if (titleEl) titleEl.textContent = 'Skill Progress';
     var subtextEl = modal.querySelector('.skills-progress-header .cds-body-primary');
-    if (subtextEl) subtextEl.textContent = "Here are the latest skills you\u2019ve been building on Coursera. Continue completing learning items to earn Skill Points!";
+    /* Unified course-rooted copy across all experiments */
+    if (titleEl) titleEl.textContent = 'Course Skill Progress';
+    if (subtextEl) subtextEl.textContent = "Earn Skill Points (XP) by completing course items. Activities like labs and assessments earn more because they actively help you measure your skills progress. Here\u2019s what you\u2019ve built so far in this course:";
     var feedbackBtn = document.getElementById('skills-progress-feedback-btn');
     if (feedbackBtn) {
       feedbackBtn.textContent = 'See all skills';
@@ -1656,12 +1664,7 @@ document.addEventListener('DOMContentLoaded', function() {
     el.textContent = el.textContent.replace(/\/1500 XP/, '/' + SKILL_XP_MAX + ' XP');
   });
 
-  /* Experiment B-D+: update sidebar entry point text */
-  var _expInit = sessionStorage.getItem('proto-experiment') || '1';
-  if (_expInit !== '1') {
-    var sidebarLink = document.getElementById('sidebar-skill-progress-link');
-    if (sidebarLink) sidebarLink.textContent = 'See skill progress';
-  }
+  /* All experiments keep the default "See course skill progress" sidebar link */
 
   document.addEventListener('click', function(e) {
     const wrapper = document.querySelector('.progress-tracker-wrapper');

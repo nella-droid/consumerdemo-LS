@@ -1813,6 +1813,168 @@
   color: var(--cds-color-blue-800);
 }
 
+/* Skills tab header */
+.mylearning-skills-header {
+  grid-column: 1 / -1;
+  margin: 0 0 16px;
+  color: var(--cds-color-grey-975);
+}
+
+/* Pagination */
+.mylearning-pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.mylearning-pagination-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.mylearning-pagination-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px 12px 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--cds-font-family);
+  color: var(--cds-color-grey-975);
+  border-radius: var(--cds-border-radius-50);
+  transition: background 0.15s;
+}
+
+.mylearning-pagination-select:hover {
+  background: var(--cds-color-grey-50);
+}
+
+.mylearning-pagination-select-wrap.is-open .mylearning-pagination-chevron {
+  transform: rotate(180deg);
+}
+
+.mylearning-pagination-chevron {
+  transition: transform 0.2s;
+}
+
+.mylearning-pagination-select-menu {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  background: var(--cds-color-white);
+  border-radius: var(--cds-border-radius-200);
+  box-shadow: var(--cds-elevation-level2);
+  z-index: 10;
+}
+
+.mylearning-pagination-select-wrap.is-open .mylearning-pagination-select-menu {
+  display: block;
+}
+
+.mylearning-pagination-select-option {
+  padding: 10px 16px;
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  color: var(--cds-color-grey-975);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mylearning-pagination-select-option:hover {
+  background: var(--cds-color-blue-25);
+  color: var(--cds-color-blue-800);
+}
+
+.mylearning-pagination-select-option.is-selected {
+  color: var(--cds-color-blue-700);
+  font-weight: 600;
+}
+
+.mylearning-pagination-select-label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.048px;
+}
+
+.mylearning-pagination-select-value {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.mylearning-pagination-chevron {
+  font-size: 20px !important;
+}
+
+.mylearning-pagination-pages {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mylearning-pagination-num,
+.mylearning-pagination-icon,
+.mylearning-pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 8px;
+  border: none;
+  background: none;
+  border-radius: var(--cds-border-radius-100);
+  cursor: pointer;
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--cds-color-grey-600);
+  transition: background 0.15s, color 0.15s;
+}
+
+.mylearning-pagination-num:hover,
+.mylearning-pagination-icon:hover,
+.mylearning-pagination-ellipsis:hover {
+  background: var(--cds-color-grey-50);
+  color: var(--cds-color-grey-975);
+}
+
+.mylearning-pagination-num.is-active {
+  position: relative;
+  color: var(--cds-color-grey-975);
+  font-weight: 600;
+  letter-spacing: 0.14px;
+}
+
+.mylearning-pagination-num.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--cds-color-grey-975);
+  border-radius: 2px 2px 0 0;
+}
+
+.mylearning-pagination-icon .material-symbols-rounded,
+.mylearning-pagination-ellipsis .material-symbols-rounded {
+  font-size: 20px;
+}
+
 .skill-accordion {
   background: var(--cds-color-white);
   border: 1px solid var(--cds-color-grey-100);

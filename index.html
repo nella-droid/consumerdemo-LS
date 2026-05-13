@@ -236,8 +236,8 @@
   <div class="starter-experiment-picker">
     <label for="starter-experiment-select" class="cds-body-secondary">Experiment:</label>
     <select id="starter-experiment-select" class="starter-experiment-select">
-      <option value="1">Experiment A</option>
-      <option value="2">Experiment B</option>
+      <option value="2">Experiment A+B</option>
+      <option value="2a">&nbsp;&nbsp;↳ No daily goal tracker variant</option>
       <option value="3">Experiment C</option>
       <option value="4">Experiment D+</option>
     </select>
@@ -287,10 +287,17 @@
   <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.4 — For internal review only</p>
 
   <script>
+    /* Migrate retired Experiment A → Experiment A+B */
+    try {
+      if (sessionStorage.getItem('proto-experiment') === '1') {
+        sessionStorage.setItem('proto-experiment', '2');
+      }
+    } catch (e) {}
+
     (function initExperimentPicker() {
       var sel = document.getElementById('starter-experiment-select');
       if (!sel) return;
-      var stored = sessionStorage.getItem('proto-experiment') || '1';
+      var stored = sessionStorage.getItem('proto-experiment') || '2';
       sel.value = stored;
       sel.addEventListener('change', function() {
         sessionStorage.setItem('proto-experiment', sel.value);

@@ -68,7 +68,7 @@
   function renderSkillsTab(container) {
     if (!container) return;
     var exp = getActiveExperiment();
-    if (exp === '2' || exp === '3' || exp === '4') {
+    if (exp === '2' || exp === '2a' || exp === '3' || exp === '4') {
       renderSkillAccordions(container);
     } else {
       renderSkillsEmpty(container);
@@ -105,10 +105,50 @@
       '</div>';
     }).join('');
 
-    var feedbackHtml = (exp === '2')
+    var isB = (exp === '2' || exp === '2a');
+    var feedbackHtml = isB
       ? '<div class="mylearning-skills-feedback-row"><a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="mylearning-skills-feedback-btn cds-action-secondary">Provide feedback</a></div>'
       : '';
-    container.innerHTML = '<div class="skill-accordions-list">' + html + '</div>' + feedbackHtml;
+
+    var paginationHtml = isB
+      ? '<div class="mylearning-pagination" role="navigation" aria-label="Skills pagination">' +
+          '<div class="mylearning-pagination-select-wrap">' +
+            '<button type="button" class="mylearning-pagination-select" id="mylearning-pagination-select-trigger" aria-haspopup="listbox" aria-expanded="false">' +
+              '<span class="mylearning-pagination-select-label">Show:</span>' +
+              '<span class="mylearning-pagination-select-value" id="mylearning-pagination-select-value">16 results per page</span>' +
+              '<span class="material-symbols-rounded mylearning-pagination-chevron">expand_more</span>' +
+            '</button>' +
+            '<ul class="mylearning-pagination-select-menu" id="mylearning-pagination-select-menu" role="listbox" aria-label="Results per page">' +
+              '<li class="mylearning-pagination-select-option is-selected" role="option" aria-selected="true" data-value="16">16 results per page</li>' +
+              '<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="32">32 results per page</li>' +
+              '<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="64">64 results per page</li>' +
+            '</ul>' +
+          '</div>' +
+          '<div class="mylearning-pagination-pages">' +
+            '<button type="button" class="mylearning-pagination-icon" aria-label="Previous page">' +
+              '<span class="material-symbols-rounded">chevron_left</span>' +
+            '</button>' +
+            '<button type="button" class="mylearning-pagination-num">1</button>' +
+            '<button type="button" class="mylearning-pagination-num is-active" aria-current="page">2</button>' +
+            '<button type="button" class="mylearning-pagination-num">3</button>' +
+            '<button type="button" class="mylearning-pagination-num">4</button>' +
+            '<button type="button" class="mylearning-pagination-num">5</button>' +
+            '<button type="button" class="mylearning-pagination-ellipsis" aria-label="More pages">' +
+              '<span class="material-symbols-rounded">more_horiz</span>' +
+            '</button>' +
+            '<button type="button" class="mylearning-pagination-num">222</button>' +
+            '<button type="button" class="mylearning-pagination-icon" aria-label="Next page">' +
+              '<span class="material-symbols-rounded">chevron_right</span>' +
+            '</button>' +
+          '</div>' +
+        '</div>'
+      : '';
+
+    container.innerHTML =
+      '<h2 class="mylearning-skills-header cds-subtitle-lg">Skills you’ve made progress in</h2>' +
+      '<div class="skill-accordions-list">' + html + '</div>' +
+      feedbackHtml +
+      paginationHtml;
   }
 
   function updateTabIndicator() {
@@ -169,6 +209,46 @@
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
           }
+          return;
+        }
+
+        var trigger = e.target.closest('#mylearning-pagination-select-trigger');
+        if (trigger) {
+          e.stopPropagation();
+          var wrap = trigger.closest('.mylearning-pagination-select-wrap');
+          if (wrap) {
+            var open = wrap.classList.toggle('is-open');
+            trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+          }
+          return;
+        }
+
+        var option = e.target.closest('.mylearning-pagination-select-option');
+        if (option) {
+          var menu = option.closest('.mylearning-pagination-select-menu');
+          var valueEl = document.getElementById('mylearning-pagination-select-value');
+          var trig = document.getElementById('mylearning-pagination-select-trigger');
+          var wrap2 = option.closest('.mylearning-pagination-select-wrap');
+          if (menu) {
+            menu.querySelectorAll('.mylearning-pagination-select-option').forEach(function(o) {
+              o.classList.remove('is-selected');
+              o.setAttribute('aria-selected', 'false');
+            });
+          }
+          option.classList.add('is-selected');
+          option.setAttribute('aria-selected', 'true');
+          if (valueEl) valueEl.textContent = option.textContent;
+          if (wrap2) wrap2.classList.remove('is-open');
+          if (trig) trig.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        var wrap = document.querySelector('.mylearning-pagination-select-wrap.is-open');
+        if (wrap && !wrap.contains(e.target)) {
+          wrap.classList.remove('is-open');
+          var t = document.getElementById('mylearning-pagination-select-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
         }
       });
 

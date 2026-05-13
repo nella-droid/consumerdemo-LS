@@ -13,6 +13,14 @@
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <script src="js/figma-hash-persist.js"></script>
   <script>
+    /* Migrate retired Experiment A → Experiment A+B */
+    try {
+      if (sessionStorage.getItem('proto-experiment') === '1') {
+        sessionStorage.setItem('proto-experiment', '2');
+      }
+    } catch (e) {}
+  </script>
+  <script>
     (function() {
       var m = location.search.match(/[?&]exp=(\d+)/);
       if (m) sessionStorage.setItem('proto-experiment', m[1]);
@@ -287,12 +295,12 @@
     <div class="proto-experiment-dropdown" id="proto-experiment-dropdown">
       <button type="button" class="proto-experiment-trigger-strip" id="proto-experiment-trigger" aria-haspopup="listbox" aria-expanded="false">
         <span class="material-symbols-rounded">science</span>
-        <span class="proto-experiment-label" id="proto-experiment-label">Experiment A</span>
+        <span class="proto-experiment-label" id="proto-experiment-label">Experiment A+B</span>
         <span class="material-symbols-rounded proto-experiment-chevron">expand_more</span>
       </button>
       <ul class="proto-experiment-menu" id="proto-experiment-menu" role="listbox" aria-label="Select experiment">
-        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="1">Experiment A</li>
-        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="2">Experiment B</li>
+        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="2">Experiment A+B</li>
+        <li class="proto-experiment-option proto-experiment-option--sub" role="option" aria-selected="false" data-value="2a">No daily goal tracker variant</li>
         <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment C</li>
         <li class="proto-experiment-option" role="option" aria-selected="false" data-value="4">Experiment D+</li>
       </ul>
@@ -476,7 +484,7 @@
     }
 
     (function() {
-      var exp = sessionStorage.getItem('proto-experiment') || '1';
+      var exp = sessionStorage.getItem('proto-experiment') || '2';
       applyExperimentLayout(exp);
       window.addEventListener('experiment-changed', function(e) {
         applyExperimentLayout(e.detail.experiment);
@@ -491,11 +499,11 @@
       if (!dropdown || !trigger || !menu || !label) return;
 
       function applyExperimentClass(val) {
-        document.body.className = document.body.className.replace(/\bproto-experiment-\d+\b/g, '').trim();
+        document.body.className = document.body.className.replace(/\bproto-experiment-\w+\b/g, '').trim();
         document.body.classList.add('proto-experiment-' + val);
       }
 
-      var stored = sessionStorage.getItem('proto-experiment') || '1';
+      var stored = sessionStorage.getItem('proto-experiment') || '2';
       applyExperimentClass(stored);
       var current = menu.querySelector('[data-value="' + stored + '"]');
       if (current) {

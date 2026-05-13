@@ -3745,9 +3745,11 @@ body.proto-highlight-net-new.proto-experiment-4 #home-todays-goals .home-goal-it
 /* Experiment A-C: hide goals-complete toolbar trigger and video end skill card */
 body.proto-experiment-1 #proto-trigger-goals-complete,
 body.proto-experiment-2 #proto-trigger-goals-complete,
+body.proto-experiment-2a #proto-trigger-goals-complete,
 body.proto-experiment-3 #proto-trigger-goals-complete,
 body.proto-experiment-1 #video-end-skills-grid,
 body.proto-experiment-2 #video-end-skills-grid,
+body.proto-experiment-2a #video-end-skills-grid,
 body.proto-experiment-3 #video-end-skills-grid {
   display: none;
 }
@@ -3780,9 +3782,25 @@ body.proto-experiment-3 .exp-c-enterprise-banner {
   z-index: 10000;
 }
 
-/* Experiment 4: hide header progress tracker */
-body.proto-experiment-4 .progress-tracker-wrapper {
+/* Experiment 4 + B sub-variant "2a" (No daily goal tracker variant): hide header progress tracker */
+body.proto-experiment-4 .progress-tracker-wrapper,
+body.proto-experiment-2a .progress-tracker-wrapper {
   display: none;
+}
+
+/* Indented sub-variant option in the experiment dropdown */
+.proto-experiment-option--sub {
+  padding-left: 32px !important;
+  position: relative;
+}
+.proto-experiment-option--sub::before {
+  content: '↳';
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cds-color-grey-400);
+  font-size: 12px;
 }
 
 /* ─── Experiment D: redesigned Today's goal sidebar header ───────── */
@@ -3790,10 +3808,7 @@ body.proto-experiment-4 .sidebar-xp-tracker {
   gap: 4px;
 }
 
-/* Hide the legacy "See course skill progress" link in Exp D */
-body.proto-experiment-4 .sidebar-skill-progress-link {
-  display: none;
-}
+/* Exp D keeps the "See course skill progress" link visible (same as B/C) */
 
 /* "• 15 min" appendix next to the label — hidden for now */
 .sidebar-xp-d-meta {
@@ -4188,4 +4203,44 @@ body.proto-experiment-4 .module-content > .lesson-header {
 
 .proto-features-btn .material-symbols-rounded {
   font-size: 20px;
+}
+
+/* Maxed-out skill expression toggle (sits to the right of the wrench) */
+.proto-maxed-toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  background: var(--cds-color-grey-975);
+  color: var(--cds-color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--cds-elevation-level2);
+  transition: background 0.2s;
+}
+
+.proto-maxed-toggle:hover {
+  background: var(--cds-color-grey-800);
+}
+
+.proto-maxed-toggle[aria-pressed="true"] {
+  background: var(--cds-color-yellow-600);
+  color: var(--cds-color-grey-975);
+}
+
+.proto-maxed-toggle[aria-pressed="true"]:hover {
+  background: var(--cds-color-yellow-700);
+}
+
+.proto-maxed-toggle .material-symbols-rounded {
+  font-size: 20px;
+}
+
+/* When maxed-out is on, hide skill tags on the page */
+body.proto-maxed-out .skill-tag {
+  display: none !important;
 }
