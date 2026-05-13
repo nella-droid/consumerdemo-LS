@@ -319,6 +319,10 @@
           <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
           <span class="proto-sound-label">Sound</span>
         </button>
+        <button type="button" class="proto-tools-row proto-zero-skill-toggle" id="proto-zero-skill-toggle" aria-pressed="false" aria-label="Toggle zero skill progress">
+          <span class="material-symbols-rounded">restart_alt</span>
+          <span>Zero skill progress</span>
+        </button>
         <div class="proto-trigger-event-wrap is-disabled" id="proto-trigger-event-wrap">
           <button type="button" class="proto-tools-row" aria-label="Trigger event" disabled>
             <span class="material-symbols-rounded">bolt</span>
@@ -401,6 +405,22 @@
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
       }
+    })();
+
+    (function initZeroSkillToggle() {
+      var btn = document.getElementById('proto-zero-skill-toggle');
+      var body = document.body;
+      if (!btn || !body) return;
+      var on = sessionStorage.getItem('proto-zero-skill-progress') === 'true';
+      if (on) body.classList.add('proto-zero-skill-progress');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.addEventListener('click', function() {
+        on = !on;
+        sessionStorage.setItem('proto-zero-skill-progress', on ? 'true' : 'false');
+        body.classList.toggle('proto-zero-skill-progress', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (typeof window.MlRerenderSkillsTab === 'function') window.MlRerenderSkillsTab();
+      });
     })();
 
     (function initToolsFlyout() {

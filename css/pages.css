@@ -1820,6 +1820,72 @@
   color: var(--cds-color-grey-975);
 }
 
+/* Skills tab zero state */
+.mylearning-skills-zero {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  gap: 32px;
+}
+
+.mylearning-skills-zero-icon {
+  width: 132px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mylearning-zero-icon-svg {
+  width: 132px;
+  height: 190px;
+  display: block;
+  overflow: visible;
+}
+
+/* Coin is the only animated element — gentle continuous float */
+@keyframes mylearningZeroCoinFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.mylearning-zero-coin {
+  transform-origin: 105px 120px;
+  animation: mylearningZeroCoinFloat 4s ease-in-out infinite;
+}
+
+.mylearning-skills-zero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mylearning-skills-zero-title {
+  font-family: 'Source Sans 3', var(--cds-font-family);
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 42px;
+  letter-spacing: -0.5px;
+  color: var(--cds-color-grey-975);
+  margin: 0;
+  max-width: 600px;
+}
+
+.mylearning-skills-zero-body {
+  font-family: 'Source Sans 3', var(--cds-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--cds-color-grey-975);
+  margin: 0;
+  max-width: 640px;
+}
+
 /* Pagination */
 .mylearning-pagination {
   grid-column: 1 / -1;
