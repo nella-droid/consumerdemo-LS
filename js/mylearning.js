@@ -143,51 +143,51 @@
   function renderSkillAccordions(container) {
     var skills = EXTRA_SKILLS.concat(getSkillProgress());
     var html = skills.map(function(skill, idx) {
-      return ‘<div class="skill-accordion" data-skill-idx="’ + idx + ‘">’ +
-        ‘<div class="skill-accordion-trigger">’ +
-          ‘<span class="skill-accordion-name cds-subtitle-md">’ + skill.name + ‘</span>’ +
-          ‘<span class="skill-accordion-xp cds-body-secondary" style="color:var(--cds-color-neutral-primary-weak)">’ + skill.points + ‘/’ + skill.total + ‘ XP</span>’ +
-        ‘</div>’ +
-      ‘</div>’;
-    }).join(‘’);
+      return '<div class="skill-accordion" data-skill-idx="' + idx + '">' +
+        '<div class="skill-accordion-trigger">' +
+          '<span class="skill-accordion-name cds-subtitle-md">' + skill.name + '</span>' +
+          '<span class="skill-accordion-xp cds-body-secondary" style="color:var(--cds-color-neutral-primary-weak)">' + skill.points + '/' + skill.total + ' XP</span>' +
+        '</div>' +
+      '</div>';
+    }).join('');
 
-    var feedbackHtml = ‘<div class="mylearning-skills-feedback-row"><a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="mylearning-skills-feedback-btn cds-action-secondary">Provide feedback</a></div>’;
+    var feedbackHtml = '<div class="mylearning-skills-feedback-row"><a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="mylearning-skills-feedback-btn cds-action-secondary">Provide feedback</a></div>';
 
-    var paginationHtml = ‘<div class="mylearning-pagination" role="navigation" aria-label="Skills pagination">’ +
-        ‘<div class="mylearning-pagination-select-wrap">’ +
-          ‘<button type="button" class="mylearning-pagination-select" id="mylearning-pagination-select-trigger" aria-haspopup="listbox" aria-expanded="false">’ +
-            ‘<span class="mylearning-pagination-select-label">Show:</span>’ +
-            ‘<span class="mylearning-pagination-select-value" id="mylearning-pagination-select-value">16 results per page</span>’ +
-            ‘<span class="material-symbols-rounded mylearning-pagination-chevron">expand_more</span>’ +
-          ‘</button>’ +
-          ‘<ul class="mylearning-pagination-select-menu" id="mylearning-pagination-select-menu" role="listbox" aria-label="Results per page">’ +
-            ‘<li class="mylearning-pagination-select-option is-selected" role="option" aria-selected="true" data-value="16">16 results per page</li>’ +
-            ‘<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="32">32 results per page</li>’ +
-            ‘<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="64">64 results per page</li>’ +
-          ‘</ul>’ +
-        ‘</div>’ +
-        ‘<div class="mylearning-pagination-pages">’ +
-          ‘<button type="button" class="mylearning-pagination-icon" aria-label="Previous page">’ +
-            ‘<span class="material-symbols-rounded">chevron_left</span>’ +
-          ‘</button>’ +
-          ‘<button type="button" class="mylearning-pagination-num">1</button>’ +
-          ‘<button type="button" class="mylearning-pagination-num is-active" aria-current="page">2</button>’ +
-          ‘<button type="button" class="mylearning-pagination-num">3</button>’ +
-          ‘<button type="button" class="mylearning-pagination-num">4</button>’ +
-          ‘<button type="button" class="mylearning-pagination-num">5</button>’ +
-          ‘<button type="button" class="mylearning-pagination-ellipsis" aria-label="More pages">’ +
-            ‘<span class="material-symbols-rounded">more_horiz</span>’ +
-          ‘</button>’ +
-          ‘<button type="button" class="mylearning-pagination-num">222</button>’ +
-          ‘<button type="button" class="mylearning-pagination-icon" aria-label="Next page">’ +
-            ‘<span class="material-symbols-rounded">chevron_right</span>’ +
-          ‘</button>’ +
-        ‘</div>’ +
-      ‘</div>’;
+    var paginationHtml = '<div class="mylearning-pagination" role="navigation" aria-label="Skills pagination">' +
+        '<div class="mylearning-pagination-select-wrap">' +
+          '<button type="button" class="mylearning-pagination-select" id="mylearning-pagination-select-trigger" aria-haspopup="listbox" aria-expanded="false">' +
+            '<span class="mylearning-pagination-select-label">Show:</span>' +
+            '<span class="mylearning-pagination-select-value" id="mylearning-pagination-select-value">16 results per page</span>' +
+            '<span class="material-symbols-rounded mylearning-pagination-chevron">expand_more</span>' +
+          '</button>' +
+          '<ul class="mylearning-pagination-select-menu" id="mylearning-pagination-select-menu" role="listbox" aria-label="Results per page">' +
+            '<li class="mylearning-pagination-select-option is-selected" role="option" aria-selected="true" data-value="16">16 results per page</li>' +
+            '<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="32">32 results per page</li>' +
+            '<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="64">64 results per page</li>' +
+          '</ul>' +
+        '</div>' +
+        '<div class="mylearning-pagination-pages">' +
+          '<button type="button" class="mylearning-pagination-icon" aria-label="Previous page">' +
+            '<span class="material-symbols-rounded">chevron_left</span>' +
+          '</button>' +
+          '<button type="button" class="mylearning-pagination-num">1</button>' +
+          '<button type="button" class="mylearning-pagination-num is-active" aria-current="page">2</button>' +
+          '<button type="button" class="mylearning-pagination-num">3</button>' +
+          '<button type="button" class="mylearning-pagination-num">4</button>' +
+          '<button type="button" class="mylearning-pagination-num">5</button>' +
+          '<button type="button" class="mylearning-pagination-ellipsis" aria-label="More pages">' +
+            '<span class="material-symbols-rounded">more_horiz</span>' +
+          '</button>' +
+          '<button type="button" class="mylearning-pagination-num">222</button>' +
+          '<button type="button" class="mylearning-pagination-icon" aria-label="Next page">' +
+            '<span class="material-symbols-rounded">chevron_right</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>';
 
     container.innerHTML =
-      ‘<h2 class="mylearning-skills-header cds-subtitle-lg">Skills you’ve made progress in</h2>’ +
-      ‘<div class="skill-accordions-list">’ + html + ‘</div>’ +
+      '<h2 class="mylearning-skills-header cds-subtitle-lg">Skills you\'ve made progress in</h2>' +
+      '<div class="skill-accordions-list">' + html + '</div>' +
       feedbackHtml +
       paginationHtml;
   }

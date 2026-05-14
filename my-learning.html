@@ -29,29 +29,32 @@
         <nav class="coursera-header-nav">
           <button class="coursera-nav-btn">
             Explore
-            <svg class="coursera-nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="material-symbols-rounded coursera-nav-chevron">expand_more</span>
           </button>
           <a href="my-learning.html" class="coursera-nav-link coursera-nav-link-active">My Learning</a>
+          <a href="#" class="coursera-nav-link">Degrees</a>
         </nav>
-      </div>
-      <div class="coursera-header-search">
-        <div class="coursera-search-box">
-          <input type="text" placeholder="What do you want to learn?" class="coursera-search-input" aria-label="Search courses">
-          <button type="button" class="coursera-search-btn" aria-label="Search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
-          </button>
+        <div class="coursera-header-search">
+          <div class="coursera-search-box">
+            <input type="text" placeholder="What do you want to learn?" class="coursera-search-input" aria-label="Search courses">
+            <button type="button" class="coursera-search-btn" aria-label="Search">
+              <span class="material-symbols-rounded">search</span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="coursera-header-right">
+        <span class="coursera-career-goal cds-body-secondary">Career goal: <a href="#" class="coursera-career-goal-link">Data Analyst</a></span>
         <button class="coursera-icon-btn" aria-label="Language">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span class="material-symbols-rounded">language</span>
         </button>
+        <img src="assets/chat-launcher.svg" alt="AI" class="coursera-sparkle-icon" style="width: 24px; height: 24px;">
         <button class="coursera-icon-btn" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+          <span class="material-symbols-rounded">notifications</span>
         </button>
-        <a href="my-learning.html" class="coursera-user-avatar" aria-label="Account">
-          <span>PP</span>
-        </a>
+        <div class="coursera-user-avatar" aria-label="Account">
+          <span>N</span>
+        </div>
       </div>
     </div>
   </header>
@@ -61,12 +64,12 @@
     <div class="mylearning-banner">
       <div class="mylearning-banner-inner">
         <div class="mylearning-banner-avatar" aria-hidden="true">
-          <span>PP</span>
+          <span>N</span>
         </div>
         <div class="mylearning-banner-content">
-          <h1 class="mylearning-banner-welcome cds-title-sm">Good morning, Nicholas</h1>
+          <h1 class="mylearning-banner-welcome">Good morning, Nicholas</h1>
           <p class="mylearning-career-goal">
-            Your career goal: <a href="#">Start a career as a Digital Marketing Specialist</a>
+            Your goal is to start your career as a <strong>Data Analyst</strong> <a href="#" class="ml-edit-goal-link">Edit goal</a>
           </p>
         </div>
         <img src="assets/banner-illustration.svg" alt="" class="mylearning-banner-illustration" aria-hidden="true">
@@ -79,108 +82,241 @@
         <div class="mylearning-tabs-indicator" id="mylearning-tabs-indicator" aria-hidden="true"></div>
         <button class="mylearning-tab cds-body-primary active" data-tab="overview">In progress</button>
         <button class="mylearning-tab cds-body-primary" data-tab="courses">Completed</button>
+        <button class="mylearning-tab cds-body-primary" data-tab="saved">Saved</button>
         <button class="mylearning-tab cds-body-primary" data-tab="skills">Skills</button>
         <button class="mylearning-tab cds-body-primary" data-tab="certificates">Certificates</button>
       </div>
 
       <!-- Overview Tab Content -->
       <div class="mylearning-tab-panel active" id="panel-overview">
-      <div class="mylearning-grid">
-        <div>
+      <div class="ml-content-grid">
+        <!-- LEFT COLUMN -->
+        <div class="ml-main-col">
+          <!-- Google Data Analytics Certificate Card -->
           <div class="mylearning-certificate-card">
             <div class="certificate-card-header">
-              <svg class="certificate-provider-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              <h3 class="certificate-card-title cds-subtitle-md">Google Data Analytics Professional Certificate</h3>
+              <div class="ml-provider-logo-box">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+              </div>
+              <h3 class="certificate-card-title cds-subtitle-md" style="flex:1;">Google Data Analytics Professional Certificate</h3>
             </div>
 
             <div class="certificate-course certificate-course-active">
               <div class="certificate-course-info">
                 <h4 class="certificate-course-name cds-action-primary">Foundations: Data, Data, Everywhere</h4>
-                <p class="certificate-course-meta">Course 1 of 7 • 30% Complete • Estimated completion: May 30, 2025</p>
-                <div class="certificate-progress-bar">
-                  <div class="certificate-progress-fill" style="width: 30%"></div>
+                <p class="certificate-course-meta">Course 1 of 7 &middot; 30% Complete &middot; Estimated completion: May 30, 2025</p>
+                <div class="ml-progress-bar">
+                  <div class="ml-progress-fill" style="width: 30%"></div>
                 </div>
               </div>
-              <a href="learning.html" class="btn-primary certificate-resume-btn">Resume</a>
+              <a href="learning.html" class="btn-primary certificate-resume-btn" style="padding:8px 20px; font-size:14px; font-weight:600; font-family:'Source Sans 3',sans-serif; line-height:20px; letter-spacing:0.14px;">Continue</a>
             </div>
 
             <ul class="certificate-course-list">
               <li class="certificate-course-item">
                 <span class="certificate-course-name cds-action-primary">Ask Questions to Make Data-Driven Decisions</span>
-                <span class="certificate-course-status">Course 2 of 7 • Not started</span>
+                <span class="certificate-course-status">Course 2 of 7 &middot; Not started</span>
               </li>
               <li class="certificate-course-item">
                 <span class="certificate-course-name cds-action-primary">Prepare Data for Exploration</span>
-                <span class="certificate-course-status">Course 3 of 7 • Not started</span>
+                <span class="certificate-course-status">Course 3 of 7 &middot; Not started</span>
               </li>
               <li class="certificate-course-item">
                 <span class="certificate-course-name cds-action-primary">Process Data from Dirty to Clean</span>
-                <span class="certificate-course-status">Course 4 of 7 • Not started</span>
+                <span class="certificate-course-status">Course 4 of 7 &middot; Not started</span>
               </li>
               <li class="certificate-course-item">
                 <span class="certificate-course-name cds-action-primary">Analyze Data to Answer Questions</span>
-                <span class="certificate-course-status">Course 5 of 7 • Not started</span>
+                <span class="certificate-course-status">Course 5 of 7 &middot; Not started</span>
               </li>
               <li class="certificate-course-item">
                 <span class="certificate-course-name cds-action-primary">Share Data Through the Art of Visualization</span>
-                <span class="certificate-course-status">Course 6 of 7 • Not started</span>
+                <span class="certificate-course-status">Course 6 of 7 &middot; Not started</span>
               </li>
               <li class="certificate-course-item">
                 <span class="certificate-course-name cds-action-primary">Data Analysis with R Programming</span>
-                <span class="certificate-course-status">Course 7 of 7 • Not started</span>
+                <span class="certificate-course-status">Course 7 of 7 &middot; Not started</span>
               </li>
             </ul>
+
+            <!-- Bottom banner -->
+            <div class="ml-cert-bottom-banner">
+              <span class="material-symbols-rounded" style="font-size:20px; color:#5B6780;">workspace_premium</span>
+              <span style="font-size:14px; color:#3C4257;">Earn a career certificate and build toward a degree</span>
+            </div>
           </div>
 
-          <div class="mylearning-combined-card">
-            <div class="mylearning-skill-goals-card">
-              <div class="skill-goals-card-header">
-                <div class="skill-goals-provider-icon">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <!-- Standalone Course Card (IBM) -->
+          <div class="ml-course-standalone">
+            <div class="ml-course-standalone-main">
+              <!-- Left: Course info -->
+              <div class="ml-course-standalone-left">
+                <div class="ml-course-standalone-course">
+                  <div class="ml-course-standalone-partner">
+                    <div class="ml-provider-logo-box ml-provider-logo-ibm">
+                      <span style="font-size:11px; font-weight:700; color:#0F1114;">IBM</span>
+                    </div>
+                    <span style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:#636363;">IBM</span>
+                  </div>
+                  <h4 style="font-family:'Source Sans 3',sans-serif; font-size:16px; font-weight:600; color:#0F1114; margin:4px 0 0; letter-spacing:-0.048px; line-height:20px;">Generative AI: Prompt Engineering Basics</h4>
+                  <span style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:#5B6780; display:block; margin-top:4px;">Course &middot; 30% complete</span>
+                  <div class="ml-progress-bar" style="margin-top:12px;">
+                    <div class="ml-progress-fill" style="width: 30%"></div>
+                  </div>
                 </div>
-                <h3 class="skill-goals-card-title cds-subtitle-md">Data Analytics: Early Professional</h3>
               </div>
-              <div class="skill-goals-card-body">
-                <span class="skill-goals-label">7 skill goals</span>
-                <div class="skill-goals-badges">
-                  <button type="button" class="skill-goal-badge complete" data-goal-idx="0" aria-label="Skill goal 1 – complete">
-                    <span>1</span>
-                  </button>
-                  <button type="button" class="skill-goal-badge active" data-goal-idx="1" aria-label="Skill goal 2 – in progress">
-                    <span>2</span>
-                    <svg class="skill-goal-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
-                  </button>
-                  <button type="button" class="skill-goal-badge" data-goal-idx="2" aria-label="Skill goal 3"><span>3</span></button>
-                  <button type="button" class="skill-goal-badge" data-goal-idx="3" aria-label="Skill goal 4"><span>4</span></button>
-                  <button type="button" class="skill-goal-badge" data-goal-idx="4" aria-label="Skill goal 5"><span>5</span></button>
-                  <button type="button" class="skill-goal-badge" data-goal-idx="5" aria-label="Skill goal 6"><span>6</span></button>
-                  <button type="button" class="skill-goal-badge" data-goal-idx="6" aria-label="Skill goal 7"><span>7</span></button>
+              <!-- Right: Next lesson -->
+              <div class="ml-course-standalone-right">
+                <div class="ml-course-standalone-activity">
+                  <div class="ml-course-standalone-next-info">
+                    <span style="font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:#0F1114; letter-spacing:0.14px; line-height:20px;">Discovering Data Skill Sets</span>
+                    <div style="display:flex; align-items:center; gap:4px; margin-top:4px;">
+                      <span class="material-symbols-rounded" style="font-size:12px; color:#5B6780;">play_circle</span>
+                      <span style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:#5B6780; line-height:20px;">Video (1 min)</span>
+                    </div>
+                  </div>
+                  <a href="#" class="btn-primary ml-standalone-resume-btn">Resume</a>
                 </div>
-                <a href="#" class="skill-goals-view-btn" id="see-skill-progress-link">View skill progress</a>
-                <button class="skill-goals-more-btn" aria-label="More options">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+              </div>
+              <button class="ml-more-btn" aria-label="More options">
+                <span class="material-symbols-rounded" style="font-size:20px; color:#5B6780;">more_vert</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN (Sidebar) -->
+        <div class="ml-sidebar">
+          <!-- Calendar Widget -->
+          <div class="ml-calendar">
+            <div class="ml-calendar-header">
+              <h3 style="font-size:16px; font-weight:600; color:#0F1114; margin:0;">April 2026</h3>
+              <div style="display:flex; gap:4px;">
+                <button class="ml-calendar-nav-btn" aria-label="Previous month">
+                  <span class="material-symbols-rounded" style="font-size:20px;">chevron_left</span>
+                </button>
+                <button class="ml-calendar-nav-btn" aria-label="Next month">
+                  <span class="material-symbols-rounded" style="font-size:20px;">chevron_right</span>
                 </button>
               </div>
             </div>
+            <div class="ml-calendar-grid">
+              <div class="ml-calendar-day-label">Mo</div>
+              <div class="ml-calendar-day-label">Tu</div>
+              <div class="ml-calendar-day-label">We</div>
+              <div class="ml-calendar-day-label">Th</div>
+              <div class="ml-calendar-day-label">Fr</div>
+              <div class="ml-calendar-day-label">Sa</div>
+              <div class="ml-calendar-day-label">Su</div>
+              <!-- Row 1: April 2026 starts on Wednesday -->
+              <div class="ml-calendar-day ml-calendar-day-empty"></div>
+              <div class="ml-calendar-day ml-calendar-day-empty"></div>
+              <div class="ml-calendar-day ml-calendar-day-today">1</div>
+              <div class="ml-calendar-day">2</div>
+              <div class="ml-calendar-day">3</div>
+              <div class="ml-calendar-day">4</div>
+              <div class="ml-calendar-day">5</div>
+              <!-- Row 2 -->
+              <div class="ml-calendar-day">6</div>
+              <div class="ml-calendar-day">7</div>
+              <div class="ml-calendar-day">8</div>
+              <div class="ml-calendar-day">9</div>
+              <div class="ml-calendar-day">10</div>
+              <div class="ml-calendar-day">11</div>
+              <div class="ml-calendar-day">12</div>
+              <!-- Row 3 -->
+              <div class="ml-calendar-day">13</div>
+              <div class="ml-calendar-day">14</div>
+              <div class="ml-calendar-day">15</div>
+              <div class="ml-calendar-day">16</div>
+              <div class="ml-calendar-day">17</div>
+              <div class="ml-calendar-day">18</div>
+              <div class="ml-calendar-day">19</div>
+              <!-- Row 4 -->
+              <div class="ml-calendar-day">20</div>
+              <div class="ml-calendar-day">21</div>
+              <div class="ml-calendar-day">22</div>
+              <div class="ml-calendar-day">23</div>
+              <div class="ml-calendar-day">24</div>
+              <div class="ml-calendar-day">25</div>
+              <div class="ml-calendar-day">26</div>
+              <!-- Row 5 -->
+              <div class="ml-calendar-day">27</div>
+              <div class="ml-calendar-day">28</div>
+              <div class="ml-calendar-day">29</div>
+              <div class="ml-calendar-day">30</div>
+              <div class="ml-calendar-day ml-calendar-day-empty"></div>
+              <div class="ml-calendar-day ml-calendar-day-empty"></div>
+              <div class="ml-calendar-day ml-calendar-day-empty"></div>
+            </div>
+            <div class="ml-calendar-legend">
+              <div class="ml-calendar-legend-item">
+                <span class="ml-calendar-legend-dot"></span>
+                <span style="font-size:12px; color:#5B6780;">1+ daily goals completed</span>
+              </div>
+              <div class="ml-calendar-legend-item">
+                <span class="ml-calendar-legend-line"></span>
+                <span style="font-size:12px; color:#5B6780;">All daily goals completed</span>
+              </div>
+            </div>
 
-            <div class="mylearning-combined-divider"></div>
+            <hr class="ml-calendar-divider">
 
-            <div class="mylearning-course-row">
-              <div class="mylearning-course-row-info">
-                <h3 class="mylearning-course-row-title" id="skill-goal-active-name">Acquire &amp; Prepare Data</h3>
-                <p class="mylearning-course-row-meta" id="skill-goal-active-meta">0/17 skills mastered</p>
-                <div class="mylearning-course-row-progress">
-                  <div class="mylearning-course-row-progress-fill" id="skill-goal-active-bar" style="width: 0%"></div>
+            <!-- Last 4 weeks stats -->
+            <div class="ml-stats">
+              <h4 style="font-size:14px; font-weight:600; color:#0F1114; margin:0 0 16px;">Last 4 weeks</h4>
+              <div class="ml-stats-grid">
+                <div class="ml-stat-item">
+                  <span class="ml-stat-value">0</span>
+                  <span class="ml-stat-label">Daily goals completed</span>
+                </div>
+                <div class="ml-stat-item">
+                  <span class="ml-stat-value">2</span>
+                  <span class="ml-stat-label">Items completed</span>
+                </div>
+                <div class="ml-stat-item">
+                  <span class="ml-stat-value">49</span>
+                  <span class="ml-stat-label">Minutes learned</span>
                 </div>
               </div>
-              <div class="mylearning-course-row-actions">
-                <a href="#" class="btn-primary">Resume</a>
-                <a href="#" class="mylearning-course-row-link">Take assessment</a>
+            </div>
+          </div>
+
+          <!-- Recent Certificates Widget -->
+          <div class="ml-certificates">
+            <h3 style="font-size:16px; font-weight:600; color:#0F1114; margin:0 0 16px;">Recent Certificates</h3>
+            <div class="ml-cert-item">
+              <div class="ml-cert-icon">
+                <svg viewBox="0 0 114 16" xmlns="http://www.w3.org/2000/svg" width="48" height="48" style="padding:6px;">
+                  <path d="M37.2119 9.23926C37.2121 11.1935 38.303 12.3476 40.1973 12.3477C42.3165 12.3477 43.5352 11.0646 43.5352 8.59668V0.392578H47.4844V15.6162H43.5381V13.8525C42.6076 15.2947 41.0975 16 39.0107 16C35.479 16.001 33.2637 13.4368 33.2637 9.71875V0.392578H37.2119V9.23926ZM79.6289 0.104492C84.1244 0.11331 87.2958 3.7081 87.2852 7.94238C87.2859 8.36088 87.2535 8.77911 87.1875 9.19238L75.5645 9.1709C76.0101 10.9981 77.5168 12.3154 79.7969 12.3203C81.177 12.3203 82.6556 11.8123 83.5566 10.6602L86.25 12.8154C84.865 14.768 82.4215 15.918 79.8223 15.9131C75.2337 15.8973 71.7082 12.4614 71.7158 8.00684C71.7247 3.74409 74.7811 0.0958069 79.6289 0.104492ZM104.69 0.104492C107.098 0.104492 108.48 0.841292 109.41 2.25195L109.78 0.390625H113.392V15.6162H109.78L109.313 14.0488C108.254 15.2027 106.937 15.9102 104.69 15.9102C101.223 15.9051 97.2725 12.8599 97.2725 8.11719C97.2725 3.34205 101.158 0.104614 104.69 0.104492ZM23.7715 0.104492C28.2983 0.104492 31.8953 3.6316 31.8955 7.98828C31.8955 12.3148 28.2985 15.9053 23.7715 15.9053C19.276 15.9051 15.6807 12.3108 15.6807 7.98828C15.6809 3.62973 19.2762 0.10463 23.7715 0.104492ZM64.3838 0.0078125C66.93 0.0078125 69.1861 1.13385 70.4111 3.22461L66.9326 5.06152C66.4173 4.03193 65.4504 3.45227 64.2256 3.45215C63.034 3.45215 62.4522 3.87085 62.4521 4.57812C62.4521 6.95888 70.7676 5.44738 70.7676 11.1426C70.7675 14.1023 68.3508 15.9033 64.4512 15.9033C61.1315 15.9004 58.8106 14.8069 57.6514 12.2979L61.1621 10.4639C61.7422 11.7186 62.9021 12.4579 64.5459 12.458C66.0605 12.458 66.6406 11.9758 66.6406 11.2998C66.6396 8.85113 58.3265 10.3348 58.3262 4.73633C58.3262 1.64834 61.0329 0.00795633 64.3838 0.0078125ZM8.09082 0.0732422C9.44253 0.0637857 10.7759 0.389636 11.9697 1.02246C13.1635 1.65528 14.1806 2.57522 14.9297 3.69824L11.5586 5.64941C11.1686 5.09327 10.6497 4.63965 10.0459 4.32715C9.44201 4.01459 8.77107 3.85214 8.09082 3.85449C5.77935 3.85465 3.88477 5.77809 3.88477 7.98926C3.88481 10.2004 5.77938 12.1239 8.09082 12.124C8.80314 12.1286 9.50496 11.9505 10.1289 11.6074C10.7529 11.2644 11.2785 10.7675 11.6553 10.1641L14.9922 12.1514C14.2522 13.3071 13.2314 14.2574 12.0244 14.9131C10.8173 15.5689 9.46317 15.9086 8.08887 15.9014C3.59538 15.9051 4.75605e-05 12.3117 0 7.98926C0 3.59916 3.59535 0.0733919 8.09082 0.0732422ZM56.8994 3.67871C56.7652 3.66412 56.6301 3.65664 56.4951 3.65625C54.377 3.66124 53.1591 4.9462 53.165 7.41309L53.1865 15.6152L49.2373 15.624L49.2041 0.401367L53.1533 0.392578V2.15625C54.073 0.724053 55.5668 0.0166892 57.6279 0L56.8994 3.67871ZM96.5771 3.68555C96.4467 3.67282 96.3131 3.6631 96.1729 3.66309C94.0566 3.66309 92.835 4.94513 92.835 7.41309V15.6162H88.8867V0.391602H92.835V2.15527C93.7586 0.725841 95.2512 0.0215193 97.3096 0.0107422L96.5771 3.68555ZM23.7715 3.88672C21.4602 3.88686 19.5657 5.80962 19.5654 7.98828C19.5654 10.1995 21.46 12.1229 23.7715 12.123C26.1194 12.123 28.0098 10.1995 28.0098 7.98828C28.0095 5.80953 26.1153 3.88672 23.7715 3.88672ZM105.365 3.8877C104.246 3.89204 103.174 4.34075 102.386 5.13379C101.597 5.92687 101.157 6.99995 101.161 8.11719C101.161 10.2324 103.056 12.123 105.368 12.123C107.709 12.1229 109.602 10.2324 109.603 8.08496C109.598 6.96764 109.149 5.89738 108.354 5.11035C107.56 4.32345 106.485 3.88341 105.365 3.8877ZM79.5908 3.69434C77.7603 3.69436 76.2823 4.7781 75.7012 6.41113L83.3105 6.4248C83.0886 4.88672 81.4852 3.69728 79.5908 3.69434Z" fill="#0056D2"/>
+                </svg>
+              </div>
+              <div class="ml-cert-info">
+                <span style="font-family:'Source Sans 3',sans-serif; font-size:16px; font-weight:600; color:#0F1114; display:block; margin-bottom:8px; letter-spacing:0.16px; line-height:24px;">Introduction to Data Analytics</span>
+                <div style="display:flex; gap:16px;">
+                  <a href="#" style="font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:#0056D2; text-decoration:none;">Add to LinkedIn</a>
+                  <a href="#" style="font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:#0056D2; text-decoration:none;">View certificate</a>
+                </div>
+              </div>
+            </div>
+            <div class="ml-cert-item">
+              <div class="ml-cert-icon">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="48" height="48" style="padding:6px;">
+                  <rect width="48" height="48" fill="none"/>
+                  <text x="24" y="30" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-weight="700" font-size="16" fill="#0F1114">IBM</text>
+                </svg>
+              </div>
+              <div class="ml-cert-info">
+                <span style="font-family:'Source Sans 3',sans-serif; font-size:16px; font-weight:600; color:#0F1114; display:block; margin-bottom:8px; letter-spacing:0.16px; line-height:24px;">Excel Basics for Data Analysis</span>
+                <div style="display:flex; gap:16px;">
+                  <a href="#" style="font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:#0056D2; text-decoration:none;">Add to LinkedIn</a>
+                  <a href="#" style="font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:#0056D2; text-decoration:none;">View certificate</a>
+                </div>
               </div>
             </div>
           </div>
@@ -196,6 +332,14 @@
         </div>
       </div>
 
+      <!-- Saved Tab Content -->
+      <div class="mylearning-tab-panel" id="panel-saved">
+        <div class="mylearning-tab-placeholder">
+          <h3 class="mylearning-tab-placeholder-title">Your Saved Items</h3>
+          <p class="mylearning-tab-placeholder-desc">Courses and content you've saved for later will appear here.</p>
+        </div>
+      </div>
+
       <!-- Skills Tab Content (from 1.1 - expandable cards, comprehension bands) -->
       <div class="mylearning-tab-panel" id="panel-skills">
         <div class="mylearning-skills-section">
@@ -207,9 +351,67 @@
 
       <!-- Certificates Tab Content -->
       <div class="mylearning-tab-panel" id="panel-certificates">
-        <div class="mylearning-tab-placeholder">
-          <h3 class="mylearning-tab-placeholder-title">Your Certificates</h3>
-          <p class="mylearning-tab-placeholder-desc">View and share all your earned certificates and verified credentials.</p>
+        <div class="ml-certs-grid">
+          <!-- Card 1: Google Data Analyst -->
+          <div class="ml-certs-card">
+            <div class="ml-certs-card-image">
+              <img src="assets/cert-google-data.png" alt="Google Data Analytics Certificate">
+            </div>
+            <div class="ml-certs-card-info">
+              <h4 class="ml-certs-card-title">Google Data Analyst Professional Certificate</h4>
+              <div class="ml-certs-card-actions">
+                <a href="#" class="ml-certs-card-link">Add to LinkedIn</a>
+                <a href="#" class="ml-certs-card-link">View certificate</a>
+              </div>
+              <span class="ml-certs-card-provider">Google</span>
+              <span class="ml-certs-card-date">Completed May 2022</span>
+            </div>
+          </div>
+          <!-- Card 2: GenAI Foundations Badge -->
+          <div class="ml-certs-card">
+            <div class="ml-certs-card-image">
+              <img src="assets/cert-genai-badge.png" alt="GenAI Foundations Certificate">
+            </div>
+            <div class="ml-certs-card-info">
+              <h4 class="ml-certs-card-title">Google Data Analyst Professional Certificate</h4>
+              <div class="ml-certs-card-actions">
+                <a href="#" class="ml-certs-card-link">Add to LinkedIn</a>
+                <a href="#" class="ml-certs-card-link">View certificate</a>
+              </div>
+              <span class="ml-certs-card-provider">Google</span>
+              <span class="ml-certs-card-date">Completed May 2022</span>
+            </div>
+          </div>
+          <!-- Card 3: IBM Generative AI -->
+          <div class="ml-certs-card">
+            <div class="ml-certs-card-image">
+              <img src="assets/cert-ibm-genai.png" alt="Generative AI Certificate">
+            </div>
+            <div class="ml-certs-card-info">
+              <h4 class="ml-certs-card-title">Generative AI: Introduction and Applications</h4>
+              <div class="ml-certs-card-actions">
+                <a href="#" class="ml-certs-card-link">Add to LinkedIn</a>
+                <a href="#" class="ml-certs-card-link">View certificate</a>
+              </div>
+              <span class="ml-certs-card-provider">IBM</span>
+              <span class="ml-certs-card-date">Completed May 2022</span>
+            </div>
+          </div>
+          <!-- Card 4: Stanford AI Awakening -->
+          <div class="ml-certs-card">
+            <div class="ml-certs-card-image">
+              <img src="assets/cert-stanford-ai.png" alt="The AI Awakening Certificate">
+            </div>
+            <div class="ml-certs-card-info">
+              <h4 class="ml-certs-card-title">The AI Awakening: Implications for the Economy and Society</h4>
+              <div class="ml-certs-card-actions">
+                <a href="#" class="ml-certs-card-link">Add to LinkedIn</a>
+                <a href="#" class="ml-certs-card-link">View certificate</a>
+              </div>
+              <span class="ml-certs-card-provider">IBM</span>
+              <span class="ml-certs-card-date">Completed May 2022</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -311,7 +513,7 @@
       if (isNewNotEnrolled) {
         var overview = document.getElementById('panel-overview');
         if (overview) {
-          var gridEl = overview.querySelector('.mylearning-grid');
+          var gridEl = overview.querySelector('.ml-content-grid');
           if (gridEl) {
             gridEl.innerHTML = '<div style="text-align:center;padding:48px 24px;grid-column:1/-1;">' +
               '<div style="width:56px;height:56px;border-radius:50%;background:var(--cds-color-grey-50);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">' +

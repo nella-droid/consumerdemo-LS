@@ -99,29 +99,31 @@
         <nav class="coursera-header-nav">
           <button class="coursera-nav-btn">
             Explore
-            <svg class="coursera-nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="material-symbols-rounded coursera-nav-chevron">expand_more</span>
           </button>
           <a href="my-learning.html" class="coursera-nav-link">My Learning</a>
+          <a href="#" class="coursera-nav-link">Degrees</a>
         </nav>
-      </div>
-      <div class="coursera-header-search">
-        <div class="coursera-search-box">
-          <input type="text" placeholder="What do you want to learn?" class="coursera-search-input" aria-label="Search courses">
-          <button type="button" class="coursera-search-btn" aria-label="Search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
-          </button>
+        <div class="coursera-header-search">
+          <div class="coursera-search-box">
+            <input type="text" placeholder="What do you want to learn?" class="coursera-search-input" aria-label="Search courses">
+            <button type="button" class="coursera-search-btn" aria-label="Search">
+              <span class="material-symbols-rounded">search</span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="coursera-header-right">
+        <span class="coursera-career-goal cds-body-secondary">Career goal: <a href="#" class="coursera-career-goal-link">Data Analyst</a></span>
         <button class="coursera-icon-btn" aria-label="Language">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span class="material-symbols-rounded">language</span>
         </button>
         <button class="coursera-icon-btn" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+          <span class="material-symbols-rounded">notifications</span>
         </button>
-        <a href="my-learning.html" class="coursera-user-avatar" aria-label="Account">
-          <span>PP</span>
-        </a>
+        <div class="coursera-user-avatar" aria-label="Account">
+          <span>N</span>
+        </div>
       </div>
     </div>
   </header>
@@ -129,26 +131,40 @@
   <main class="pages-main">
     <!-- Hero Banner -->
     <div class="home-hero">
+      <!-- Decorative background conduit shapes -->
+      <div class="home-hero-bg" aria-hidden="true">
+        <div class="home-hero-conduit home-hero-conduit-1">
+          <img src="assets/conduit-1.svg" alt="">
+        </div>
+        <div class="home-hero-conduit home-hero-conduit-2">
+          <img src="assets/conduit-2.svg" alt="">
+        </div>
+        <div class="home-hero-conduit home-hero-conduit-3">
+          <img src="assets/conduit-3.svg" alt="">
+        </div>
+      </div>
       <div class="pages-container">
-        <!-- Default hero greeting (active) -->
-        <p id="home-hero-greeting-default" class="cds-subtitle-md home-hero-greeting">Hi Nicholas, here's your progress in</p>
-        <!-- New learner hero greeting -->
-        <p id="home-hero-greeting-new" class="cds-subtitle-md home-hero-greeting segment-hidden">Welcome, Nicholas!</p>
+        <!-- Profile bar — Figma node I514:41582;513:35789 -->
+        <div id="home-hero-profile-bar" class="home-hero-profile-bar">
+          <!-- Default hero greeting (active) -->
+          <p id="home-hero-greeting-default" class="home-hero-greeting">Nicholas, welcome back to your Google Course</p>
+          <!-- New learner hero greeting -->
+          <p id="home-hero-greeting-new" class="home-hero-greeting segment-hidden">Welcome, Nicholas!</p>
 
-        <div class="home-hero-title-row">
-          <!-- Default subtitle (active) -->
-          <p id="home-hero-subtitle-default" class="cds-title-sm home-hero-subtitle">Digital Marketing</p>
-          <!-- New learner subtitle -->
-          <p id="home-hero-subtitle-new" class="cds-title-sm home-hero-subtitle segment-hidden">Find courses to build in-demand skills</p>
-          <span class="cds-chip cds-chip-metric">
-            <svg class="cds-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
-              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
-              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
-              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
-            </svg>
-            <span class="cds-action-secondary">+12% job demand</span>
-          </span>
+          <div class="home-hero-title-row">
+            <!-- Default subtitle (active) -->
+            <p id="home-hero-subtitle-default" class="home-hero-subtitle"><a href="learning.html">Foundations: Data, Data Everywhere</a></p>
+            <!-- New learner subtitle -->
+            <p id="home-hero-subtitle-new" class="home-hero-subtitle segment-hidden">Find courses to build in-demand skills</p>
+          </div>
+
+          <!-- Progress bar — Figma node I514:41582;513:35799 -->
+          <div id="home-hero-progress" class="home-hero-progress">
+            <div class="home-hero-progress-bar">
+              <div class="home-hero-progress-fill" style="width: 30%;"></div>
+            </div>
+            <span class="home-hero-progress-text">30% complete</span>
+          </div>
         </div>
         <div class="home-hero-grid">
           <!-- New learner: Browse CTA (no course card) -->
@@ -161,27 +177,44 @@
 
           <div id="home-course-card-wrap" class="home-course-card">
             <div class="home-course-card-inner">
+              <!-- Left content -->
               <div class="home-course-info">
-                <div class="home-course-progress-ring">
-                  <svg viewBox="0 0 36 36">
-                    <path class="progress-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.8"/>
-                    <path class="progress-fill" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.8" stroke-dasharray="12, 100" stroke-linecap="round"/>
-                  </svg>
-                  <span class="progress-value">12%</span>
+                <div class="home-course-header">
+                  <div class="home-course-title-block">
+                    <h2 class="home-course-title">Up next: Discovering Data Skill Sets</h2>
+                    <div class="home-course-meta-row">
+                      <span class="home-course-meta-item">Video</span>
+                      <span class="home-course-meta-dot">·</span>
+                      <span class="home-course-meta-item">5 min</span>
+                    </div>
+                  </div>
+                  <!-- "What you will learn today" card hidden but preserving space -->
+                  <div class="home-course-learn-card" style="visibility: hidden;">
+                    <div class="home-course-learn-header">
+                      <img src="assets/ai-sparkle.svg" alt="" class="home-course-sparkle-icon">
+                      <span class="home-course-learn-title">What you will learn today</span>
+                    </div>
+                    <p class="home-course-learn-desc">Today, you'll focus on exploring an implementation of impossibly interconnected intersections. Complete your daily goal by gaining 12XP.</p>
+                  </div>
+                  <div class="home-course-actions">
+                    <a href="learning.html" class="btn-primary home-resume-btn" id="home-resume-btn">Resume</a>
+                    <img src="assets/google-icon.png" alt="Google" class="home-course-google-icon">
+                  </div>
                 </div>
-                <div class="home-course-title-meta">
-                  <h2 class="cds-subtitle-lg home-course-title">Share Data Through the Art of Visualization</h2>
-                  <p class="cds-body-secondary home-course-meta">Google Data Analytics & E-commerce Professional Certificate</p>
-                </div>
-                <a href="learning.html" class="btn-primary home-resume-btn" id="home-resume-btn">Resume learning</a>
               </div>
-              <div class="home-course-hero-img"><img src="assets/image-bd00c960-8f6f-4f12-9387-1fc2ebbc3444.png" alt="Course preview"></div>
+              <!-- Right video thumbnail -->
+              <div class="home-course-video">
+                <video class="home-course-video-el" src="assets/sample-video.mp4" muted playsinline preload="metadata"></video>
+                <div class="home-course-mute-btn">
+                  <img src="assets/volume-off.svg" alt="Muted" class="home-course-mute-icon">
+                </div>
+                <div class="home-course-video-gradient"></div>
+              </div>
             </div>
           </div>
           <div id="home-sidebar-wrap" class="home-sidebar">
             <div class="home-widget" id="home-todays-goals">
               <h3 class="home-widget-title">Today's goals</h3>
-              <span class="home-widget-badge">Personalized</span>
               <ul class="home-goals-list">
                 <li class="home-goal-item">
                   <span class="goal-star" id="goal-star-1" aria-hidden="true">
@@ -203,14 +236,41 @@
                 </li>
               </ul>
             </div>
-            <div class="home-widget">
-              <h3 class="home-widget-title">Weekly activity</h3>
-              <span class="home-widget-badge">1 week streak</span>
-              <p class="home-widget-desc">Way to go! You've exceeded your learning target by x days this week.</p>
-              <div class="home-week-days">
-                <span class="week-day checked">✓</span><span class="week-day checked">✓</span><span class="week-day checked">✓</span><span class="week-day checked">✓</span><span class="week-day today">Sa</span><span class="week-day">Su</span><span class="week-day">Mo</span>
+            <div class="home-widget home-streak-widget">
+              <!-- Streak header: bolt + text + info -->
+              <div class="home-streak-header">
+                <div class="home-streak-title-row">
+                  <img src="assets/streak-bolt.svg" alt="" class="home-streak-bolt">
+                  <span class="home-streak-title">1 week streak</span>
+                </div>
+                <img src="assets/streak-info.svg" alt="Info" class="home-streak-info">
               </div>
-              <p class="home-widget-meta">3 items completed · 10 minutes learned</p>
+              <!-- Day boxes -->
+              <div class="home-streak-days">
+                <div class="home-streak-day">
+                  <span class="home-streak-day-label">Mo</span>
+                </div>
+                <div class="home-streak-day">
+                  <span class="home-streak-day-label">Tu</span>
+                </div>
+                <div class="home-streak-day home-streak-day--done">
+                  <img src="assets/streak-check.svg" alt="Done" class="home-streak-check">
+                </div>
+                <div class="home-streak-day home-streak-day--done">
+                  <img src="assets/streak-check.svg" alt="Done" class="home-streak-check">
+                </div>
+                <div class="home-streak-day home-streak-day--done">
+                  <img src="assets/streak-check.svg" alt="Done" class="home-streak-check">
+                </div>
+                <div class="home-streak-day home-streak-day--today">
+                  <span class="home-streak-day-label">Sa</span>
+                </div>
+                <div class="home-streak-day">
+                  <span class="home-streak-day-label">Su</span>
+                </div>
+              </div>
+              <!-- Summary -->
+              <p class="home-streak-summary">3 items completed · 10 minutes learned</p>
             </div>
           </div>
         </div>
