@@ -3,8 +3,8 @@
  */
 (function() {
   var SKILL_PROGRESS_KEY = 'm1-skills-skill-progress';
-  var _mlExp = sessionStorage.getItem('proto-experiment') || '1';
-  var _mlXpMax = _mlExp === '1' ? 300 : 1500;
+  var _mlExp = '2';
+  var _mlXpMax = 1500;
   var SUB_SKILLS = [
     { name: 'Visualizing and Reporting Clean Data', points: 255, total: _mlXpMax },
     { name: 'Preparing and Cleaning Data', points: 120, total: _mlXpMax },
@@ -62,7 +62,7 @@
   }
 
   function getActiveExperiment() {
-    return sessionStorage.getItem('proto-experiment') || '1';
+    return '2';
   }
 
   function isZeroSkillProgress() {
@@ -72,17 +72,11 @@
 
   function renderSkillsTab(container) {
     if (!container) return;
-    var exp = getActiveExperiment();
-    var supportsCards = (exp === '2' || exp === '2a' || exp === '3' || exp === '4');
-    if (supportsCards && isZeroSkillProgress()) {
+    if (isZeroSkillProgress()) {
       renderSkillsZeroState(container);
       return;
     }
-    if (supportsCards) {
-      renderSkillAccordions(container);
-    } else {
-      renderSkillsEmpty(container);
-    }
+    renderSkillAccordions(container);
   }
 
   /* Coin-only SVG reused from the XP intro modal, with portal + light + coin
@@ -144,60 +138,52 @@
 
   function renderSkillAccordions(container) {
     var skills = EXTRA_SKILLS.concat(getSkillProgress());
-    var exp = getActiveExperiment();
     var html = skills.map(function(skill, idx) {
-      var isVerified = skill.points >= skill.total && skill.total > 0;
-      var tagHtml = (exp === '3' && isVerified) ? ' <span class="skill-verified-tag">Verified</span>' : '';
-      return '<div class="skill-accordion" data-skill-idx="' + idx + '">' +
-        '<div class="skill-accordion-trigger">' +
-          '<span class="skill-accordion-name cds-subtitle-md">' + skill.name + tagHtml + '</span>' +
-          '<span class="skill-accordion-xp cds-body-secondary" style="color:var(--cds-color-neutral-primary-weak)">' + skill.points + '/' + skill.total + ' XP</span>' +
-        '</div>' +
-      '</div>';
-    }).join('');
+      return ‘<div class="skill-accordion" data-skill-idx="’ + idx + ‘">’ +
+        ‘<div class="skill-accordion-trigger">’ +
+          ‘<span class="skill-accordion-name cds-subtitle-md">’ + skill.name + ‘</span>’ +
+          ‘<span class="skill-accordion-xp cds-body-secondary" style="color:var(--cds-color-neutral-primary-weak)">’ + skill.points + ‘/’ + skill.total + ‘ XP</span>’ +
+        ‘</div>’ +
+      ‘</div>’;
+    }).join(‘’);
 
-    var isB = (exp === '2' || exp === '2a');
-    var feedbackHtml = isB
-      ? '<div class="mylearning-skills-feedback-row"><a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="mylearning-skills-feedback-btn cds-action-secondary">Provide feedback</a></div>'
-      : '';
+    var feedbackHtml = ‘<div class="mylearning-skills-feedback-row"><a href="https://forms.gle/placeholder" target="_blank" rel="noopener" class="mylearning-skills-feedback-btn cds-action-secondary">Provide feedback</a></div>’;
 
-    var paginationHtml = isB
-      ? '<div class="mylearning-pagination" role="navigation" aria-label="Skills pagination">' +
-          '<div class="mylearning-pagination-select-wrap">' +
-            '<button type="button" class="mylearning-pagination-select" id="mylearning-pagination-select-trigger" aria-haspopup="listbox" aria-expanded="false">' +
-              '<span class="mylearning-pagination-select-label">Show:</span>' +
-              '<span class="mylearning-pagination-select-value" id="mylearning-pagination-select-value">16 results per page</span>' +
-              '<span class="material-symbols-rounded mylearning-pagination-chevron">expand_more</span>' +
-            '</button>' +
-            '<ul class="mylearning-pagination-select-menu" id="mylearning-pagination-select-menu" role="listbox" aria-label="Results per page">' +
-              '<li class="mylearning-pagination-select-option is-selected" role="option" aria-selected="true" data-value="16">16 results per page</li>' +
-              '<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="32">32 results per page</li>' +
-              '<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="64">64 results per page</li>' +
-            '</ul>' +
-          '</div>' +
-          '<div class="mylearning-pagination-pages">' +
-            '<button type="button" class="mylearning-pagination-icon" aria-label="Previous page">' +
-              '<span class="material-symbols-rounded">chevron_left</span>' +
-            '</button>' +
-            '<button type="button" class="mylearning-pagination-num">1</button>' +
-            '<button type="button" class="mylearning-pagination-num is-active" aria-current="page">2</button>' +
-            '<button type="button" class="mylearning-pagination-num">3</button>' +
-            '<button type="button" class="mylearning-pagination-num">4</button>' +
-            '<button type="button" class="mylearning-pagination-num">5</button>' +
-            '<button type="button" class="mylearning-pagination-ellipsis" aria-label="More pages">' +
-              '<span class="material-symbols-rounded">more_horiz</span>' +
-            '</button>' +
-            '<button type="button" class="mylearning-pagination-num">222</button>' +
-            '<button type="button" class="mylearning-pagination-icon" aria-label="Next page">' +
-              '<span class="material-symbols-rounded">chevron_right</span>' +
-            '</button>' +
-          '</div>' +
-        '</div>'
-      : '';
+    var paginationHtml = ‘<div class="mylearning-pagination" role="navigation" aria-label="Skills pagination">’ +
+        ‘<div class="mylearning-pagination-select-wrap">’ +
+          ‘<button type="button" class="mylearning-pagination-select" id="mylearning-pagination-select-trigger" aria-haspopup="listbox" aria-expanded="false">’ +
+            ‘<span class="mylearning-pagination-select-label">Show:</span>’ +
+            ‘<span class="mylearning-pagination-select-value" id="mylearning-pagination-select-value">16 results per page</span>’ +
+            ‘<span class="material-symbols-rounded mylearning-pagination-chevron">expand_more</span>’ +
+          ‘</button>’ +
+          ‘<ul class="mylearning-pagination-select-menu" id="mylearning-pagination-select-menu" role="listbox" aria-label="Results per page">’ +
+            ‘<li class="mylearning-pagination-select-option is-selected" role="option" aria-selected="true" data-value="16">16 results per page</li>’ +
+            ‘<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="32">32 results per page</li>’ +
+            ‘<li class="mylearning-pagination-select-option" role="option" aria-selected="false" data-value="64">64 results per page</li>’ +
+          ‘</ul>’ +
+        ‘</div>’ +
+        ‘<div class="mylearning-pagination-pages">’ +
+          ‘<button type="button" class="mylearning-pagination-icon" aria-label="Previous page">’ +
+            ‘<span class="material-symbols-rounded">chevron_left</span>’ +
+          ‘</button>’ +
+          ‘<button type="button" class="mylearning-pagination-num">1</button>’ +
+          ‘<button type="button" class="mylearning-pagination-num is-active" aria-current="page">2</button>’ +
+          ‘<button type="button" class="mylearning-pagination-num">3</button>’ +
+          ‘<button type="button" class="mylearning-pagination-num">4</button>’ +
+          ‘<button type="button" class="mylearning-pagination-num">5</button>’ +
+          ‘<button type="button" class="mylearning-pagination-ellipsis" aria-label="More pages">’ +
+            ‘<span class="material-symbols-rounded">more_horiz</span>’ +
+          ‘</button>’ +
+          ‘<button type="button" class="mylearning-pagination-num">222</button>’ +
+          ‘<button type="button" class="mylearning-pagination-icon" aria-label="Next page">’ +
+            ‘<span class="material-symbols-rounded">chevron_right</span>’ +
+          ‘</button>’ +
+        ‘</div>’ +
+      ‘</div>’;
 
     container.innerHTML =
-      '<h2 class="mylearning-skills-header cds-subtitle-lg">Skills you’ve made progress in</h2>' +
-      '<div class="skill-accordions-list">' + html + '</div>' +
+      ‘<h2 class="mylearning-skills-header cds-subtitle-lg">Skills you’ve made progress in</h2>’ +
+      ‘<div class="skill-accordions-list">’ + html + ‘</div>’ +
       feedbackHtml +
       paginationHtml;
   }
@@ -392,11 +378,7 @@
 
     if (seeLink) seeLink.addEventListener('click', function(e) {
       e.preventDefault();
-      if ((getActiveExperiment() === '3' || getActiveExperiment() === '4') && typeof window._openYourProgressModal === 'function') {
-        window._openYourProgressModal();
-      } else {
-        openModal();
-      }
+      openModal();
     });
     if (backdrop) backdrop.addEventListener('click', closeModal);
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -410,218 +392,11 @@
     }
   }
 
-  /* ─── Your Progress dialog (Experiment 3) ─── */
-
-  var YP_SKILL_AREAS = [
-    {
-      name: 'Data Integrity & Literacy',
-      mastered: 13, total: 13,
-      masteredList: [
-        'Define rows, columns, variables and records',
-        'Run duplicate & range checks in validation too',
-        'Explain purpose of data dictionary & data-life-cycle',
-        'Translate plain-English requests into tool steps',
-        'List common PII and regulatory frameworks',
-        'Mask sensitive columns & set permissions',
-        'Name accuracy, completeness, consistency, timeliness',
-        'Describe consent, minimisation, least-privilege',
-        'Define population, sample, sampling frame',
-        'Identify selection & survivorship bias examples',
-        'Explain impact of poor data quality on decisions',
-        'Diagnose root cause of duplicate record surges',
-        'Generate random/stratified sample & document method'
-      ],
-      notMasteredList: [],
-      assessment: {
-        title: 'Prepare and Clean Customer Feedback Data for Analysis',
-        meta: 'Assesses all skill capabilities  ·  1-2 hours'
-      }
-    },
-    { name: 'Acquire & Prepare Data', mastered: 0, total: 17, masteredList: [], notMasteredList: [], assessment: null },
-    { name: 'Analyze & Interpret', mastered: 0, total: 9, masteredList: [], notMasteredList: [], assessment: null },
-    { name: 'Visualize & Communicate', mastered: 0, total: 7, masteredList: [], notMasteredList: [], assessment: null },
-    { name: 'Script and Automate', mastered: 0, total: 4, masteredList: [], notMasteredList: [], assessment: null },
-    { name: 'Collaborate & Grow', mastered: 0, total: 18, masteredList: [], notMasteredList: [], assessment: null },
-    { name: 'Tools & Technology', mastered: 0, total: 10, masteredList: [], notMasteredList: [], assessment: null },
-    { name: 'Business & Governance', mastered: 0, total: 8, masteredList: [], notMasteredList: [], assessment: null }
-  ];
-
-  function renderYourProgressContent(container, expandIdx) {
-    if (!container) return;
-    if (typeof expandIdx !== 'number') expandIdx = 1;
-
-    var expC = getActiveExperiment() === '3';
-    var educationPlaceholder = expC
-      ? '<div style="margin-top:16px;padding:24px 32px;background:var(--cds-color-red-100);border:2px dashed var(--cds-color-red-700);border-radius:8px;text-align:center;color:var(--cds-color-red-700);font-weight:600;">Additional user education here</div>'
-      : '';
-    var motivational =
-      '<div class="yp-motivational">' +
-        '<div class="yp-motivational-text">' +
-          '<h3 class="yp-motivational-title cds-subtitle-lg">You\'re on the right track! Keep up the momentum!</h3>' +
-          '<p class="yp-motivational-desc cds-body-secondary">Master all skills to earn the Data Analytics: Early Professional certificate.<br>' +
-          'Already proficient in some of these skills? Just take the related assessment to verify your skills.</p>' +
-        '</div>' +
-        '<img class="yp-motivational-badge" src="assets/Larger Badge.svg" alt="" width="64" height="64">' +
-      '</div>' + educationPlaceholder;
-
-    var areas = YP_SKILL_AREAS.map(function(area, idx) {
-      var expanded = idx === expandIdx;
-      var pct = area.total ? Math.round((area.mastered / area.total) * 100) : 0;
-      var chevron = expanded ? 'expand_less' : 'expand_more';
-      var nameClass = expanded ? 'yp-skill-name cds-action-primary yp-skill-name-expanded' : 'yp-skill-name cds-body-primary';
-
-      var isComplete = pct >= 100;
-      var countLabel = area.mastered + '/' + area.total + ' skills verified';
-      var starHtml = isComplete ? '<img class="yp-progress-star" src="assets/StarFilled.svg" alt="" width="20" height="20" aria-hidden="true">' : '';
-
-      var html = '<div class="yp-skill-area" data-yp-idx="' + idx + '">' +
-        '<button type="button" class="yp-skill-trigger" data-yp-toggle="' + idx + '">' +
-          '<span class="' + nameClass + '">' + area.name + '</span>' +
-          '<span class="yp-skill-right">' +
-            '<span class="yp-skill-count cds-body-secondary">' + countLabel + '</span>' +
-            '<span class="material-symbols-rounded yp-skill-chevron">' + chevron + '</span>' +
-          '</span>' +
-        '</button>' +
-        '<div class="yp-progress-bar-wrapper">' +
-          '<div class="yp-progress-bar"><div class="yp-progress-fill" style="width:' + pct + '%"></div></div>' +
-          starHtml +
-        '</div>';
-
-      if (expanded) {
-        html += '<div class="yp-skill-body">';
-        // Mastered / not mastered columns
-        html += '<div class="yp-mastery-columns">';
-        html += '<div class="yp-mastery-col">';
-        html += '<p class="yp-mastery-heading cds-subtitle-sm">Mastered (' + area.masteredList.length + ')</p>';
-        html += '<ul class="yp-mastery-list cds-body-secondary">' + area.masteredList.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul>';
-        html += '</div>';
-        html += '<div class="yp-mastery-col">';
-        html += '<p class="yp-mastery-heading cds-subtitle-sm">Not yet mastered (' + area.notMasteredList.length + ')</p>';
-        html += '<ul class="yp-mastery-list cds-body-secondary">' + area.notMasteredList.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul>';
-        html += '</div>';
-        html += '</div>';
-        // Assessment
-        if (area.assessment) {
-          html += '<div class="yp-assessment">' +
-            '<div class="yp-assessment-info">' +
-              '<p class="yp-assessment-title cds-subtitle-sm">' + area.assessment.title + '</p>' +
-              '<p class="yp-assessment-meta cds-body-secondary">' + area.assessment.meta + '</p>' +
-            '</div>' +
-            '<button type="button" class="yp-assessment-btn cds-action-secondary">' +
-              '<span class="material-symbols-rounded">refresh</span> Retry assessment' +
-            '</button>' +
-          '</div>';
-        }
-        html += '<div class="yp-skill-divider"></div>';
-        html += '</div>';
-      }
-
-      html += '</div>';
-      return html;
-    }).join('');
-
-    container.innerHTML = motivational + '<div class="yp-skill-areas">' + areas + '</div>';
-
-    // Toggle expand/collapse
-    container.querySelectorAll('[data-yp-toggle]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var idx = parseInt(btn.getAttribute('data-yp-toggle'));
-        var areaEl = container.querySelector('[data-yp-idx="' + idx + '"]');
-        var body = areaEl ? areaEl.querySelector('.yp-skill-body') : null;
-        var chevronEl = btn.querySelector('.yp-skill-chevron');
-        var nameEl = btn.querySelector('.yp-skill-name');
-
-        if (body) {
-          // Collapse
-          body.remove();
-          var divider = areaEl.querySelector('.yp-skill-divider');
-          if (divider) divider.remove();
-          if (chevronEl) chevronEl.textContent = 'expand_more';
-          if (nameEl) { nameEl.classList.remove('yp-skill-name-expanded'); nameEl.className = nameEl.className.replace('cds-action-primary', 'cds-body-primary'); }
-        } else {
-          // Expand
-          var area = YP_SKILL_AREAS[idx];
-          var pct = area.total ? Math.round((area.mastered / area.total) * 100) : 0;
-          var bodyHtml = '<div class="yp-skill-body">';
-          if (area.masteredList.length || area.notMasteredList.length) {
-            bodyHtml += '<div class="yp-mastery-columns">';
-            bodyHtml += '<div class="yp-mastery-col">';
-            bodyHtml += '<p class="yp-mastery-heading cds-subtitle-sm">Mastered (' + area.masteredList.length + ')</p>';
-            bodyHtml += '<ul class="yp-mastery-list cds-body-secondary">' + area.masteredList.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul>';
-            bodyHtml += '</div>';
-            bodyHtml += '<div class="yp-mastery-col">';
-            bodyHtml += '<p class="yp-mastery-heading cds-subtitle-sm">Not yet mastered (' + area.notMasteredList.length + ')</p>';
-            bodyHtml += '<ul class="yp-mastery-list cds-body-secondary">' + area.notMasteredList.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul>';
-            bodyHtml += '</div>';
-            bodyHtml += '</div>';
-          } else {
-            bodyHtml += '<p class="cds-body-secondary" style="color:var(--cds-color-neutral-primary-weak)">No capabilities assessed yet. Complete course content or take an assessment to start tracking progress.</p>';
-          }
-          if (area.assessment) {
-            bodyHtml += '<div class="yp-assessment">' +
-              '<div class="yp-assessment-info">' +
-                '<p class="yp-assessment-title cds-subtitle-sm">' + area.assessment.title + '</p>' +
-                '<p class="yp-assessment-meta cds-body-secondary">' + area.assessment.meta + '</p>' +
-              '</div>' +
-              '<button type="button" class="yp-assessment-btn cds-action-secondary">' +
-                '<span class="material-symbols-rounded">refresh</span> Retry assessment' +
-              '</button>' +
-            '</div>';
-          }
-          bodyHtml += '<div class="yp-skill-divider"></div>';
-          bodyHtml += '</div>';
-
-          areaEl.insertAdjacentHTML('beforeend', bodyHtml);
-          if (chevronEl) chevronEl.textContent = 'expand_less';
-          if (nameEl) { nameEl.classList.add('yp-skill-name-expanded'); nameEl.className = nameEl.className.replace('cds-body-primary', 'cds-action-primary'); }
-        }
-      });
-    });
-  }
-
-  function initYourProgressModal() {
-    var modal = document.getElementById('your-progress-modal');
-    var backdrop = document.getElementById('yp-backdrop');
-    var closeBtn = document.getElementById('yp-close-btn');
-    var footerClose = document.getElementById('yp-footer-close');
-    var content = document.getElementById('yp-content');
-
-    function openModal(expandIdx) {
-      renderYourProgressContent(content, typeof expandIdx === 'number' ? expandIdx : undefined);
-      if (modal) {
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-      if (typeof expandIdx === 'number' && content) {
-        var target = content.querySelector('[data-yp-idx="' + expandIdx + '"]');
-        if (target) {
-          setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
-        }
-      }
-    }
-
-    function closeModal() {
-      if (modal) {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-    }
-
-    if (backdrop) backdrop.addEventListener('click', closeModal);
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (footerClose) footerClose.addEventListener('click', closeModal);
-
-    window._openYourProgressModal = openModal;
-  }
-
   function init() {
     initTabs();
     initSkillCards();
     initSkillsEarlyAccessModal();
     initSkillModal();
-    initYourProgressModal();
   }
 
   if (document.readyState === 'loading') {

@@ -12,43 +12,6 @@
    *   nav      – URL to open in new tab if element not found on current page
    */
   var FEATURES = {
-    '1': {
-      label: 'Experiment A',
-      sections: [
-        {
-          title: 'Learning experience',
-          items: [
-            {
-              text: 'Persistent "Today\'s Skill Points" section in left nav with XP',
-              hl: '#sidebar-xp-tracker',
-              children: [
-                { text: 'See course skill progress link that opens Course Skill Progress modal', action: 'openSkillProgressModal' },
-                { text: 'Has link to painted door feedback', hl: '#skills-progress-feedback-btn', action: 'openSkillProgressModal' }
-              ]
-            },
-            { text: 'Course Skill Progress modal shows skills progress mapped to course', action: 'openSkillProgressModal' },
-            {
-              text: 'Skill progress intro modal after completion of 1 item',
-              action: 'openXpIntroModal',
-              children: [
-                { text: 'Enrolled learner: Show all skill progress learner has made in course' },
-                { text: 'New learner: Show last skill learner made progress in + different copy' }
-              ]
-            },
-            { text: 'Skill tag on items', hl: '.skill-tag, #content-skill-tags' },
-            { text: 'Skill progress cards show on assignment completion results page (both practice and graded)', action: 'goToPracticeItem' },
-            { text: 'Updated skills oriented module completion dialog', action: 'openModuleCompleteModal' }
-          ]
-        },
-        {
-          title: 'My Learning',
-          items: [
-            { text: 'Skills tab', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' },
-            { text: 'Painted door button to give feedback', hl: '#skills-get-early-access-btn', nav: 'my-learning.html#skills' }
-          ]
-        }
-      ]
-    },
     '2': {
       label: 'Experiment A+B',
       sections: [
@@ -89,76 +52,6 @@
           items: [
             { text: 'Skills tab', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' },
             { text: 'Painted door button to give feedback', hl: '#skills-get-early-access-btn', nav: 'my-learning.html#skills' }
-          ]
-        }
-      ]
-    },
-    '2a': {
-      label: 'A+B → No daily goal tracker variant',
-      sections: [
-        {
-          title: 'Sub-variant of Experiment A+B',
-          items: [
-            { text: 'Inherits all Experiment A+B features below' },
-            { text: 'Daily goal tracker removed from the learning experience header', hl: '.progress-tracker-wrapper' },
-            { text: 'Toasts and celebrations still fire (high-five toast, practice toast, etc.)' },
-            { text: 'Today\'s goals widget on homepage stays visible', hl: '#home-todays-goals', nav: 'homepage.html' }
-          ]
-        },
-        {
-          title: 'Inherited from Experiment A+B — Learning experience',
-          items: [
-            {
-              text: 'Persistent "Today\'s Skill Points" section in left nav with XP',
-              hl: '#sidebar-xp-tracker'
-            },
-            { text: 'Course Skill Progress modal shows skills progress mapped to course', action: 'openSkillProgressModal' },
-            { text: 'Skill progress intro modal after completion of 1 item', action: 'openXpIntroModal' },
-            { text: 'Skill tag on items', hl: '.skill-tag, #content-skill-tags' },
-            { text: 'Skill progress cards show on assignment completion results page', action: 'goToPracticeItem' },
-            { text: 'Updated skills oriented module completion dialog', action: 'openModuleCompleteModal' }
-          ]
-        },
-        {
-          title: 'Inherited from Experiment A+B — My Learning',
-          items: [
-            { text: 'Skills tab', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' },
-            { text: 'Painted door button to give feedback', hl: '#skills-get-early-access-btn', nav: 'my-learning.html#skills' }
-          ]
-        }
-      ]
-    },
-    '3': {
-      label: 'Experiment C',
-      sections: [
-        {
-          title: 'Learning experience',
-          items: [
-            { text: 'Remove traces of old skills experience' }
-          ]
-        },
-        {
-          title: 'My Learning',
-          items: [
-            { text: 'Remove traces of old skills experience' },
-            { text: 'Add verified tags to skills tab for skills that have verified skill assessment', hl: '.mylearning-tab[data-tab="skills"], #panel-skills', nav: 'my-learning.html#skills' },
-            { text: 'Some user education in VSP skill progress modal', action: 'openYourProgressModal', nav: 'my-learning.html' }
-          ]
-        }
-      ]
-    },
-    '4': {
-      label: 'Experiment D+',
-      notice: 'This experiment and its features haven\'t been prioritized yet.',
-      sections: [
-        {
-          title: 'Learning experience',
-          items: [
-            { text: 'Sound' },
-            { text: 'XP Daily goal', hl: '.sidebar-xp-tracker-value' },
-            { text: 'Focused Left nav daily goal', hl: '#sidebar-xp-tracker' },
-            { text: 'Skill XP in end of video', action: 'forceVideoComplete' },
-            { text: 'Skill XP in all daily goals completion', action: 'openGoalsCompleteModal' }
           ]
         }
       ]
@@ -269,7 +162,7 @@
   }
 
   function getExp() {
-    return sessionStorage.getItem('proto-experiment') || '1';
+    return '2';
   }
 
   function renderItem(item, idx, parentIdx) {
@@ -288,7 +181,7 @@
 
   function render(overlay) {
     var exp = getExp();
-    var data = FEATURES[exp] || FEATURES['1'];
+    var data = FEATURES[exp] || FEATURES['2'];
 
     var html = '<div class="proto-features-header">' +
       '<span class="proto-features-title">' + data.label + '</span>' +
@@ -368,7 +261,7 @@
 
         /* If not found on page, navigate */
         if (nav) {
-          var exp = sessionStorage.getItem('proto-experiment') || '1';
+          var exp = '2';
           var hashIdx = nav.indexOf('#');
           var base = hashIdx !== -1 ? nav.substring(0, hashIdx) : nav;
           var hash = hashIdx !== -1 ? nav.substring(hashIdx) : '';

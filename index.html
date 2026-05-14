@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skill Points Prototype — Select Learner Segment</title>
+  <title>Skill Points — Select Learner Segment</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
@@ -204,36 +204,6 @@
       color: var(--cds-color-grey-400);
     }
 
-    .starter-experiment-picker {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-    .starter-experiment-picker label {
-      color: var(--cds-color-grey-600);
-      white-space: nowrap;
-    }
-    .starter-experiment-select {
-      appearance: none;
-      padding: 8px 36px 8px 12px;
-      border: 1px solid var(--cds-color-grey-400);
-      border-radius: var(--cds-border-radius-100);
-      background: var(--cds-color-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23636363' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
-      font-family: var(--cds-font-family);
-      font-size: 14px;
-      color: var(--cds-color-grey-975);
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-    .starter-experiment-select:hover {
-      border-color: var(--cds-color-blue-800);
-      background-color: var(--cds-color-blue-25);
-    }
-    .starter-experiment-select:focus {
-      outline: 2px solid var(--cds-color-blue-700);
-      outline-offset: 1px;
-    }
   </style>
 </head>
 <body class="starter-body">
@@ -243,16 +213,6 @@
   </div>
   <h1 class="starter-title cds-title-sm">Skill Points Introduction</h1>
   <p class="starter-subtitle cds-body-primary">Select a learner segment to preview how Skill Points would be introduced to each audience.</p>
-
-  <div class="starter-experiment-picker">
-    <label for="starter-experiment-select" class="cds-body-secondary">Experiment:</label>
-    <select id="starter-experiment-select" class="starter-experiment-select">
-      <option value="2">Experiment A+B</option>
-      <option value="2a">&nbsp;&nbsp;↳ No daily goal tracker variant</option>
-      <option value="3">Experiment C</option>
-      <option value="4">Experiment D+</option>
-    </select>
-  </div>
 
   <div class="starter-grid">
     <!-- Active Enrolled -->
@@ -298,33 +258,15 @@
     </div>
   </div>
 
-  <p class="starter-footer cds-body-tertiary">Skill Points Prototype V1.4 — For internal review only</p>
+  <p class="starter-footer cds-body-tertiary">Skill Points Consumer Demo — LS</p>
 
   <script>
-    /* Migrate retired Experiment A → Experiment A+B */
-    try {
-      if (sessionStorage.getItem('proto-experiment') === '1') {
-        sessionStorage.setItem('proto-experiment', '2');
-      }
-    } catch (e) {}
-
-    (function initExperimentPicker() {
-      var sel = document.getElementById('starter-experiment-select');
-      if (!sel) return;
-      var stored = sessionStorage.getItem('proto-experiment') || '2';
-      sel.value = stored;
-      sel.addEventListener('change', function() {
-        sessionStorage.setItem('proto-experiment', sel.value);
-      });
-    })();
-
     function selectSegment(segment) {
       sessionStorage.setItem('m1-skills-segment', segment);
       sessionStorage.removeItem('m1-skills-xp-intro-shown');
       sessionStorage.removeItem('m1-skills-commitment-done');
       sessionStorage.removeItem('m1-skills-weekly-streak-toast-shown');
-      var expSelect = document.getElementById('starter-experiment-select');
-      if (expSelect) sessionStorage.setItem('proto-experiment', expSelect.value);
+      sessionStorage.setItem('proto-experiment', '2');
       try {
         if (segment === 'active') {
           localStorage.setItem('m1-skills-skill-progress', JSON.stringify({

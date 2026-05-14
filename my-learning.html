@@ -13,22 +13,10 @@
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <script src="js/figma-hash-persist.js"></script>
   <script>
-    /* Migrate retired Experiment A → Experiment A+B */
-    try {
-      if (sessionStorage.getItem('proto-experiment') === '1') {
-        sessionStorage.setItem('proto-experiment', '2');
-      }
-    } catch (e) {}
-  </script>
-  <script>
-    (function() {
-      var m = location.search.match(/[?&]exp=(\d+)/);
-      if (m) sessionStorage.setItem('proto-experiment', m[1]);
-    })();
+    sessionStorage.setItem('proto-experiment', '2');
   </script>
 </head>
 <body class="pages-body mylearning-page">
-  <div class="exp-c-enterprise-banner">Experiment C is only for Enterprise</div>
   <!-- Header - from 1.1 M1-Skills (links, search bar, icons) -->
   <header class="coursera-header">
     <div class="coursera-header-inner">
@@ -267,44 +255,12 @@
     </div>
   </div>
 
-  <!-- Your Progress Dialog (Experiment C) -->
-  <div class="yp-modal" id="your-progress-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
-    <div class="yp-backdrop" id="yp-backdrop"></div>
-    <div class="yp-dialog">
-      <div class="yp-dialog-header">
-        <button type="button" class="yp-close-btn" id="yp-close-btn" aria-label="Close">
-          <img src="assets/icon-button-close.svg" alt="">
-        </button>
-        <h2 class="cds-title-sm" style="color:var(--cds-color-grey-975);padding:48px 48px 32px;">Your progress</h2>
-      </div>
-      <div class="yp-content" id="yp-content">
-        <!-- Rendered by JS -->
-      </div>
-      <div class="yp-footer">
-        <button type="button" class="yp-footer-close-btn cds-action-primary" id="yp-footer-close">Close</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Proto control strip: sound/haptics toggle + segments -->
   <div class="proto-control-strip">
     <a href="index.html" class="home-segment-back">
       <span class="material-symbols-rounded">arrow_back</span>
       Segments
     </a>
-    <div class="proto-experiment-dropdown" id="proto-experiment-dropdown">
-      <button type="button" class="proto-experiment-trigger-strip" id="proto-experiment-trigger" aria-haspopup="listbox" aria-expanded="false">
-        <span class="material-symbols-rounded">science</span>
-        <span class="proto-experiment-label" id="proto-experiment-label">Experiment A+B</span>
-        <span class="material-symbols-rounded proto-experiment-chevron">expand_more</span>
-      </button>
-      <ul class="proto-experiment-menu" id="proto-experiment-menu" role="listbox" aria-label="Select experiment">
-        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="2">Experiment A+B</li>
-        <li class="proto-experiment-option proto-experiment-option--sub" role="option" aria-selected="false" data-value="2a">No daily goal tracker variant</li>
-        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment C</li>
-        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="4">Experiment D+</li>
-      </ul>
-    </div>
     <div class="proto-tools-wrapper">
       <button type="button" class="proto-tools-trigger" aria-label="Prototype tools" data-tooltip="Prototype tools">
         <span class="material-symbols-rounded">build</span>
@@ -489,80 +445,8 @@
       });
     })();
 
-    function applyExperimentLayout(exp) {
-      var gridWrapper = document.querySelector('#panel-overview .mylearning-grid > div');
-      if (!gridWrapper) return;
-      var combinedCard = gridWrapper.querySelector('.mylearning-combined-card');
-      var certCard = gridWrapper.querySelector('.mylearning-certificate-card');
-      if (!combinedCard || !certCard) return;
-      if (exp === '3' || exp === '4') {
-        combinedCard.style.display = '';
-        gridWrapper.insertBefore(combinedCard, certCard);
-      } else {
-        combinedCard.style.display = 'none';
-      }
-    }
-
     (function() {
-      var exp = sessionStorage.getItem('proto-experiment') || '2';
-      applyExperimentLayout(exp);
-      window.addEventListener('experiment-changed', function(e) {
-        applyExperimentLayout(e.detail.experiment);
-      });
-    })();
-
-    (function initExperimentDropdown() {
-      var dropdown = document.getElementById('proto-experiment-dropdown');
-      var trigger = document.getElementById('proto-experiment-trigger');
-      var menu = document.getElementById('proto-experiment-menu');
-      var label = document.getElementById('proto-experiment-label');
-      if (!dropdown || !trigger || !menu || !label) return;
-
-      function applyExperimentClass(val) {
-        document.body.className = document.body.className.replace(/\bproto-experiment-\w+\b/g, '').trim();
-        document.body.classList.add('proto-experiment-' + val);
-      }
-
-      var stored = sessionStorage.getItem('proto-experiment') || '2';
-      applyExperimentClass(stored);
-      var current = menu.querySelector('[data-value="' + stored + '"]');
-      if (current) {
-        label.textContent = current.textContent;
-        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
-          o.classList.remove('is-selected');
-          o.setAttribute('aria-selected', 'false');
-        });
-        current.classList.add('is-selected');
-        current.setAttribute('aria-selected', 'true');
-      }
-
-      trigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var open = dropdown.classList.toggle('is-open');
-        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-
-      menu.addEventListener('click', function(e) {
-        var option = e.target.closest('.proto-experiment-option');
-        if (!option) return;
-        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
-          o.classList.remove('is-selected');
-          o.setAttribute('aria-selected', 'false');
-        });
-        option.classList.add('is-selected');
-        option.setAttribute('aria-selected', 'true');
-        label.textContent = option.textContent;
-        var val = option.getAttribute('data-value');
-        sessionStorage.setItem('proto-experiment', val);
-        location.reload();
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!dropdown.contains(e.target)) {
-          dropdown.classList.remove('is-open');
-          trigger.setAttribute('aria-expanded', 'false');
-        }
-      });
+      document.body.classList.add('proto-experiment-2');
     })();
   </script>
 </body>

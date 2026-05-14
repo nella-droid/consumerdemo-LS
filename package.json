@@ -1,7 +1,7 @@
 {
-  "name": "current-lex-v1-prototype",
+  "name": "consumerdemo-ls",
   "version": "1.0.0",
-  "description": "Current LEX v1.0 Prototype - Coursera-style learning experience",
+  "description": "Consumer Demo LS - Skill Points Experiment A+B",
   "scripts": {
     "start": "npx serve . -l 3456",
     "dev": "npx serve . -l 3456"

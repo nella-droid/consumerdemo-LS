@@ -9,10 +9,7 @@ var SOUND_STORAGE_KEY = 'm1-skills-sound-enabled';
 
 function isSoundEnabled() {
   var val = sessionStorage.getItem(SOUND_STORAGE_KEY);
-  if (val === null) {
-    var exp = sessionStorage.getItem('proto-experiment') || '1';
-    return exp === '4';
-  }
+  if (val === null) return false;
   return val === 'true';
 }
 

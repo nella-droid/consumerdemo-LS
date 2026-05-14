@@ -327,7 +327,6 @@
   </style>
 </head>
 <body>
-  <div class="exp-c-enterprise-banner">Experiment C is only for Enterprise</div>
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden"><defs><linearGradient id="sparkle-grad" x1="1.941" y1="17" x2="20.891" y2="16.531" gradientUnits="userSpaceOnUse"><stop stop-color="#0048B0"/><stop offset="1" stop-color="#1E72EB"/></linearGradient></defs></svg>
   <!-- Header -->
   <header class="header">
@@ -1394,19 +1393,6 @@
       <span class="material-symbols-rounded">arrow_back</span>
       Segments
     </a>
-    <div class="proto-experiment-dropdown" id="proto-experiment-dropdown">
-      <button type="button" class="proto-experiment-trigger-strip" id="proto-experiment-trigger" aria-haspopup="listbox" aria-expanded="false">
-        <span class="material-symbols-rounded">science</span>
-        <span class="proto-experiment-label" id="proto-experiment-label">Experiment A+B</span>
-        <span class="material-symbols-rounded proto-experiment-chevron">expand_more</span>
-      </button>
-      <ul class="proto-experiment-menu" id="proto-experiment-menu" role="listbox" aria-label="Select experiment">
-        <li class="proto-experiment-option is-selected" role="option" aria-selected="true" data-value="2">Experiment A+B</li>
-        <li class="proto-experiment-option proto-experiment-option--sub" role="option" aria-selected="false" data-value="2a">No daily goal tracker variant</li>
-        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="3">Experiment C</li>
-        <li class="proto-experiment-option" role="option" aria-selected="false" data-value="4">Experiment D+</li>
-      </ul>
-    </div>
     <div class="proto-tools-wrapper">
       <button type="button" class="proto-tools-trigger" aria-label="Prototype tools" data-tooltip="Prototype tools">
         <span class="material-symbols-rounded">build</span>
@@ -1465,6 +1451,9 @@
   <script src="js/goals-store.js"></script>
   <script src="js/sounds.js"></script>
   <script>
+    sessionStorage.setItem('proto-experiment', '2');
+    document.body.classList.add('proto-experiment-2');
+
     function getSegment() {
       return sessionStorage.getItem('m1-skills-segment') || 'active';
     }
@@ -1607,59 +1596,6 @@
       }
     })();
 
-    (function initExperimentDropdown() {
-      var dropdown = document.getElementById('proto-experiment-dropdown');
-      var trigger = document.getElementById('proto-experiment-trigger');
-      var menu = document.getElementById('proto-experiment-menu');
-      var label = document.getElementById('proto-experiment-label');
-      if (!dropdown || !trigger || !menu || !label) return;
-
-      function applyExperimentClass(val) {
-        document.body.className = document.body.className.replace(/\bproto-experiment-\w+\b/g, '').trim();
-        document.body.classList.add('proto-experiment-' + val);
-      }
-
-      var stored = sessionStorage.getItem('proto-experiment') || '2';
-      applyExperimentClass(stored);
-      var current = menu.querySelector('[data-value="' + stored + '"]');
-      if (current) {
-        label.textContent = current.textContent;
-        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
-          o.classList.remove('is-selected');
-          o.setAttribute('aria-selected', 'false');
-        });
-        current.classList.add('is-selected');
-        current.setAttribute('aria-selected', 'true');
-      }
-
-      trigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var open = dropdown.classList.toggle('is-open');
-        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-
-      menu.addEventListener('click', function(e) {
-        var option = e.target.closest('.proto-experiment-option');
-        if (!option) return;
-        menu.querySelectorAll('.proto-experiment-option').forEach(function(o) {
-          o.classList.remove('is-selected');
-          o.setAttribute('aria-selected', 'false');
-        });
-        option.classList.add('is-selected');
-        option.setAttribute('aria-selected', 'true');
-        label.textContent = option.textContent;
-        var val = option.getAttribute('data-value');
-        sessionStorage.setItem('proto-experiment', val);
-        location.reload();
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!dropdown.contains(e.target)) {
-          dropdown.classList.remove('is-open');
-          trigger.setAttribute('aria-expanded', 'false');
-        }
-      });
-    })();
 
   </script>
   <script src="js/main.js"></script>

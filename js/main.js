@@ -2,13 +2,6 @@
  * Lecture page - main application logic
  */
 
-/* Migrate retired Experiment A → Experiment A+B */
-try {
-  if (sessionStorage.getItem('proto-experiment') === '1') {
-    sessionStorage.setItem('proto-experiment', '2');
-  }
-} catch (e) {}
-
 function hideCourseIntroModal() {
   var modal = document.getElementById('course-intro-modal');
   if (modal) {
@@ -43,9 +36,6 @@ function toggleModule(header) {
   const chevron = header.querySelector('.module-chevron');
   content.classList.toggle('collapsed');
   chevron.classList.toggle('expanded', !content.classList.contains('collapsed'));
-  if (typeof isExperiment4 === 'function' && isExperiment4()) {
-    setTimeout(applyExp4GoalFrame, 220);
-  }
 }
 
 function switchTab(tabId) {
@@ -68,12 +58,6 @@ try {
 } catch (e) {}
 
 var SESSION_XP_KEY = 'm1-skills-session-xp';
-var EXP4_XP_GOAL = 100;
-
-function isExperiment4() {
-  var exp = sessionStorage.getItem('proto-experiment') || '2';
-  return exp === '4';
-}
 
 /* XP tracker always visible in sidebar */
 function applyXpTrackerVisibility() {
@@ -94,140 +78,16 @@ function addSessionXp(amount) {
   try {
     sessionStorage.setItem(SESSION_XP_KEY, String(total));
     updateSessionXpDisplay();
-    if (isExperiment4()) syncProgressToNextGoal();
   } catch (e) {}
 }
 
 function updateSessionXpDisplay() {
   var el = document.getElementById('sidebar-xp-value');
   var currentXp = getSessionXp();
-  var isStrictExp4 = (sessionStorage.getItem('proto-experiment') || '2') === '4';
   if (el) {
-    if (isStrictExp4) {
-      el.textContent = currentXp + '/' + EXP4_XP_GOAL;
-    } else {
-      el.textContent = currentXp;
-    }
-  }
-  if (isStrictExp4) {
-    applyExp4SidebarHeader(currentXp);
-    applyExp4GoalFrame();
+    el.textContent = currentXp;
   }
 }
-
-/* ─── Experiment D: dynamic Today's goal sidebar ───────────────── */
-function computeExp4DynamicMessage(xp) {
-  if (xp <= 0) return "Welcome back — let's get learning";
-  if (xp < 30) return "You've got this — every step counts";
-  if (xp < 70) return "You're on a roll — keep that momentum going";
-  if (xp < EXP4_XP_GOAL) return 'So close! Your daily goal is in sight';
-  if (xp === EXP4_XP_GOAL) return 'Daily goal smashed! Keep going to build your skills';
-  return "Crushing it today — you're past your goal";
-}
-
-function applyExp4SidebarHeader(currentXp) {
-  var labelEl = document.querySelector('.sidebar-xp-tracker-label');
-  if (labelEl) {
-    var firstChild = labelEl.firstChild;
-    if (firstChild && firstChild.nodeType === 3) {
-      firstChild.nodeValue = "Today's goal ";
-    } else {
-      labelEl.insertBefore(document.createTextNode("Today's goal "), labelEl.firstChild);
-    }
-    var meta = labelEl.querySelector('.sidebar-xp-d-meta');
-    if (!meta) {
-      meta = document.createElement('span');
-      meta.className = 'sidebar-xp-d-meta';
-      labelEl.appendChild(meta);
-    }
-    meta.textContent = '• 15 min';
-  }
-
-  var tracker = document.getElementById('sidebar-xp-tracker');
-  if (tracker) {
-    var msg = document.getElementById('sidebar-xp-d-message');
-    if (!msg) {
-      msg = document.createElement('p');
-      msg.id = 'sidebar-xp-d-message';
-      msg.className = 'sidebar-xp-d-message cds-body-secondary';
-      tracker.appendChild(msg);
-    }
-    msg.textContent = computeExp4DynamicMessage(currentXp != null ? currentXp : getSessionXp());
-  }
-}
-
-var _exp4GoalItemIds = null;
-
-function getExp4DailyGoalItems() {
-  /* The set of items in the daily-goal frame is locked once on init —
-     it represents the planned 100 XP "today's content" and shouldn't
-     move as the learner makes progress. Subsequent calls re-resolve the
-     same item IDs. */
-  var moduleContent = null;
-  var items = [];
-
-  if (_exp4GoalItemIds && _exp4GoalItemIds.length) {
-    var resolved = _exp4GoalItemIds
-      .map(function(id) { return document.querySelector('.lecture-item[data-lesson-id="' + id + '"]'); })
-      .filter(Boolean);
-    if (resolved.length) return resolved;
-  }
-
-  /* First-time computation: start from the first INCOMPLETE item in the
-     first module; fall back to the first item if everything is done. */
-  var firstModule = document.querySelector('.module .module-content');
-  if (!firstModule) return [];
-  moduleContent = firstModule;
-  items = Array.prototype.slice.call(moduleContent.querySelectorAll('.lecture-item'));
-  var startIdx = items.findIndex(function(it) {
-    var status = it.querySelector('.lecture-status');
-    return !status || !status.classList.contains('completed');
-  });
-  if (startIdx < 0) startIdx = 0;
-
-  var picked = [];
-  var totalXp = 0;
-  for (var i = startIdx; i < items.length; i++) {
-    picked.push(items[i]);
-    totalXp += getSkillPointsFromItem(items[i]);
-    if (totalXp >= EXP4_XP_GOAL) break;
-  }
-
-  _exp4GoalItemIds = picked.map(function(el) { return el.getAttribute('data-lesson-id'); });
-  return picked;
-}
-
-function applyExp4GoalFrame() {
-  if (!isExperiment4()) return;
-  var picked = getExp4DailyGoalItems();
-  if (!picked.length) return;
-  var moduleContent = picked[0].closest('.module-content');
-  if (!moduleContent) return;
-  if (moduleContent.classList.contains('collapsed')) return;
-
-  var frame = moduleContent.querySelector('.sidebar-d-goal-frame');
-  if (!frame) {
-    frame = document.createElement('div');
-    frame.className = 'sidebar-d-goal-frame';
-    moduleContent.insertBefore(frame, moduleContent.firstChild);
-  }
-
-  var first = picked[0];
-  var last = picked[picked.length - 1];
-  var moduleRect = moduleContent.getBoundingClientRect();
-  var firstRect = first.getBoundingClientRect();
-  var lastRect = last.getBoundingClientRect();
-
-  var topPx = (firstRect.top - moduleRect.top) - 4;
-  var heightPx = (lastRect.bottom - firstRect.top) + 8;
-  frame.style.top = topPx + 'px';
-  frame.style.height = heightPx + 'px';
-}
-
-/* Reposition frame on resize/sidebar toggle */
-window.addEventListener('resize', function() {
-  if (isExperiment4()) applyExp4GoalFrame();
-});
 
 function getNextLectureItem() {
   var all = getAllLectureItems();
@@ -463,58 +323,10 @@ function syncProgressToNextGoal() {
   const goal2El = document.getElementById('progress-goal-practice');
   const goal3El = document.getElementById('progress-goal-coach');
   const isNew = isNewLearnerSegment();
-  const isExp4 = isExperiment4();
 
   /* Show/hide multi-goal UI based on segment */
   document.querySelectorAll('.progress-star-multi').forEach(function(el) { el.style.display = isNew ? 'none' : ''; });
   document.querySelectorAll('.progress-goal-multi').forEach(function(el) { el.style.display = isNew ? 'none' : ''; });
-
-  if (isExp4) {
-    var currentXp = getSessionXp();
-    var xpCapped = Math.min(currentXp, EXP4_XP_GOAL);
-    var xpPct = (xpCapped / EXP4_XP_GOAL) * 100;
-
-    if (!goal1Complete) {
-      progressTextEl.textContent = xpCapped + '/' + EXP4_XP_GOAL + ' XP earned';
-      if (progressBar) progressBar.classList.remove('progress-bar-hidden');
-      if (goalEl) goalEl.textContent = 'Earn ' + EXP4_XP_GOAL + ' XP - ' + xpCapped + '/' + EXP4_XP_GOAL;
-      var fillEl = document.querySelector('.header-progress-bar-fill');
-      if (fillEl) {
-        fillEl.style.width = xpPct + '%';
-        fillEl.classList.remove('progress-fill-animate');
-        void fillEl.offsetWidth;
-        fillEl.classList.add('progress-fill-animate');
-      }
-      if (xpCapped >= EXP4_XP_GOAL) {
-        goal1Complete = true;
-        var completeSvg = getCompleteStarSvg();
-        var star1 = document.getElementById('progress-star-1');
-        if (star1) {
-          star1.classList.remove('fade-in-star');
-          star1.innerHTML = completeSvg;
-          void star1.offsetWidth;
-          star1.classList.add('fade-in-star');
-        }
-        var dropdownStars = document.querySelectorAll('.progress-tracker-dropdown-item .progress-tracker-dropdown-star');
-        if (dropdownStars[0]) dropdownStars[0].outerHTML = completeSvg.replace('<svg ', '<svg class="progress-tracker-dropdown-star" ');
-      }
-    } else if (!goal2Complete) {
-      progressTextEl.textContent = 'Complete 1 practice item';
-      if (progressBar) progressBar.classList.add('progress-bar-hidden');
-      if (goal2El) goal2El.textContent = goal2Complete ? 'Complete 1 practice item - ✓' : 'Complete 1 practice item';
-    } else if (!goal3Complete) {
-      progressTextEl.textContent = 'Use Coach';
-      if (progressBar) progressBar.classList.add('progress-bar-hidden');
-      if (goal3El) goal3El.textContent = goal3Complete ? 'Use Coach - ✓' : 'Use Coach';
-    } else {
-      progressTextEl.textContent = 'All goals complete!';
-      if (progressBar) progressBar.classList.add('progress-bar-hidden');
-    }
-    if (goalEl && goal1Complete) goalEl.textContent = 'Earn ' + EXP4_XP_GOAL + ' XP - ✓';
-    if (goal2El) goal2El.textContent = goal2Complete ? 'Complete 1 practice item - ✓' : 'Complete 1 practice item';
-    if (goal3El) goal3El.textContent = goal3Complete ? 'Use Coach - ✓' : 'Use Coach';
-    return;
-  }
 
   if (isNew) {
     if (!goal1Complete) {
@@ -749,8 +561,6 @@ function updateGradeBox(item) {
 }
 
 function showGoalsCompleteDialog() {
-  var _exp = sessionStorage.getItem('proto-experiment') || '2';
-  if (_exp === '1' || _exp === '2' || _exp === '2a' || _exp === '3') return;
   if (goalsCompleteDialogShown) return;
   goalsCompleteDialogShown = true;
 
@@ -779,9 +589,7 @@ function showGoalsCompleteDialog() {
     modal.setAttribute('aria-labelledby', 'goals-complete-title-active');
     var titleEl = document.getElementById('goals-complete-title-active');
     if (titleEl) {
-      titleEl.textContent = isExperiment4()
-        ? "You've completed your daily goal!"
-        : "You've completed today's goals!";
+      titleEl.textContent = "You've completed today's goals!";
     }
     populateAndAnimateGoalsCompleteSkills();
   }
@@ -1284,7 +1092,7 @@ function updateProgressDisplay(completedCount, opts) {
     if (dropdownStars[1]) dropdownStars[1].outerHTML = completeSvg.replace('<svg ', '<svg class="progress-tracker-dropdown-star" ');
   }
 
-  if (!isExperiment4() && capped === goal && !goal1Complete) {
+  if (capped === goal && !goal1Complete) {
     goal1Complete = true;
     const completeSvg = getCompleteStarSvg();
     const star1 = document.getElementById('progress-star-1');
@@ -1310,22 +1118,20 @@ function updateProgressDisplay(completedCount, opts) {
 
   syncProgressToNextGoal();
 
-  var allGoalsComplete = (isNew || isExperiment4()) ? goal1Complete : (goal1Complete && goal2Complete && goal3Complete);
+  var allGoalsComplete = isNew ? goal1Complete : (goal1Complete && goal2Complete && goal3Complete);
   if (allGoalsComplete) {
     showGoalsCompleteDialog();
   } else if (goal1Complete && !itemsToastShown) {
     itemsToastShown = true;
     if (toastTimeout) clearTimeout(toastTimeout);
-    var toastMsg = isExperiment4()
-      ? "You've completed a daily goal by earning " + EXP4_XP_GOAL + " XP."
-      : "You've completed a daily goal by finishing " + goal + " learning items.";
+    var toastMsg = "You've completed a daily goal by finishing " + goal + " learning items.";
     showToast('High five!', toastMsg);
     toastTimeout = setTimeout(function() {
       hideToast(function() {
         toastTimeout = null;
       });
     }, 5000);
-  } else if (goal2Complete && !practiceToastShown && !isExperiment4()) {
+  } else if (goal2Complete && !practiceToastShown) {
     practiceToastShown = true;
     if (toastTimeout) clearTimeout(toastTimeout);
     showToast('Nice work!', "You've completed a daily goal by finishing a practice item.");
@@ -1412,8 +1218,6 @@ function refreshStarsFromGoals() {
 
 /* ─── First-time XP Introduction Modal ──────────────────────── */
 function showXpIntroModal() {
-  var _exp = sessionStorage.getItem('proto-experiment') || '2';
-  if (_exp === '3' || _exp === '4') return;
   var modal = document.getElementById('xp-intro-modal');
   if (!modal) return;
   var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
@@ -1489,8 +1293,7 @@ var SKILL_KEY_TO_NAME = {
   powerbi: 'Prepare Datasets in Power BI'
 };
 function getSkillXpMax() {
-  var exp = sessionStorage.getItem('proto-experiment') || '2';
-  return exp === '1' ? 300 : 1500;
+  return 1500;
 }
 var SKILL_XP_MAX = getSkillXpMax();
 
@@ -1502,33 +1305,28 @@ function showSkillsProgressModal() {
   var modal = document.getElementById('skills-progress-modal');
   if (!modal) return;
 
-  /* Experiment B-D+ text overrides */
-  var _exp = sessionStorage.getItem('proto-experiment') || '2';
-  if (_exp !== '1') {
-    var titleEl = document.getElementById('skills-progress-title');
-    var subtextEl = modal.querySelector('.skills-progress-header .cds-body-primary');
-    /* Unified course-rooted copy across all experiments */
-    if (titleEl) titleEl.textContent = 'Course Skill Progress';
-    if (subtextEl) subtextEl.textContent = "Earn Skill Points (XP) by completing course items. Activities like labs and assessments earn more because they actively help you measure your skills progress. Here\u2019s what you\u2019ve built so far in this course:";
-    var feedbackBtn = document.getElementById('skills-progress-feedback-btn');
-    if (feedbackBtn) {
-      feedbackBtn.textContent = 'See all skills';
-      feedbackBtn.href = 'my-learning.html?exp=' + _exp + '#skills';
-      feedbackBtn.removeAttribute('target');
-      feedbackBtn.removeAttribute('rel');
-      feedbackBtn.classList.add('skills-progress-feedback-btn--secondary');
-      var actionsRow = feedbackBtn.parentElement;
-      if (actionsRow) actionsRow.classList.add('skills-progress-actions--stacked');
-      if (!document.getElementById('skills-progress-feedback-link')) {
-        var feedbackLink = document.createElement('a');
-        feedbackLink.id = 'skills-progress-feedback-link';
-        feedbackLink.href = 'https://forms.gle/placeholder';
-        feedbackLink.target = '_blank';
-        feedbackLink.rel = 'noopener';
-        feedbackLink.className = 'skills-progress-feedback-btn cds-action-secondary';
-        feedbackLink.textContent = 'Provide feedback';
-        feedbackBtn.insertAdjacentElement('afterend', feedbackLink);
-      }
+  var titleEl = document.getElementById('skills-progress-title');
+  var subtextEl = modal.querySelector('.skills-progress-header .cds-body-primary');
+  if (titleEl) titleEl.textContent = 'Course Skill Progress';
+  if (subtextEl) subtextEl.textContent = "Earn Skill Points (XP) by completing course items. Activities like labs and assessments earn more because they actively help you measure your skills progress. Here\u2019s what you\u2019ve built so far in this course:";
+  var feedbackBtn = document.getElementById('skills-progress-feedback-btn');
+  if (feedbackBtn) {
+    feedbackBtn.textContent = 'See all skills';
+    feedbackBtn.href = 'my-learning.html#skills';
+    feedbackBtn.removeAttribute('target');
+    feedbackBtn.removeAttribute('rel');
+    feedbackBtn.classList.add('skills-progress-feedback-btn--secondary');
+    var actionsRow = feedbackBtn.parentElement;
+    if (actionsRow) actionsRow.classList.add('skills-progress-actions--stacked');
+    if (!document.getElementById('skills-progress-feedback-link')) {
+      var feedbackLink = document.createElement('a');
+      feedbackLink.id = 'skills-progress-feedback-link';
+      feedbackLink.href = 'https://forms.gle/placeholder';
+      feedbackLink.target = '_blank';
+      feedbackLink.rel = 'noopener';
+      feedbackLink.className = 'skills-progress-feedback-btn cds-action-secondary';
+      feedbackLink.textContent = 'Provide feedback';
+      feedbackBtn.insertAdjacentElement('afterend', feedbackLink);
     }
   }
 
@@ -1588,12 +1386,6 @@ function preCompleteItemsForReturningLearners() {
 
   /* Don't update goals - pre-completed items are pre-session; daily goal starts at 0 */
   syncProgressToNextGoal();
-
-  /* Re-compute the Exp D goal frame now that completion state is set */
-  if (typeof isExperiment4 === 'function' && isExperiment4()) {
-    _exp4GoalItemIds = null;
-    applyExp4GoalFrame();
-  }
 }
 
 function completeCoachGoal() {
@@ -1649,20 +1441,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (activeItem) updateMainContent(activeItem);
   initVideoPlayer();
   applyXpTrackerVisibility();
-
-  /* Experiment D: re-position the goal frame after layout/fonts settle */
-  if (isExperiment4()) {
-    setTimeout(applyExp4GoalFrame, 50);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(applyExp4GoalFrame);
-    }
-    window.addEventListener('load', applyExp4GoalFrame);
-  }
-
-  /* Patch static skill XP denominators for experiment A (300 vs 1500) */
-  document.querySelectorAll('.feedback-skill-progress-value').forEach(function(el) {
-    el.textContent = el.textContent.replace(/\/1500 XP/, '/' + SKILL_XP_MAX + ' XP');
-  });
 
   /* All experiments keep the default "See course skill progress" sidebar link */
 
