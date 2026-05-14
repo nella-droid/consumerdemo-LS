@@ -72,6 +72,10 @@
 
   function renderSkillsTab(container) {
     if (!container) return;
+    if (sessionStorage.getItem('proto-skills-features') !== 'true') {
+      container.innerHTML = '';
+      return;
+    }
     if (isZeroSkillProgress()) {
       renderSkillsZeroState(container);
       return;

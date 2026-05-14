@@ -1176,6 +1176,124 @@
     </div>
   </div>
 
+  <!-- Goals Complete (No Skills) Modal -->
+  <div id="goals-complete-noskills-modal" class="goals-complete-modal" role="dialog" aria-modal="true" aria-labelledby="goals-complete-noskills-title" aria-hidden="true">
+    <div class="goals-complete-backdrop" onclick="hideGoalsCompleteNoSkillsDialog()"></div>
+    <div class="goals-complete-noskills-dialog">
+      <button type="button" class="dialog-close-btn" onclick="hideGoalsCompleteNoSkillsDialog()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="goals-complete-noskills-illustration">
+        <dotlottie-wc id="goals-complete-noskills-lottie" src="assets/goals-complete-celebration.lottie" class="goals-complete-noskills-lottie"></dotlottie-wc>
+      </div>
+      <div class="goals-complete-noskills-content">
+        <h2 id="goals-complete-noskills-title" class="cds-subtitle-lg" style="color: var(--cds-color-grey-975);">You've completed today's goals!</h2>
+        <p class="cds-body-secondary" style="color: var(--cds-color-grey-600);">Continue to use this momentum to get you closer to completing this course.</p>
+        <button type="button" class="goals-complete-noskills-btn" onclick="hideGoalsCompleteNoSkillsDialog()">Continue learning</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module Complete (No Skills) Modal -->
+  <div id="module-complete-noskills-modal" class="goals-complete-modal" role="dialog" aria-modal="true" aria-labelledby="module-complete-noskills-title" aria-hidden="true">
+    <div class="goals-complete-backdrop" onclick="hideModuleCompleteNoSkillsDialog()"></div>
+    <div class="goals-complete-noskills-dialog">
+      <button type="button" class="dialog-close-btn" onclick="hideModuleCompleteNoSkillsDialog()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="goals-complete-noskills-illustration">
+        <dotlottie-wc id="module-complete-noskills-lottie" src="assets/goals-complete-celebration.lottie" class="goals-complete-noskills-lottie"></dotlottie-wc>
+      </div>
+      <div class="goals-complete-noskills-content">
+        <h2 id="module-complete-noskills-title" class="cds-subtitle-lg" style="color: var(--cds-color-grey-975);">Module complete!</h2>
+        <p class="cds-body-primary" style="color: var(--cds-color-grey-975); opacity: 0.94;">Great work in completing the module. Here are some highlights:</p>
+        <div class="mc-noskills-stats">
+          <div class="mc-noskills-stats-row">
+            <div class="mc-noskills-stat-card">
+              <span class="material-symbols-rounded mc-noskills-stat-icon">menu_book</span>
+              <div class="mc-noskills-stat-text">
+                <span class="mc-noskills-stat-value">5</span>
+                <span class="mc-noskills-stat-label">readings</span>
+              </div>
+            </div>
+            <div class="mc-noskills-stat-card">
+              <span class="material-symbols-rounded mc-noskills-stat-icon">play_circle</span>
+              <div class="mc-noskills-stat-text">
+                <span class="mc-noskills-stat-value">4</span>
+                <span class="mc-noskills-stat-label">videos</span>
+              </div>
+            </div>
+          </div>
+          <div class="mc-noskills-stats-row">
+            <div class="mc-noskills-stat-card">
+              <span class="material-symbols-rounded mc-noskills-stat-icon">schedule</span>
+              <div class="mc-noskills-stat-text">
+                <span class="mc-noskills-stat-value">1 hr</span>
+                <span class="mc-noskills-stat-label">content</span>
+              </div>
+            </div>
+            <div class="mc-noskills-stat-card">
+              <span class="material-symbols-rounded mc-noskills-stat-icon">quiz</span>
+              <div class="mc-noskills-stat-text">
+                <span class="mc-noskills-stat-value">100%</span>
+                <span class="mc-noskills-stat-label">highest quiz score</span>
+              </div>
+            </div>
+          </div>
+          <div class="mc-noskills-progress-card">
+            <span class="material-symbols-rounded mc-noskills-progress-icon">trending_up</span>
+            <div class="mc-noskills-progress-text">
+              <span class="mc-noskills-progress-value">10%</span>
+              <span class="mc-noskills-progress-label">of course completed!</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="goals-complete-noskills-btn" onclick="hideModuleCompleteNoSkillsDialog()">Continue learning</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Streak Modal -->
+  <div id="streak-start-modal" class="goals-complete-modal" role="dialog" aria-modal="true" aria-labelledby="streak-start-title" aria-hidden="true">
+    <div class="goals-complete-backdrop" onclick="hideStreakStartDialog()"></div>
+    <div class="goals-complete-noskills-dialog">
+      <button type="button" class="dialog-close-btn" onclick="hideStreakStartDialog()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <div class="streak-start-illustration">
+        <div class="streak-start-graphic">
+          <dotlottie-wc id="streak-start-lottie" src="assets/streak-icon.json" class="streak-start-bolt-lottie"></dotlottie-wc>
+          <div class="streak-start-counter">
+            <div class="streak-counter-slot" id="streak-counter-slot">
+              <span class="streak-counter-num">0</span>
+              <span class="streak-counter-num">1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="streak-start-days">
+        <div class="streak-day streak-day-checked">
+          <span class="material-symbols-rounded streak-day-check">check</span>
+          <span class="streak-day-label">Mo</span>
+        </div>
+        <div class="streak-day streak-day-tick">
+          <span class="streak-day-label">Tu</span>
+          <dotlottie-wc id="streak-tick-lottie" src="assets/streak-tick.json" class="streak-tick-lottie"></dotlottie-wc>
+        </div>
+        <div class="streak-day"><span class="streak-day-label">We</span></div>
+        <div class="streak-day"><span class="streak-day-label">Th</span></div>
+        <div class="streak-day"><span class="streak-day-label">Fr</span></div>
+        <div class="streak-day"><span class="streak-day-label">Sa</span></div>
+        <div class="streak-day"><span class="streak-day-label">Su</span></div>
+      </div>
+      <div class="goals-complete-noskills-content">
+        <h2 id="streak-start-title" class="cds-subtitle-lg" style="color: var(--cds-color-grey-975);">You've started a 1-week streak!</h2>
+        <p class="cds-body-secondary" style="color: var(--cds-color-grey-975); opacity: 0.94;">Congratulations on starting a streak by learning for 1 day this week. You're building a solid foundation for your learning goals.</p>
+        <button type="button" class="goals-complete-noskills-btn" onclick="hideStreakStartDialog()">Continue learning</button>
+      </div>
+    </div>
+  </div>
+
   <!-- First-time XP Introduction Modal (big modal, shown once on first completion) -->
   <div id="xp-intro-modal" class="xp-intro-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
     <div class="xp-intro-backdrop" onclick="hideXpIntroModal()"></div>
@@ -1407,9 +1525,9 @@
           <span class="material-symbols-rounded proto-sound-icon">volume_up</span>
           <span class="proto-sound-label">Sound</span>
         </button>
-        <button type="button" class="proto-tools-row proto-zero-skill-toggle" id="proto-zero-skill-toggle" aria-pressed="false" aria-label="Toggle zero skill progress">
-          <span class="material-symbols-rounded">restart_alt</span>
-          <span>Zero skill progress</span>
+        <button type="button" class="proto-tools-row proto-skills-toggle" id="proto-skills-toggle" aria-pressed="false" aria-label="Toggle skills features">
+          <span class="material-symbols-rounded">trophy</span>
+          <span>Skills features</span>
         </button>
         <div class="proto-trigger-event-wrap" id="proto-trigger-event-wrap">
           <button type="button" class="proto-tools-row" aria-label="Trigger event">
@@ -1426,16 +1544,20 @@
               <span class="material-symbols-rounded">school</span>
               Module complete
             </button>
-            <div class="proto-trigger-submenu-sep"></div>
-            <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder" disabled>
+            <button type="button" class="proto-trigger-submenu-item" id="proto-trigger-streak-start">
+              <span class="material-symbols-rounded">bolt</span>
+              Start Streak
+            </button>
+            <div class="proto-trigger-submenu-sep proto-skills-trigger"></div>
+            <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder proto-skills-trigger" disabled>
               <span class="material-symbols-rounded">star</span>
               Skill area maxed out (in course)
             </button>
-            <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder" disabled>
+            <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder proto-skills-trigger" disabled>
               <span class="material-symbols-rounded">stars</span>
               Skill area maxed out (as a whole)
             </button>
-            <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder" disabled>
+            <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder proto-skills-trigger" disabled>
               <span class="material-symbols-rounded">workspace_premium</span>
               All skill areas maxed out (in course)
             </button>
@@ -1528,18 +1650,19 @@
       }
     })();
 
-    (function initZeroSkillToggle() {
-      var btn = document.getElementById('proto-zero-skill-toggle');
+    (function initSkillsToggle() {
+      var btn = document.getElementById('proto-skills-toggle');
       var body = document.body;
       if (!btn || !body) return;
-      var on = sessionStorage.getItem('proto-zero-skill-progress') === 'true';
-      if (on) body.classList.add('proto-zero-skill-progress');
+      var on = sessionStorage.getItem('proto-skills-features') === 'true';
+      if (!on) body.classList.add('proto-skills-off');
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       btn.addEventListener('click', function() {
         on = !on;
-        sessionStorage.setItem('proto-zero-skill-progress', on ? 'true' : 'false');
-        body.classList.toggle('proto-zero-skill-progress', on);
+        sessionStorage.setItem('proto-skills-features', on ? 'true' : 'false');
+        body.classList.toggle('proto-skills-off', !on);
         btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        location.reload();
       });
     })();
 
@@ -1580,6 +1703,7 @@
       if (goalsBtn) {
         goalsBtn.addEventListener('click', function() {
           goalsCompleteDialogShown = false;
+          goalsCompleteNoSkillsShown = false;
           showGoalsCompleteDialog();
           var wrapper = document.querySelector('.proto-tools-wrapper');
           if (wrapper) wrapper.classList.remove('is-open');
@@ -1589,7 +1713,18 @@
       if (moduleBtn) {
         moduleBtn.addEventListener('click', function() {
           moduleCompleteDialogShown = false;
+          moduleCompleteNoSkillsShown = false;
           showModuleCompleteDialog();
+          var wrapper = document.querySelector('.proto-tools-wrapper');
+          if (wrapper) wrapper.classList.remove('is-open');
+        });
+      }
+
+      var streakBtn = document.getElementById('proto-trigger-streak-start');
+      if (streakBtn) {
+        streakBtn.addEventListener('click', function() {
+          streakStartShown = false;
+          showStreakStartDialog();
           var wrapper = document.querySelector('.proto-tools-wrapper');
           if (wrapper) wrapper.classList.remove('is-open');
         });
@@ -1599,6 +1734,5 @@
 
   </script>
   <script src="js/main.js"></script>
-  <script src="js/features-list.js"></script>
 </body>
 </html>

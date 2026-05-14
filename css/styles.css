@@ -3083,6 +3083,287 @@ input, button, textarea, select {
   transform: scale(0.98);
 }
 
+/* Goals Complete (No Skills) Modal */
+.goals-complete-noskills-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  font-family: var(--cds-font-family);
+  background: var(--cds-color-white);
+  border: 2px solid #f1e8ff;
+  border-radius: var(--cds-border-radius-200);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  padding: 16px;
+  text-align: center;
+  align-self: center;
+}
+
+.goals-complete-noskills-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0 -16px;
+}
+
+.goals-complete-noskills-lottie {
+  width: 402px;
+  height: 402px;
+  margin: -60px 0 -80px -24px;
+}
+
+.goals-complete-noskills-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0 8px 4px;
+  text-align: left;
+}
+
+.goals-complete-noskills-content p {
+  margin-top: 12px;
+}
+
+.goals-complete-noskills-content p {
+  margin: 0;
+}
+
+.goals-complete-noskills-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 24px;
+  font-family: var(--cds-font-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background: var(--cds-color-blue-700);
+  border: none;
+  border-radius: var(--cds-border-radius-100);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.goals-complete-noskills-btn:hover {
+  background: var(--cds-color-blue-800);
+}
+
+.goals-complete-noskills-btn:active {
+  transform: scale(0.98);
+}
+
+/* Module Complete (No Skills) — stat cards */
+.mc-noskills-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.mc-noskills-stats-row {
+  display: flex;
+  gap: 8px;
+}
+
+.mc-noskills-stat-card {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 12px 12px 16px;
+  background: var(--cds-color-emphasis-primary-background-xweak, #f0f6ff);
+  border-radius: var(--cds-border-radius-100);
+  min-height: 76px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.mc-noskills-stat-icon {
+  font-size: 16px;
+  color: var(--cds-color-grey-600);
+  line-height: 24px;
+}
+
+.mc-noskills-stat-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.mc-noskills-stat-value {
+  font-family: var(--cds-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.06px;
+  color: var(--cds-color-grey-975);
+}
+
+.mc-noskills-stat-label {
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--cds-color-grey-600);
+}
+
+.mc-noskills-progress-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 24px 12px 16px;
+  background: var(--cds-color-green-25, #ebfdf8);
+  border-radius: var(--cds-border-radius-100);
+}
+
+.mc-noskills-progress-icon {
+  font-size: 24px;
+  color: var(--cds-color-green-700);
+}
+
+.mc-noskills-progress-text {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.mc-noskills-progress-value {
+  font-family: var(--cds-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.06px;
+  color: var(--cds-color-green-700);
+}
+
+.mc-noskills-progress-label {
+  font-family: var(--cds-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--cds-color-green-700);
+}
+
+/* Start Streak Modal */
+.streak-start-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0 8px;
+}
+
+.streak-start-graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.streak-start-bolt-lottie {
+  width: 120px;
+  height: 120px;
+  margin-right: -26px;
+  margin-left: -34px;
+}
+
+.streak-start-counter {
+  height: 72px;
+  overflow: hidden;
+  position: relative;
+}
+
+.streak-counter-slot {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.streak-counter-slot.streak-counter-rolled {
+  transform: translateY(-72px);
+}
+
+.streak-counter-num {
+  font-family: var(--cds-font-family);
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 72px;
+  letter-spacing: -0.64px;
+  color: var(--cds-color-grey-600);
+  display: block;
+  height: 72px;
+}
+
+.streak-start-days {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 8px;
+}
+
+.streak-day {
+  position: relative;
+  width: 33px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cds-color-grey-200, #c1cad9);
+  border-radius: 4px;
+  background: white;
+}
+
+.streak-day-checked {
+  background: #f9f5ff;
+  border-color: #c29ffc;
+}
+
+.streak-day-label {
+  font-family: var(--cds-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--cds-color-grey-600);
+}
+
+.streak-day-checked .streak-day-label {
+  display: none;
+}
+
+.streak-day-check {
+  font-size: 20px;
+  color: #6923de;
+}
+
+.streak-day-tick {
+  position: relative;
+  overflow: visible;
+}
+
+.streak-tick-lottie {
+  position: absolute;
+  width: 99px;
+  height: 99px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.streak-day-tick.streak-day-animating {
+  background: #f9f5ff;
+  border-color: #c29ffc;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.streak-day-tick.streak-day-animating .streak-day-label {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
 /* Module Complete Modal - new design from M1-Skills source */
 .module-complete-modal {
   position: fixed;
@@ -4003,5 +4284,22 @@ body.proto-highlight-net-new #panel-skills {
 
 /* When maxed-out is on, hide skill tags on the page */
 body.proto-maxed-out .skill-tag {
+  display: none !important;
+}
+
+/* ─── Skills features off ───────────────────────────────── */
+body.proto-skills-off #sidebar-xp-tracker,
+body.proto-skills-off #content-skill-tags,
+body.proto-skills-off #reading-skill-tags,
+body.proto-skills-off .skill-tag,
+body.proto-skills-off #video-end-skill-card,
+body.proto-skills-off #video-end-xp-tag,
+body.proto-skills-off #video-end-progress-label,
+body.proto-skills-off .mylearning-tab[data-tab="skills"],
+body.proto-skills-off #panel-skills,
+body.proto-skills-off #feedback-skill-progress-content-section,
+body.proto-skills-off #feedback-skill-progress-title,
+body.proto-skills-off .skills-progress-modal,
+body.proto-skills-off .proto-skills-trigger {
   display: none !important;
 }

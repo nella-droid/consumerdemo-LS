@@ -59,10 +59,14 @@ try {
 
 var SESSION_XP_KEY = 'm1-skills-session-xp';
 
+function isSkillsFeaturesEnabled() {
+  return sessionStorage.getItem('proto-skills-features') === 'true';
+}
+
 /* XP tracker always visible in sidebar */
 function applyXpTrackerVisibility() {
   var tracker = document.getElementById('sidebar-xp-tracker');
-  if (tracker) tracker.style.display = '';
+  if (tracker) tracker.style.display = isSkillsFeaturesEnabled() ? '' : 'none';
 }
 
 function getSessionXp() {
@@ -73,6 +77,7 @@ function getSessionXp() {
 }
 
 function addSessionXp(amount) {
+  if (!isSkillsFeaturesEnabled()) return;
   if (!amount || amount < 0) return;
   var total = getSessionXp() + amount;
   try {
@@ -561,6 +566,10 @@ function updateGradeBox(item) {
 }
 
 function showGoalsCompleteDialog() {
+  if (!isSkillsFeaturesEnabled()) {
+    showGoalsCompleteNoSkillsDialog();
+    return;
+  }
   if (goalsCompleteDialogShown) return;
   goalsCompleteDialogShown = true;
 
@@ -597,6 +606,158 @@ function showGoalsCompleteDialog() {
   modal.classList.add('is-visible');
   modal.setAttribute('aria-hidden', 'false');
   if (typeof playCelebrationSound === 'function') playCelebrationSound();
+}
+
+let goalsCompleteNoSkillsShown = false;
+
+function showGoalsCompleteNoSkillsDialog() {
+  if (goalsCompleteNoSkillsShown) return;
+  goalsCompleteNoSkillsShown = true;
+
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+    toastTimeout = null;
+  }
+
+  const modal = document.getElementById('goals-complete-noskills-modal');
+  if (!modal) return;
+
+  modal.classList.add('is-visible');
+  modal.setAttribute('aria-hidden', 'false');
+
+  var lottie = document.getElementById('goals-complete-noskills-lottie');
+  if (lottie && lottie.dotLottie) {
+    lottie.dotLottie.stop();
+    lottie.dotLottie.play();
+  } else if (lottie) {
+    lottie.addEventListener('ready', function onReady() {
+      lottie.removeEventListener('ready', onReady);
+      lottie.dotLottie.play();
+    });
+  }
+
+  if (typeof playCelebrationSound === 'function') playCelebrationSound();
+}
+
+function hideGoalsCompleteNoSkillsDialog() {
+  const modal = document.getElementById('goals-complete-noskills-modal');
+  if (!modal) return;
+  modal.classList.remove('is-visible');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+let moduleCompleteNoSkillsShown = false;
+
+function showModuleCompleteNoSkillsDialog() {
+  if (moduleCompleteNoSkillsShown) return;
+  moduleCompleteNoSkillsShown = true;
+
+  const modal = document.getElementById('module-complete-noskills-modal');
+  if (!modal) return;
+
+  modal.classList.add('is-visible');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  var lottie = document.getElementById('module-complete-noskills-lottie');
+  if (lottie && lottie.dotLottie) {
+    lottie.dotLottie.stop();
+    lottie.dotLottie.play();
+  } else if (lottie) {
+    lottie.addEventListener('ready', function onReady() {
+      lottie.removeEventListener('ready', onReady);
+      lottie.dotLottie.play();
+    });
+  }
+
+  if (typeof playModuleCompletionSound === 'function') playModuleCompletionSound();
+}
+
+function hideModuleCompleteNoSkillsDialog() {
+  const modal = document.getElementById('module-complete-noskills-modal');
+  if (!modal) return;
+  modal.classList.remove('is-visible');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+let streakStartShown = false;
+
+function showStreakStartDialog() {
+  if (streakStartShown) return;
+  streakStartShown = true;
+
+  const modal = document.getElementById('streak-start-modal');
+  if (!modal) return;
+
+  var slot = document.getElementById('streak-counter-slot');
+  if (slot) slot.classList.remove('streak-counter-rolled');
+  var dayBox = modal.querySelector('.streak-day-tick');
+  if (dayBox) dayBox.classList.remove('streak-day-animating');
+
+  modal.classList.add('is-visible');
+  modal.setAttribute('aria-hidden', 'false');
+
+  var tickEl = document.getElementById('streak-tick-lottie');
+  var boltEl = document.getElementById('streak-start-lottie');
+
+  function rollCounter() {
+    var slot = document.getElementById('streak-counter-slot');
+    if (slot) slot.classList.add('streak-counter-rolled');
+  }
+
+  function playBolt() {
+    if (boltEl && boltEl.dotLottie) {
+      boltEl.dotLottie.stop();
+      boltEl.dotLottie.play();
+      setTimeout(rollCounter, 1000);
+    } else if (boltEl) {
+      boltEl.addEventListener('ready', function onReady() {
+        boltEl.removeEventListener('ready', onReady);
+        boltEl.dotLottie.play();
+        setTimeout(rollCounter, 1000);
+      });
+    }
+    if (typeof playCelebrationSound === 'function') playCelebrationSound();
+  }
+
+  function startTickAnim() {
+    var dayBox = tickEl ? tickEl.closest('.streak-day-tick') : null;
+    if (dayBox) dayBox.classList.add('streak-day-animating');
+  }
+
+  function playTick() {
+    if (tickEl && tickEl.dotLottie) {
+      tickEl.dotLottie.stop();
+      startTickAnim();
+      tickEl.dotLottie.addEventListener('complete', function onDone() {
+        tickEl.dotLottie.removeEventListener('complete', onDone);
+        playBolt();
+      });
+      tickEl.dotLottie.play();
+    } else if (tickEl) {
+      tickEl.addEventListener('ready', function onReady() {
+        tickEl.removeEventListener('ready', onReady);
+        startTickAnim();
+        tickEl.dotLottie.addEventListener('complete', function onDone() {
+          tickEl.dotLottie.removeEventListener('complete', onDone);
+          playBolt();
+        });
+        tickEl.dotLottie.play();
+      });
+    } else {
+      playBolt();
+    }
+  }
+
+  playTick();
+}
+
+function hideStreakStartDialog() {
+  const modal = document.getElementById('streak-start-modal');
+  if (!modal) return;
+  modal.classList.remove('is-visible');
+  modal.setAttribute('aria-hidden', 'true');
 }
 
 var goalsCompleteSkillIndex = 0;
@@ -902,6 +1063,10 @@ function updateModuleCompleteCarousel() {
 }
 
 function showModuleCompleteDialog() {
+  if (!isSkillsFeaturesEnabled()) {
+    showModuleCompleteNoSkillsDialog();
+    return;
+  }
   if (moduleCompleteDialogShown) return;
   moduleCompleteDialogShown = true;
 
@@ -1218,6 +1383,7 @@ function refreshStarsFromGoals() {
 
 /* ─── First-time XP Introduction Modal ──────────────────────── */
 function showXpIntroModal() {
+  if (!isSkillsFeaturesEnabled()) return;
   var modal = document.getElementById('xp-intro-modal');
   if (!modal) return;
   var seg = (typeof getSegment === 'function') ? getSegment() : (sessionStorage.getItem('m1-skills-segment') || 'active');
@@ -1302,6 +1468,7 @@ function showSkillsIntroModal() {
 }
 
 function showSkillsProgressModal() {
+  if (!isSkillsFeaturesEnabled()) return;
   var modal = document.getElementById('skills-progress-modal');
   if (!modal) return;
 
