@@ -1098,6 +1098,24 @@ function hideModuleCompleteDialog() {
   }
 }
 
+function showCourseCompleteDialog() {
+  var modal = document.getElementById('course-complete-modal');
+  if (!modal) return;
+  modal.classList.add('is-visible');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  if (typeof playModuleCompletionSound === 'function') playModuleCompletionSound();
+}
+
+function hideCourseCompleteDialog() {
+  var modal = document.getElementById('course-complete-modal');
+  if (modal) {
+    modal.classList.remove('is-visible');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+}
+
 function feedbackNextItem() {
   hideAssignmentFeedback();
   goToNextItem();

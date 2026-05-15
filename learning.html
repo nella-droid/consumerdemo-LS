@@ -1369,6 +1369,64 @@
     </div>
   </div>
 
+  <!-- Course Completion modal (full-screen celebration) -->
+  <div id="course-complete-modal" class="course-complete-modal" role="dialog" aria-modal="true" aria-labelledby="course-complete-title" aria-hidden="true">
+    <div class="course-complete-backdrop" onclick="hideCourseCompleteDialog()"></div>
+    <div class="course-complete-dialog">
+      <button type="button" class="dialog-close-btn course-complete-close" onclick="hideCourseCompleteDialog()" aria-label="Close">
+        <img src="assets/icon-button-close.svg" alt="">
+      </button>
+      <!-- Confetti -->
+      <div class="course-complete-confetti-wrap" aria-hidden="true">
+        <div class="cc-confetti cc-c1"></div>
+        <div class="cc-confetti cc-c2"></div>
+        <div class="cc-confetti cc-c3"></div>
+        <div class="cc-confetti cc-c4"></div>
+        <div class="cc-confetti cc-c5"></div>
+        <div class="cc-confetti cc-c6"></div>
+        <div class="cc-confetti cc-c7"></div>
+        <div class="cc-confetti cc-c8"></div>
+        <div class="cc-confetti cc-c9"></div>
+        <div class="cc-confetti cc-c10"></div>
+        <div class="cc-confetti cc-c11"></div>
+        <div class="cc-confetti cc-c12"></div>
+        <div class="cc-confetti cc-c13"></div>
+        <div class="cc-confetti cc-c14"></div>
+        <div class="cc-confetti cc-c15"></div>
+        <div class="cc-confetti cc-c16"></div>
+        <div class="cc-confetti cc-c17"></div>
+        <div class="cc-confetti cc-c18"></div>
+        <div class="cc-confetti cc-c19"></div>
+        <div class="cc-confetti cc-c20"></div>
+      </div>
+      <div class="course-complete-inner">
+        <div class="course-complete-cert-image">
+          <img src="assets/cert-completion.png" alt="Course certificate">
+        </div>
+        <div class="course-complete-content">
+          <div class="course-complete-header">
+            <h2 id="course-complete-title" class="course-complete-heading">Congratulations!</h2>
+            <div class="course-complete-meta">
+              <p class="course-complete-completed-by">Completed by <strong>Nicholas Gonzalez</strong> on May 14, 2025</p>
+              <div class="course-complete-badges">
+                <span class="course-complete-badge">
+                  <span class="material-symbols-rounded" style="font-size:16px; color: var(--cds-color-green-700);">check_circle</span>
+                  Verified learner
+                </span>
+                <span class="course-complete-badge">Certificate ID: FLRXRVP22FJR</span>
+              </div>
+            </div>
+          </div>
+          <p class="course-complete-desc">That was the last assignment — you've now completed <strong>Foundations: Data, Data, Everywhere</strong> and earned the certificate!</p>
+          <div class="course-complete-actions">
+            <button type="button" class="course-complete-btn-primary" onclick="hideCourseCompleteDialog()">Add to LinkedIn</button>
+            <button type="button" class="course-complete-btn-secondary" onclick="hideCourseCompleteDialog()">View certificate page</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Skill progress modal (triggered from sidebar "See course skill progress") -->
   <div id="skills-progress-modal" class="xp-intro-modal" role="dialog" aria-modal="true" aria-labelledby="skills-progress-title" aria-hidden="true" style="display:none;">
     <div class="xp-intro-backdrop" onclick="hideSkillsProgressModal()"></div>
@@ -1522,6 +1580,10 @@
               <span class="material-symbols-rounded">bolt</span>
               Start Streak
             </button>
+            <button type="button" class="proto-trigger-submenu-item" id="proto-trigger-course-complete">
+              <span class="material-symbols-rounded">workspace_premium</span>
+              Course Completion
+            </button>
             <div class="proto-trigger-submenu-sep proto-skills-trigger"></div>
             <button type="button" class="proto-trigger-submenu-item proto-trigger-placeholder proto-skills-trigger" disabled>
               <span class="material-symbols-rounded">star</span>
@@ -1552,6 +1614,24 @@
 
     function getSegment() {
       return sessionStorage.getItem('m1-skills-segment') || 'active';
+    }
+
+    function showCourseCompleteDialog() {
+      var modal = document.getElementById('course-complete-modal');
+      if (!modal) return;
+      modal.classList.add('is-visible');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (typeof playModuleCompletionSound === 'function') playModuleCompletionSound();
+    }
+
+    function hideCourseCompleteDialog() {
+      var modal = document.getElementById('course-complete-modal');
+      if (modal) {
+        modal.classList.remove('is-visible');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
     }
 
     function dismissCommitment() {
@@ -1699,6 +1779,15 @@
         streakBtn.addEventListener('click', function() {
           streakStartShown = false;
           showStreakStartDialog();
+          var wrapper = document.querySelector('.proto-tools-wrapper');
+          if (wrapper) wrapper.classList.remove('is-open');
+        });
+      }
+
+      var courseCompleteBtn = document.getElementById('proto-trigger-course-complete');
+      if (courseCompleteBtn) {
+        courseCompleteBtn.addEventListener('click', function() {
+          showCourseCompleteDialog();
           var wrapper = document.querySelector('.proto-tools-wrapper');
           if (wrapper) wrapper.classList.remove('is-open');
         });
